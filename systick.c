@@ -11,15 +11,12 @@
 
 
 #ifdef METAL_PROMPT_UPTIME
-volatile uint64_t metal_prompt_systick_uptime_ticks = 0;
-void (*test_systick_action)(void) = NULL;
+volatile uint32_t metal_prompt_systick_uptime_ticks = 0;
+
+
+// Call this systick handler from application's systick handler
+void metal_prompt_systick_handler() {
+    metal_prompt_systick_uptime_ticks++;
+}
+
 #endif
-
-
-//void SysTick_Handler(void) {
-//  test_systick_uptime_ticks++;
-//  if (test_systick_action != NULL) {
-//      test_systick_action();
-//  }
-//}
-//
