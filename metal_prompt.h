@@ -31,8 +31,8 @@ extern void metal_prompt_auto_complete(char* cmd, uint32_t* caret);
 
 #pragma mark Private functions - command list handlers
 extern void                 metal_prompt_list_begin(void);
-extern uint32_t             metal_prompt_list_is_first(void);
-extern uint32_t             metal_prompt_list_current_exist(void);
+extern bool                 metal_prompt_list_is_first(void);
+extern bool                 metal_prompt_list_current_exist(void);
 extern void                 metal_prompt_list_select_next(void);
 extern metal_prompt_command metal_prompt_list_get_current_structure(void);
 extern uint32_t             metal_prompt_list_get_current_string(char *buf, bool color);

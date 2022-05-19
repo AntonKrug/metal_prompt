@@ -342,17 +342,17 @@ void metal_prompt_list_begin() {
 }
 
 
-uint32_t metal_prompt_list_is_first() {
+bool metal_prompt_list_is_first() {
 	return (list_group_index == 0) && (list_command_index == 0);
 }
 
 
-uint32_t metal_prompt_list_current_exist() {
+bool metal_prompt_list_current_exist() {
 	if ( list_group_index < METAL_PROMPT_ENABLED_SIZE &&
 			list_command_index < metal_prompt_commands_enabled[list_group_index].testsSize) {
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 }
 
 
