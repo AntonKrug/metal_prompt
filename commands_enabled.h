@@ -11,7 +11,7 @@
 #include "structures.h"
 
 #ifndef TESTS_ENABLED_SIZE
-#define TESTS_ENABLED_SIZE 2
+#define TESTS_ENABLED_SIZE 1
 #endif
 
 extern test_group tests_enabled[];

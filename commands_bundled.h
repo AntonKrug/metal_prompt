@@ -36,6 +36,6 @@ extern void    test_bundled_quit(void);
 
 extern test_command test_bundled_list[];
 
-#define TEST_BUNDLED_GROUP { "", 6, test_bundled_list }
+#define TEST_BUNDLED_GROUP { "", 4, test_bundled_list }
 
 #endif /* METAL_PROMPT_COMMANDS_BUNDLED_H_ */
