@@ -87,7 +87,7 @@ void test_set_command_benchmark() {
 
 void test_bundled_quit() {
     test_interface_transport_out("Exiting...\r\n");
-	test_keep_runnning = 0;
+	test_keep_runnning = false;
 }
 
 

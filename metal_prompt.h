@@ -20,8 +20,8 @@
 //#define TEST_DO_NOT_LIST_ON_FULL_COMMANDS
 
 
-extern          uint32_t             test_keep_runnning;
-extern          uint32_t             test_benchmark_commands;
+extern bool test_keep_runnning;
+extern bool test_benchmark_commands;
 
 
 
@@ -47,7 +47,7 @@ extern void list_command_align_command_for_args(char *cmd, uint32_t longest);
 
 extern void list_command_add_spaces(uint32_t current, uint32_t longest);
 
-extern uint32_t list_command_get_longest_size(char *buf);
+extern uint32_t list_command_get_longest_size(void);
 
 
 

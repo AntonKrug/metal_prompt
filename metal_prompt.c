@@ -12,9 +12,11 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-uint32_t test_keep_runnning = 1;
-uint32_t test_benchmark_commands = 0;
+uint32_t longest_command = 0;
+bool     test_keep_runnning = true;
+bool     test_benchmark_commands = false;
 
 uint32_t test_group_index;
 uint32_t test_command_index;
@@ -159,9 +161,6 @@ void test_auto_complete(char* cmd, uint32_t* caret) {
 
 		// If not full command, then list all the options
 
-		// Get what is the longest command length
-		uint32_t longest = list_command_get_longest_size(buf);
-
 		test_interface_transport_out_ln();
 		list_commands_begin();
 		while (list_commands_current_exist()) {
@@ -177,7 +176,7 @@ void test_auto_complete(char* cmd, uint32_t* caret) {
 				test_interface_transport_out("\033[0;39m");
 
 				// Align it to the longest command
-				list_command_add_spaces(cmd_len, longest);
+				list_command_add_spaces(cmd_len, longest_command);
 
 				// Print the arguments
 				list_command_get_current_string_arguments(buf);
@@ -320,6 +319,10 @@ void test_interface_cmd_line_generic() {
     test_interface_transport_out("\r\n");
 	test_print_prompt(NULL);
 	test_keep_runnning = 1;
+
+    // Get what is the longest command length
+    longest_command = list_command_get_longest_size();
+
 	while (test_keep_runnning) {
 		char character;
 		if (test_interface_transport_in(&character)) {
@@ -457,8 +460,10 @@ void list_command_get_current_string_arguments(char *buf) {
 
 
 // Find longest command in the set and return it's length
-uint32_t list_command_get_longest_size(char *buf) {
+uint32_t list_command_get_longest_size(void) {
+    char  buf[TEST_COMMAND_NAME_LIMIT];
 	uint32_t longest = 0;
+
 	list_commands_begin();
 	while (list_commands_current_exist()) {
 	    list_command_get_current_string(buf, false);
