@@ -13,16 +13,13 @@
 extern void     test_bundled_configuration(void);
 extern void     test_bundled_help(void);
 extern void     test_interface_bundled_list_all_tests(void);
-
+extern void     test_bundled_quit(void);
 #ifdef TEST_INTERFACE_UPTIME
 extern void     test_set_command_benchmark(void);
 extern uint64_t test_uptime(void);
 #endif
 
-extern void     test_set_command_benchmark(void);
-extern uint64_t test_uptime(void);
 
-extern void    test_bundled_quit(void);
 
 #define TEST_BUNDLED_CONFIG_META    { "configuration",         TEST_INTERFACE_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_no_args  = { &test_bundled_configuration } }
 #define TEST_BUNDLED_HELP_META      { "help",                  TEST_INTERFACE_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_no_args  = { &test_bundled_help } }

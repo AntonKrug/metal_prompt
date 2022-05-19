@@ -10,6 +10,7 @@
 
 #include <stdint.h>
 
+#pragma mark Public enums, structs
 
 typedef enum {
     // The functions still can print to UART on their own while returning void

@@ -21,15 +21,15 @@ extern bool test_keep_runnning;
 extern bool test_benchmark_commands;
 
 
-#pragma mark Public methods
+#pragma mark Public functions
 extern void metal_prompt_cmd_line_generic(void);
 
 
-#pragma mark Private methods
+#pragma mark Private functions
 extern void metal_prompt_auto_complete(char* cmd, uint32_t* caret);
 
 
-#pragma mark Private methods - command list handlers
+#pragma mark Private functions - command list handlers
 extern void         metal_prompt_list_begin(void);
 extern uint32_t     metal_prompt_list_is_first(void);
 extern uint32_t     metal_prompt_list_current_exist(void);
