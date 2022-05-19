@@ -9,14 +9,19 @@
 
 #include "commands_enabled.h"
 #include "transport/interface.h"
+#include "systick.h"
+#include "config.h"
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 #pragma mark Public variables
-bool     test_keep_runnning      = true;
-bool     test_benchmark_commands = false;
+bool     metal_prompt_keep_runnning      = true;
+
+#ifdef METAL_PROMPT_UPTIME
+bool     metal_prompt_benchmark_commands = false;
+#endif
 
 
 #pragma mark Private variables
@@ -45,9 +50,11 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
 	metal_prompt_list_begin();
 	while (metal_prompt_list_current_exist()) {
 		metal_prompt_list_get_current_string(buf, false);
+
 		if (strcmp(cmd, buf)  == 0) {
-//			uint64_t begin = 0;
-//			begin = test_systick_uptime_ticks;
+#ifdef METAL_PROMPT_UPTIME
+			uint64_t begin = metal_prompt_systick_uptime_ticks;
+#endif
 
 			// TODO: parse syntax of arguments. Only if syntax is OK return 0
 			metal_prompt_command selected_command = metal_prompt_list_get_current_structure();
@@ -77,9 +84,9 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
 					selected_command.void_no_args.action();
 					break;
 			}
-#ifdef TEST_INTERFACE_UPTIME
-			if (test_benchmark_commands) {
-				itoa(test_systick_uptime_ticks - begin, buf, 16);
+#ifdef METAL_PROMPT_UPTIME
+			if (metal_prompt_benchmark_commands) {
+				itoa(metal_prompt_systick_uptime_ticks - begin, buf, 16);
 				metal_prompt_transport_out("\r\nCommand took 0x");
 				metal_prompt_transport_out(buf);
 				metal_prompt_transport_out(" ticks to execute");
@@ -248,7 +255,7 @@ void metal_prompt_evaluate_character(char character) {
 
 		case 0x03:
 			// Ctrl + C = quit
-			test_keep_runnning = 0;
+			metal_prompt_keep_runnning = false;
 			metal_prompt_transport_out("\r\nCtrl + C, exiting ...\r\n");
 			break;
 
@@ -322,12 +329,12 @@ void metal_prompt_cmd_line_generic() {
     metal_prompt_transport_out(METAL_PROMPT_VERSION);
     metal_prompt_transport_out("\r\n");
 	metal_prompt_print_prompt(NULL);
-	test_keep_runnning = 1;
+	metal_prompt_keep_runnning = true;
 
     // Get what is the longest command length
     longest_command = metal_prompt_list_get_longest_size();
 
-	while (test_keep_runnning) {
+	while (metal_prompt_keep_runnning) {
 		char character;
 		if (metal_prompt_transport_in(&character)) {
 			metal_prompt_evaluate_character(character);

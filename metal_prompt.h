@@ -17,8 +17,10 @@
 
 
 #pragma mark Public variables
-extern bool test_keep_runnning;
-extern bool test_benchmark_commands;
+extern bool metal_prompt_keep_runnning;
+#ifdef METAL_PROMPT_UPTIME
+extern bool metal_prompt_benchmark_commands;
+#endif
 
 
 #pragma mark Public functions

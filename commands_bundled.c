@@ -73,14 +73,14 @@ uint64_t metal_prompt_uptime() {
 
 void metal_prompt_set_command_benchmark() {
     metal_prompt_transport_out("Command benchmark mode enabled, now each command will print how long it took to execute.\r\n");
-    test_benchmark_commands = 1;
+    metal_prompt_benchmark_commands = true;
 }
 #endif
 
 
 void metal_prompt_bundled_quit() {
     metal_prompt_transport_out("Exiting...\r\n");
-	test_keep_runnning = false;
+	metal_prompt_keep_runnning = false;
 }
 
 
