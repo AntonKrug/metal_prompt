@@ -22,12 +22,12 @@ extern uint64_t metal_prompt_uptime(void);
 #endif
 
 
-#define METAL_PROMPT_BUNDLED_CONFIG_META    { "configuration",         METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_no_args   = { &metal_prompt_bundled_configuration } }
-#define METAL_PROMPT_BUNDLED_HELP_META      { "help",                  METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_no_args   = { &metal_prompt_bundled_help } }
-#define METAL_PROMPT_BUNDLED_LIST_META      { "list",                  METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_no_args   = { &metal_prompt_bundled_list_all_tests } }
-#define METAL_PROMPT_BUNDLED_BENCHMARK_META { "set_command_benchmark", METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_no_args   = { &metal_prompt_set_command_benchmark } }
-#define METAL_PROMPT_BUNDLED_UPTIME_META    { "uptime",                METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_VOID, .uint64_no_args = { &metal_prompt_uptime } }
-#define METAL_PROMPT_BUNLDED_QUIT_META      { "quit",                  METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_no_args   = { &metal_prompt_bundled_quit } }
+#define METAL_PROMPT_BUNDLED_CONFIG_META    { "configuration",         METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &metal_prompt_bundled_configuration } }
+#define METAL_PROMPT_BUNDLED_HELP_META      { "help",                  METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &metal_prompt_bundled_help } }
+#define METAL_PROMPT_BUNDLED_LIST_META      { "list",                  METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &metal_prompt_bundled_list_all_tests } }
+#define METAL_PROMPT_BUNDLED_BENCHMARK_META { "set_command_benchmark", METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &metal_prompt_set_command_benchmark } }
+#define METAL_PROMPT_BUNDLED_UPTIME_META    { "uptime",                METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_VOID, .uint64_void = { &metal_prompt_uptime } }
+#define METAL_PROMPT_BUNLDED_QUIT_META      { "quit",                  METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &metal_prompt_bundled_quit } }
 
 extern metal_prompt_command metal_prompt_bundled_list[];
 

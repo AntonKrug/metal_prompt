@@ -46,6 +46,7 @@ void metal_prompt_print_prompt(char *cmd) {
 uint32_t metal_prompt_execute_cmd(char *cmd) {
 	char buf[METAL_PROMPT_COMMAND_NAME_LIMIT];
 	char* ret_char_ptr;
+    uint32_t ret_uint32;
 	uint64_t ret_uint64;
 	metal_prompt_list_begin();
 	while (metal_prompt_list_current_exist()) {
@@ -63,25 +64,29 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
 			metal_prompt_transport_out("\r\n");
 
 			switch (selected_command.type) {
-				case METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_VOID:
-					ret_char_ptr = selected_command.char_no_args.action();
+				case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_VOID:
+					ret_char_ptr = selected_command.chars_void.action();
 					metal_prompt_transport_out(ret_char_ptr);
 					break;
 
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_VOID:
+                    ret_uint32 = selected_command.uint32_void.action();
+                    itoa(ret_uint32, buf, 16);
+                    metal_prompt_transport_out("0x");
+                    metal_prompt_transport_out(buf);
+                    break;
+
 				case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_VOID:
-				    ret_uint64 = selected_command.uint64_no_args.action();
+				    ret_uint64 = selected_command.uint64_void.action();
 					itoa(ret_uint64, buf, 16);
 					metal_prompt_transport_out("0x");
 					metal_prompt_transport_out(buf);
 					break;
 
-				case METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_UINT64:
-
-					break;
 
 				case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID:
 				default:
-					selected_command.void_no_args.action();
+					selected_command.void_void.action();
 					break;
 			}
 #ifdef METAL_PROMPT_UPTIME
@@ -406,22 +411,22 @@ void metal_prompt_list_get_current_string_arguments(char *buf) {
     strcat(buf, "\033[1;39m");
 
 	switch (metal_prompt_commands_enabled[list_group_index].tests[list_command_index].type) {
-	    case METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_VOID:
-		case METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_CHAR:
-        case METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_UINT32:
-        case METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_UINT64:
+	    case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_VOID:
+		case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
+        case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+        case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
 			strcat(buf, "char*   ");
 			break;
 
         case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_VOID:
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHAR:
+        case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
         case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
         case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
             strcat(buf, "uint32_t");
         break;
 
         case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_VOID:
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHAR:
+        case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
         case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
         case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
 			strcat(buf, "uint64_t");
@@ -437,22 +442,22 @@ void metal_prompt_list_get_current_string_arguments(char *buf) {
     strcat(buf, "\033[1;39m");
 
 	switch (metal_prompt_commands_enabled[list_group_index].tests[list_command_index].type) {
-	    case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_CHAR:
-	    case METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_CHAR:
-	    case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHAR:
-	    case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHAR:
+	    case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_CHARS:
+	    case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
+	    case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+	    case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
 			strcat(buf, "char");
 			break;
 
         case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT32:
-        case METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_UINT32:
+        case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
         case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
         case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
             strcat(buf, "uint32_t");
             break;
 
         case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT64:
-        case METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_UINT64:
+        case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
         case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
         case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
             strcat(buf, "uint64_t");

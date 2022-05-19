@@ -15,70 +15,144 @@
 typedef enum {
     // The functions still can print to UART on their own while returning void
     METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,
-    METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_CHAR,
+    METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_CHARS,
     METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT32,
     METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT64,
 
-    // Set the TEST_INTERFACE_RETURN_AND_ARGUMENT_STRING_BUFFER_SIZE to return
-    // buffer capacity so the return content will fit into it
-    METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_VOID,
-    METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_CHAR,
-    METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_UINT32,
-    METAL_PROMPT_COMMAND_TYPE_RET_CHAR_ARG_UINT64,
+    // Set the TEST_INTERFACE_RETURN_AND_ARGUMENT_STRING_BUFFER_SIZE to
+    // configure the return buffer capacity so content will fit into it
+    METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_VOID,
+    METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_CHARS,
+    METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT32,
+    METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT64,
 
     METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_VOID,
-    METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHAR,
+    METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHARS,
     METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT32,
     METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT64,
 
     METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_VOID,
-    METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHAR,
+    METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHARS,
     METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT32,
     METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT64,
 } metal_prompt_command_types;
 
+#pragma mark Structs with void return type
+typedef struct {
+    void (*action)(void);
+} metal_prompt_command_void_void;
+
 
 typedef struct {
-	char* (*action)(int64_t);
-} metal_prompt_command_char_int64;
+    void (*action)(char*);
+} metal_prompt_command_void_chars;
 
 
+typedef struct {
+    void (*action)(uint32_t);
+} metal_prompt_command_void_uint32;
 
+
+typedef struct {
+    void (*action)(uint64_t);
+} metal_prompt_command_void_uint64;
+
+
+#pragma mark Structs with char* return type
 typedef struct {
 	char* (*action)(void);
-} metal_prompt_command_char_no_args;
+} metal_prompt_command_chars_void;
 
 
 typedef struct {
-	uint64_t (*action)(void);
-} metal_prompt_command_uint64_no_args;
+    char* (*action)(char*);
+} metal_prompt_command_chars_chars;
 
 
 typedef struct {
-	int64_t (*action)(int64_t);
-} metal_prompt_command_int64_int64;
+    char* (*action)(uint32_t);
+} metal_prompt_command_chars_uint32;
 
 
 typedef struct {
-	void (*action)(void);
-} metal_prompt_command_void_no_args;
+    char* (*action)(uint64_t);
+} metal_prompt_command_chars_uint64;
+
+
+#pragma mark Structs with uint32_t return type
+typedef struct {
+    uint32_t (*action)(void);
+} metal_prompt_command_uint32_void;
+
+
+typedef struct {
+    uint32_t (*action)(char*);
+} metal_prompt_command_uint32_chars;
+
+
+typedef struct {
+    uint32_t (*action)(uint32_t);
+} metal_prompt_command_uint32_uint32;
+
+
+typedef struct {
+    uint32_t (*action)(uint64_t);
+} metal_prompt_command_uint32_uint64;
+
+
+#pragma mark Structs with uint64_t return type
+typedef struct {
+    uint64_t (*action)(void);
+} metal_prompt_command_uint64_void;
+
+
+typedef struct {
+    uint64_t (*action)(char*);
+} metal_prompt_command_uint64_chars;
+
+
+typedef struct {
+    uint64_t (*action)(uint32_t);
+} metal_prompt_command_uint64_uint32;
+
+
+typedef struct {
+    uint64_t (*action)(uint64_t);
+} metal_prompt_command_uint64_uint64;
+
+
 
 
 typedef struct {
 	char* command;
 	metal_prompt_command_types type;
 	union {
-		metal_prompt_command_char_int64     char_int64;
-		metal_prompt_command_char_no_args   char_no_args;
-		metal_prompt_command_uint64_no_args uint64_no_args;
-		metal_prompt_command_void_no_args   void_no_args;
+        metal_prompt_command_void_void     void_void;
+        metal_prompt_command_void_chars    void_chars;
+        metal_prompt_command_void_uint32   void_uint32;
+        metal_prompt_command_void_uint64   void_uint64;
+
+        metal_prompt_command_chars_void    chars_void;
+        metal_prompt_command_chars_chars   chars_chars;
+        metal_prompt_command_chars_uint32  chars_uint32;
+		metal_prompt_command_chars_uint64  chars_uint64;
+
+        metal_prompt_command_uint32_void   uint32_void;
+        metal_prompt_command_uint32_chars  uint32_chars;
+        metal_prompt_command_uint32_uint32 uint32_uint32;
+        metal_prompt_command_uint32_uint64 uint32_uint64;
+
+		metal_prompt_command_uint64_void   uint64_void;
+        metal_prompt_command_uint64_chars  uint64_chars;
+        metal_prompt_command_uint64_uint32 uint64_uint32;
+        metal_prompt_command_uint64_uint64 uint64_uint64;
 	};
 } metal_prompt_command;
 
 
 typedef struct {
-	char* group_name;
-	uint32_t testsSize;
+	char*                 group_name;
+	uint32_t              testsSize;
 	metal_prompt_command* tests;
 } metal_prompt_group;
 
