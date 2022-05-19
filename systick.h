@@ -5,8 +5,8 @@
  */
 
 
-#ifndef TEST_INTERFACE_SYSTICK_H_
-#define TEST_INTERFACE_SYSTICK_H_
+#ifndef METAL_PROMPT_SYSTICK_H_
+#define METAL_PROMPT_SYSTICK_H_
 
 
 #ifdef TEST_INTERFACE_UPTIME
@@ -15,4 +15,4 @@
 #endif
 
 
-#endif /* TEST_INTERFACE_SYSTICK_H_ */
+#endif /* METAL_PROMPT_SYSTICK_H_ */

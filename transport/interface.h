@@ -5,8 +5,8 @@
  */
 
 
-#ifndef TEST_INTERFACE_TRANSPORT_INTERFACE_H_
-#define TEST_INTERFACE_TRANSPORT_INTERFACE_H_
+#ifndef METAL_PROMPT_TRANSPORT_INTERFACE_H_
+#define METAL_PROMPT_TRANSPORT_INTERFACE_H_
 
 #include <stdbool.h>
 
@@ -18,4 +18,4 @@ extern void test_interface_transport_out_ln(void);
 
 extern bool test_interface_transport_in(char* out_buffer);
 
-#endif /* TEST_INTERFACE_TRANSPORT_INTERFACE_H_ */
+#endif /* METAL_PROMPT_TRANSPORT_INTERFACE_H_ */

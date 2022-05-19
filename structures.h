@@ -5,8 +5,8 @@
  */
 
 
-#ifndef TEST_COMMON_H_
-#define TEST_COMMON_H_
+#ifndef METAL_PROMPT_STRUCTURES_H_
+#define METAL_PROMPT_STRUCTURES_H_
 
 #include <stdint.h>
 
@@ -86,4 +86,4 @@ typedef struct {
 // https://stackoverflow.com/questions/10637027/initializing-a-nested-struct-with-const-members
 // https://stackoverflow.com/questions/3025050/error-initializer-element-is-not-constant-when-trying-to-initialize-variable-w
 
-#endif /* TEST_COMMON_H_ */
+#endif /* METAL_PROMPT_STRUCTURES_H_ */

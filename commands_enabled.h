@@ -5,8 +5,8 @@
  */
 
 
-#ifndef TESTS_ENABLED_H_
-#define TESTS_ENABLED_H_
+#ifndef METAL_PROMPT_COMMANDS_ENABLED_H_
+#define METAL_PROMPT_COMMANDS_ENABLED_H_
 
 #include <metal_prompt/structures.h>
 
@@ -16,4 +16,4 @@
 
 extern test_group tests_enabled[];
 
-#endif /* TESTS_ENABLED_H_ */
+#endif /* METAL_PROMPT_COMMANDS_ENABLED_H_ */

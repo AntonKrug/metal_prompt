@@ -5,8 +5,8 @@
  */
 
 
-#ifndef TEST_BUNDLED_H_
-#define TEST_BUNDLED_H_
+#ifndef METAL_PROMPT_COMMANDS_BUNDLED_H_
+#define METAL_PROMPT_COMMANDS_BUNDLED_H_
 
 #include <metal_prompt/structures.h>
 
@@ -38,4 +38,4 @@ extern test_command test_bundled_list[];
 
 #define TEST_BUNDLED_GROUP { "", 6, test_bundled_list }
 
-#endif /* TEST_BUNDLED_H_ */
+#endif /* METAL_PROMPT_COMMANDS_BUNDLED_H_ */

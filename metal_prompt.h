@@ -5,8 +5,8 @@
  */
 
 
-#ifndef TEST_INTERFACE_H_
-#define TEST_INTERFACE_H_
+#ifndef METAL_PROMPT_METAL_PROMPT_H_
+#define METAL_PROMPT_METAL_PROMPT_H_
 
 #include <metal_prompt/config.h>
 #include <metal_prompt/structures.h>
@@ -53,4 +53,4 @@ extern uint32_t list_command_get_longest_size(char *buf);
 void test_auto_complete(char* cmd, uint32_t* caret);
 
 
-#endif /* TEST_INTERFACE_H_ */
+#endif /* METAL_PROMPT_METAL_PROMPT_H_ */
