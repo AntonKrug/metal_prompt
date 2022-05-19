@@ -5,9 +5,9 @@
  */
 
 
-#include <metal_prompt/metal_prompt.h>
-#include <metal_prompt/transport/interface.h>
-#include <metal_prompt/transport/pfsoc_mss_uart.h>
+#include "metal_prompt/metal_prompt.h"
+#include "interface.h"
+#include "pfsoc_mss_uart.h"
 #include <stdint.h>
 
 

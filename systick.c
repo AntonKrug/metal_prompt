@@ -5,7 +5,7 @@
  */
 
 
-#include <metal_prompt/systick.h>
+#include "systick.h"
 #include <stdlib.h>
 
 

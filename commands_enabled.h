@@ -8,7 +8,7 @@
 #ifndef METAL_PROMPT_COMMANDS_ENABLED_H_
 #define METAL_PROMPT_COMMANDS_ENABLED_H_
 
-#include <metal_prompt/structures.h>
+#include "structures.h"
 
 #ifndef TESTS_ENABLED_SIZE
 #define TESTS_ENABLED_SIZE 2

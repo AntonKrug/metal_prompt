@@ -8,8 +8,8 @@
 #ifndef METAL_PROMPT_METAL_PROMPT_H_
 #define METAL_PROMPT_METAL_PROMPT_H_
 
-#include <metal_prompt/config.h>
-#include <metal_prompt/structures.h>
+#include "config.h"
+#include "structures.h"
 #include <stdbool.h>
 
 #define TEST_INTERFACE_VERSION "v0.1"

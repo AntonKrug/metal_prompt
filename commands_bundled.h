@@ -8,7 +8,7 @@
 #ifndef METAL_PROMPT_COMMANDS_BUNDLED_H_
 #define METAL_PROMPT_COMMANDS_BUNDLED_H_
 
-#include <metal_prompt/structures.h>
+#include "structures.h"
 
 extern void     test_bundled_configuration(void);
 extern void     test_bundled_help(void);

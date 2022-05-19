@@ -4,8 +4,8 @@
  * Created: 24/03/2018
  */
 
-#include <metal_prompt/commands_bundled.h>
-#include <metal_prompt/commands_enabled.h>
+#include "commands_bundled.h"
+#include "commands_enabled.h"
 
 test_group tests_enabled[] = {
 #ifndef NDEBUG
