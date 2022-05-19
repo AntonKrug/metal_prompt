@@ -9,27 +9,27 @@
 
 #include "metal_prompt.h"
 #include "transport/interface.h"
+#include "systick.h"
 
 #include <stdlib.h>
 
 
-void test_interface_bundled_list_all_tests() {
+void metal_prompt_bundled_list_all_tests() {
 	char cmd[255] = "";
 	uint32_t carret = 0;
 
 
 	// Auto-complete now list commands on the when empty command is given
 	metal_prompt_auto_complete(cmd, &carret);
-
 }
 
 
-void test_bundled_configuration() {
+void metal_prompt_bundled_configuration() {
 	char optimization[5];
 #ifdef NDEBUG
 	MSS_UART_polled_tx_string(uart_test_main, "Configuration: Release\r\n");
 #else
-	test_interface_transport_out("Configuration: Debug\r\n");
+	metal_prompt_transport_out("Configuration: Debug\r\n");
 #endif
 
 #ifdef __OPTIMIZE__
@@ -43,12 +43,12 @@ void test_bundled_configuration() {
 #ifndef __OPTIMIZE__
 #ifndef __OPTIMIZE_SIZE__
 	// Debug configuration
-	test_interface_transport_out("No speed nor size optimizations\r\n");
+	metal_prompt_transport_out("No speed nor size optimizations\r\n");
 #endif
 #endif
 
 #ifdef __NO_INLINE__
-	test_interface_transport_out("__NO_INLINE__\r\n");
+	metal_prompt_transport_out("__NO_INLINE__\r\n");
 #endif
 
 	// TODO: Display Hard/Soft float depending on the project defines (don't
@@ -56,48 +56,41 @@ void test_bundled_configuration() {
 }
 
 
-void test_bundled_help() {
-    test_interface_transport_out("Help: \r\n");
-    test_interface_transport_out(" Ctrl+C exits the test interface\r\n");
-    test_interface_transport_out(" Ctrl+S cleans the screen\r\n");
-    test_interface_transport_out(" Up arrow repeats the last command\r\n");
-    test_interface_transport_out(" Use TAB for auto-complete, or to list all possible commands\r\n");
+void metal_prompt_bundled_help() {
+    metal_prompt_transport_out("Help: \r\n");
+    metal_prompt_transport_out(" Ctrl+C exits the test interface\r\n");
+    metal_prompt_transport_out(" Ctrl+S cleans the screen\r\n");
+    metal_prompt_transport_out(" Up arrow repeats the last command\r\n");
+    metal_prompt_transport_out(" Use TAB for auto-complete, or to list all possible commands\r\n");
 }
 
 
-#ifdef TEST_INTERFACE_UPTIME
-uint64_t test_uptime() {
-	return test_systick_uptime_ticks;
+#ifdef METAL_PROMPT_UPTIME
+uint64_t metal_prompt_uptime() {
+	return metal_prompt_systick_uptime_ticks;
 }
 
-void test_set_command_benchmark() {
+
+void metal_prompt_set_command_benchmark() {
+    metal_prompt_transport_out("Command benchmark mode enabled, now each command will print how long it took to execute.\r\n");
     test_benchmark_commands = 1;
 }
 #endif
 
 
-uint64_t test_uptime() {
-    return 0;
-}
-
-void test_set_command_benchmark() {
-    test_interface_transport_out("Command benchmark mode enabled, now each command will print how long it took to execute.\r\n");
-}
-
-
-void test_bundled_quit() {
-    test_interface_transport_out("Exiting...\r\n");
+void metal_prompt_bundled_quit() {
+    metal_prompt_transport_out("Exiting...\r\n");
 	test_keep_runnning = false;
 }
 
 
-test_command test_bundled_list[] = {
-		TEST_BUNDLED_CONFIG_META,
-		TEST_BUNDLED_HELP_META,
-		TEST_BUNDLED_LIST_META,
-#ifdef TEST_INTERFACE_UPTIME
-        TEST_BUNDLED_BENCHMARK_META,
-        TEST_BUNDLED_UPTIME_META,
+metal_prompt_command metal_prompt_bundled_list[] = {
+        METAL_PROMPT_BUNDLED_CONFIG_META,
+        METAL_PROMPT_BUNDLED_HELP_META,
+        METAL_PROMPT_BUNDLED_LIST_META,
+#ifdef METAL_PROMPT_UPTIME
+        METAL_PROMPT_BUNDLED_BENCHMARK_META,
+        METAL_PROMPT_BUNDLED_UPTIME_META,
 #endif
-		TEST_BUNLDED_QUIT_META
+        METAL_PROMPT_BUNLDED_QUIT_META
 };

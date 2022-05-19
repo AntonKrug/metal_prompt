@@ -10,9 +10,9 @@
 #include <stdlib.h>
 
 
-#ifdef TEST_INTERFACE_UPTIME
-//volatile uint64_t test_systick_uptime_ticks = 0;
-//void (*test_systick_action)(void) = NULL;
+#ifdef METAL_PROMPT_UPTIME
+volatile uint64_t metal_prompt_systick_uptime_ticks = 0;
+void (*test_systick_action)(void) = NULL;
 #endif
 
 

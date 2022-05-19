@@ -8,8 +8,8 @@
 
 #include "commands_bundled.h"
 
-test_group tests_enabled[] = {
+metal_prompt_group metal_prompt_commands_enabled[] = {
 #ifndef NDEBUG
-		TEST_BUNDLED_GROUP
+		METAL_PROMPT_BUNDLED_GROUP
 #endif
 };

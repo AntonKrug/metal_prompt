@@ -13,7 +13,7 @@
 
 #include <stdbool.h>
 
-#define TEST_INTERFACE_VERSION "v0.1"
+#define METAL_PROMPT_VERSION "v0.1"
 
 
 #pragma mark Public variables
@@ -30,16 +30,16 @@ extern void metal_prompt_auto_complete(char* cmd, uint32_t* caret);
 
 
 #pragma mark Private functions - command list handlers
-extern void         metal_prompt_list_begin(void);
-extern uint32_t     metal_prompt_list_is_first(void);
-extern uint32_t     metal_prompt_list_current_exist(void);
-extern void         metal_prompt_list_select_next(void);
-extern test_command metal_prompt_list_get_current_structure(void);
-extern uint32_t     metal_prompt_list_get_current_string(char *buf, bool color);
-extern void         metal_prompt_list_get_current_string_arguments(char *buf);
-extern void         metal_prompt_list_align_command_for_args(char *cmd, uint32_t longest);
-extern void         metal_prompt_list_add_spaces(uint32_t current, uint32_t longest);
-extern uint32_t     metal_prompt_list_get_longest_size(void);
+extern void                 metal_prompt_list_begin(void);
+extern uint32_t             metal_prompt_list_is_first(void);
+extern uint32_t             metal_prompt_list_current_exist(void);
+extern void                 metal_prompt_list_select_next(void);
+extern metal_prompt_command metal_prompt_list_get_current_structure(void);
+extern uint32_t             metal_prompt_list_get_current_string(char *buf, bool color);
+extern void                 metal_prompt_list_get_current_string_arguments(char *buf);
+extern void                 metal_prompt_list_align_command_for_args(char *cmd, uint32_t longest);
+extern void                 metal_prompt_list_add_spaces(uint32_t current, uint32_t longest);
+extern uint32_t             metal_prompt_list_get_longest_size(void);
 
 
 #endif /* METAL_PROMPT_METAL_PROMPT_H_ */

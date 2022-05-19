@@ -10,10 +10,8 @@
 
 #include "structures.h"
 
-#ifndef TESTS_ENABLED_SIZE
-#define TESTS_ENABLED_SIZE 1
-#endif
+#define METAL_PROMPT_ENABLED_SIZE 1
 
-extern test_group tests_enabled[];
+extern metal_prompt_group metal_prompt_commands_enabled[];
 
 #endif /* METAL_PROMPT_COMMANDS_ENABLED_H_ */
