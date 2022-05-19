@@ -12,6 +12,11 @@
 
 #define TEST_COMMAND_NAME_LIMIT 255
 
+// Comment this out when you want the list and it's arguments be triggered
+// even when the command is already written in full
+//#define TEST_DO_NOT_LIST_ON_FULL_COMMANDS
+
+
 #define TEST_INTERFACE_ALLOW_QUIT
 
 // Enable/disable the uptime and benchmark commands

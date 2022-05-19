@@ -38,15 +38,15 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
 	char buf[TEST_COMMAND_NAME_LIMIT];
 	char* ret_char_ptr;
 	uint64_t ret_uint64;
-	metal_prompt_list_commands_begin();
-	while (metal_prompt_list_commands_current_exist()) {
-		metal_prompt_list_command_get_current_string(buf, false);
+	metal_prompt_list_begin();
+	while (metal_prompt_list_current_exist()) {
+		metal_prompt_list_get_current_string(buf, false);
 		if (strcmp(cmd, buf)  == 0) {
 //			uint64_t begin = 0;
 //			begin = test_systick_uptime_ticks;
 
 			// TODO: parse syntax of arguments. Only if syntax is OK return 0
-			test_command selected_command = metal_prompt_list_command_get_current_structure();
+			test_command selected_command = metal_prompt_list_get_current_structure();
 
 			// TODO: Depending on type call it differently / parse return etc.
 			test_interface_transport_out("\r\n");
@@ -84,7 +84,7 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
 
 			return 0; // command executed, return success
 		}
-		metal_prompt_list_commands_select_next();
+		metal_prompt_list_select_next();
 	}
 	return 1; // no command found, return error
 }
@@ -106,12 +106,12 @@ void metal_prompt_auto_complete(char* cmd, uint32_t* caret) {
 #endif
 
 
-	metal_prompt_list_commands_begin();
+	metal_prompt_list_begin();
 
-	while (metal_prompt_list_commands_current_exist()) {
+	while (metal_prompt_list_current_exist()) {
 		// Go through all commands, if the start of the command matches the
 		// current cmd line, then find how many unique characters can be added
-		metal_prompt_list_command_get_current_string(buf, false);
+		metal_prompt_list_get_current_string(buf, false);
 		if (strncmp(cmd, buf, cmd_len) == 0) {
 			if (first) {
 				strcpy(first_command, buf);
@@ -123,7 +123,7 @@ void metal_prompt_auto_complete(char* cmd, uint32_t* caret) {
 				common_location = overlap;
 			}
 		}
-		metal_prompt_list_commands_select_next();
+		metal_prompt_list_select_next();
 	}
 
 	if (common_location == TEST_COMMAND_NAME_LIMIT) {
@@ -148,42 +148,42 @@ void metal_prompt_auto_complete(char* cmd, uint32_t* caret) {
 
 		// If it's full unique command = do nothing
 #ifdef TEST_DO_NOT_LIST_ON_FULL_COMMANDS
-		metal_prompt_list_commands_begin();
-		while (metal_prompt_list_commands_current_exist()) {
+		metal_prompt_list_begin();
+		while (metal_prompt_list_current_exist()) {
 			// Search if there is full match
-			metal_prompt_list_command_get_current_string(buf, false);
+			metal_prompt_list_get_current_string(buf, false);
 			if (strcmp(cmd, buf) == 0) {
 				return;
 			}
-			metal_prompt_list_commands_select_next();
+			metal_prompt_list_select_next();
 		}
 #endif
 
 		// If not full command, then list all the options
 
 		test_interface_transport_out_ln();
-		metal_prompt_list_commands_begin();
-		while (metal_prompt_list_commands_current_exist()) {
+		metal_prompt_list_begin();
+		while (metal_prompt_list_current_exist()) {
 			// Go through all commands, if the start of the command matches the
-			metal_prompt_list_command_get_current_string(buf, false);
+			metal_prompt_list_get_current_string(buf, false);
 			if (strncmp(cmd, buf, cmd_len) == 0) {
 			    test_interface_transport_out_ln();
 
 			    test_interface_transport_out("\033[1;33m");
 				// Print the current command
-				uint32_t cmd_len = metal_prompt_list_command_get_current_string(buf, true);
+				uint32_t cmd_len = metal_prompt_list_get_current_string(buf, true);
 				test_interface_transport_out(buf);
 				test_interface_transport_out("\033[0;39m");
 
 				// Align it to the longest command
-				metal_prompt_list_command_add_spaces(cmd_len, longest_command);
+				metal_prompt_list_add_spaces(cmd_len, longest_command);
 
 				// Print the arguments
-				metal_prompt_list_command_get_current_string_arguments(buf);
+				metal_prompt_list_get_current_string_arguments(buf);
 				test_interface_transport_out(buf);
 
 			}
-			metal_prompt_list_commands_select_next();
+			metal_prompt_list_select_next();
 		}
 		metal_prompt_print_prompt(cmd);
 	}
@@ -321,7 +321,7 @@ void metal_prompt_cmd_line_generic() {
 	test_keep_runnning = 1;
 
     // Get what is the longest command length
-    longest_command = metal_prompt_list_command_get_longest_size();
+    longest_command = metal_prompt_list_get_longest_size();
 
 	while (test_keep_runnning) {
 		char character;
@@ -332,18 +332,18 @@ void metal_prompt_cmd_line_generic() {
 }
 
 
-void metal_prompt_list_commands_begin() {
+void metal_prompt_list_begin() {
 	test_group_index   = 0;
 	test_command_index = 0;
 }
 
 
-uint32_t metal_prompt_list_commands_is_first() {
+uint32_t metal_prompt_list_is_first() {
 	return (test_group_index == 0) && (test_command_index == 0);
 }
 
 
-uint32_t metal_prompt_list_commands_current_exist() {
+uint32_t metal_prompt_list_current_exist() {
 	if ( test_group_index < TESTS_ENABLED_SIZE &&
 			test_command_index < tests_enabled[test_group_index].testsSize) {
 		return 1;
@@ -352,7 +352,7 @@ uint32_t metal_prompt_list_commands_current_exist() {
 }
 
 
-void metal_prompt_list_commands_select_next() {
+void metal_prompt_list_select_next() {
 	test_command_index++;
 	if (test_command_index >= tests_enabled[test_group_index].testsSize) {
 		// Finished with current group, select new group
@@ -362,12 +362,12 @@ void metal_prompt_list_commands_select_next() {
 }
 
 
-test_command metal_prompt_list_command_get_current_structure() {
+test_command metal_prompt_list_get_current_structure() {
 	return tests_enabled[test_group_index].tests[test_command_index];
 }
 
 
-uint32_t metal_prompt_list_command_get_current_string(char *buf, bool color) {
+uint32_t metal_prompt_list_get_current_string(char *buf, bool color) {
 	uint32_t group_len = strlen(tests_enabled[test_group_index].group_name);
 
 	strcpy(buf,"");
@@ -389,7 +389,7 @@ uint32_t metal_prompt_list_command_get_current_string(char *buf, bool color) {
 }
 
 
-void metal_prompt_list_command_get_current_string_arguments(char *buf) {
+void metal_prompt_list_get_current_string_arguments(char *buf) {
     strcpy(buf, "\033[1;30m");
 	strcat(buf, "return(");
     strcat(buf, "\033[1;39m");
@@ -460,25 +460,25 @@ void metal_prompt_list_command_get_current_string_arguments(char *buf) {
 
 
 // Find longest command in the set and return it's length
-uint32_t metal_prompt_list_command_get_longest_size(void) {
+uint32_t metal_prompt_list_get_longest_size(void) {
     char  buf[TEST_COMMAND_NAME_LIMIT];
 	uint32_t longest = 0;
 
-	metal_prompt_list_commands_begin();
-	while (metal_prompt_list_commands_current_exist()) {
-	    metal_prompt_list_command_get_current_string(buf, false);
+	metal_prompt_list_begin();
+	while (metal_prompt_list_current_exist()) {
+	    metal_prompt_list_get_current_string(buf, false);
 		uint32_t current = strlen(buf);
 		if (longest < current) {
 			longest = current;
 		}
-		metal_prompt_list_commands_select_next();
+		metal_prompt_list_select_next();
 	}
 	return longest;
 }
 
 
 // Find length of current string and align it with longest
-void metal_prompt_list_command_align_command_for_args(char *cmd, uint32_t longest) {
+void metal_prompt_list_align_command_for_args(char *cmd, uint32_t longest) {
     if (strlen(cmd)>longest) return; // do not align if the cmd is too long
 
 	for (uint32_t i = 0; i <= longest - strlen(cmd); ++i) {
@@ -488,7 +488,7 @@ void metal_prompt_list_command_align_command_for_args(char *cmd, uint32_t longes
 }
 
 
-void metal_prompt_list_command_add_spaces(uint32_t current, uint32_t longest) {
+void metal_prompt_list_add_spaces(uint32_t current, uint32_t longest) {
     for (uint32_t i = 0; i <= longest - current; ++i) {
         // <= on purpose, to add space even on the longest commands
         test_interface_transport_out(" ");
