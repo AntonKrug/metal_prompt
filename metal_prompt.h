@@ -10,6 +10,7 @@
 
 #include "config.h"
 #include "structures.h"
+
 #include <stdbool.h>
 
 #define TEST_INTERFACE_VERSION "v0.1"

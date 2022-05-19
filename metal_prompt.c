@@ -5,8 +5,9 @@
  */
 
 
-#include "commands_enabled.h"
 #include "metal_prompt.h"
+
+#include "commands_enabled.h"
 #include "transport/interface.h"
 
 #include <string.h>

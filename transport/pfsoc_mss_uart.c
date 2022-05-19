@@ -5,9 +5,11 @@
  */
 
 
-#include "metal_prompt/metal_prompt.h"
-#include "interface.h"
 #include "pfsoc_mss_uart.h"
+
+#include "interface.h"
+#include "metal_prompt/metal_prompt.h"
+
 #include <stdint.h>
 
 

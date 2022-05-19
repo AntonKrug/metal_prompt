@@ -4,8 +4,9 @@
  * Created: 24/03/2018
  */
 
-#include "commands_bundled.h"
 #include "commands_enabled.h"
+
+#include "commands_bundled.h"
 
 test_group tests_enabled[] = {
 #ifndef NDEBUG
