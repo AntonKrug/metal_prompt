@@ -82,8 +82,4 @@ typedef struct {
 } test_group;
 
 
-// https://stackoverflow.com/questions/8687671/how-to-initialize-a-structure-with-flexible-array-member
-// https://stackoverflow.com/questions/10637027/initializing-a-nested-struct-with-const-members
-// https://stackoverflow.com/questions/3025050/error-initializer-element-is-not-constant-when-trying-to-initialize-variable-w
-
 #endif /* METAL_PROMPT_STRUCTURES_H_ */
