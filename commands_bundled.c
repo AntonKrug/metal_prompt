@@ -19,7 +19,7 @@ void test_interface_bundled_list_all_tests() {
 
 
 	// Auto-complete now list commands on the when empty command is given
-	test_auto_complete(cmd, &carret);
+	metal_prompt_auto_complete(cmd, &carret);
 
 }
 

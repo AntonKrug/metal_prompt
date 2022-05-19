@@ -19,7 +19,7 @@ mss_uart_instance_t* test_interface_uart_instance;
 void test_interface_cmd_line(mss_uart_instance_t* port_to_be_used, const char* application_name) {
     test_interface_uart_instance = port_to_be_used;
 
-    test_interface_cmd_line_generic();
+    metal_prompt_cmd_line_generic();
 }
 
 
