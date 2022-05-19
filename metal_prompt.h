@@ -37,8 +37,7 @@ extern void                 metal_prompt_list_select_next(void);
 extern metal_prompt_command metal_prompt_list_get_current_structure(void);
 extern uint32_t             metal_prompt_list_get_current_string(char *buf, bool color);
 extern void                 metal_prompt_list_get_current_string_arguments(char *buf);
-extern void                 metal_prompt_list_align_command_for_args(char *cmd, uint32_t longest);
-extern void                 metal_prompt_list_add_spaces(uint32_t current, uint32_t longest);
+extern void                 metal_prompt_list_align_with_longest_command(uint32_t current_size);
 extern uint32_t             metal_prompt_list_get_longest_size(void);
 
 

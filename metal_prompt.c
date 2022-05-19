@@ -180,7 +180,7 @@ void metal_prompt_auto_complete(char* cmd, uint32_t* caret) {
 				metal_prompt_transport_out("\033[0;39m");
 
 				// Align it to the longest command
-				metal_prompt_list_add_spaces(cmd_len, longest_command);
+				metal_prompt_list_align_with_longest_command(cmd_len);
 
 				// Print the arguments
 				metal_prompt_list_get_current_string_arguments(buf);
@@ -481,19 +481,9 @@ uint32_t metal_prompt_list_get_longest_size(void) {
 }
 
 
-// Find length of current string and align it with longest
-void metal_prompt_list_align_command_for_args(char *cmd, uint32_t longest) {
-    if (strlen(cmd)>longest) return; // do not align if the cmd is too long
-
-	for (uint32_t i = 0; i <= longest - strlen(cmd); ++i) {
-		// <= on purpose, to add space even on the longest commands
-	    metal_prompt_transport_out(" ");
-	}
-}
-
-
-void metal_prompt_list_add_spaces(uint32_t current, uint32_t longest) {
-    for (uint32_t i = 0; i <= longest - current; ++i) {
+// Find align the current string with the longest command
+void metal_prompt_list_align_with_longest_command(uint32_t current_size) {
+    for (uint32_t i = 0; i <= longest_command - current_size; ++i) {
         // <= on purpose, to add space even on the longest commands
         metal_prompt_transport_out(" ");
     }
