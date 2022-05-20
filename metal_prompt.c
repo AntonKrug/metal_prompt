@@ -33,7 +33,7 @@ void m_p_cmd_line_generic() {
     m_p_keep_runnning = true;
 
     // Get what is the longest command length
-    longest_command = m_p_list_get_longest_size();
+    longest_command = m_p_iterate_get_size_of_longest_command();
 
     while (m_p_keep_runnning) {
         char character;
@@ -65,9 +65,9 @@ uint32_t m_p_execute_cmd(char *cmd) {
     uint32_t ret_arg_uint32;
 	uint64_t ret_arg_uint64;
 
-	m_p_list_begin();
-	while (m_p_list_current_exist()) {
-		m_p_list_get_current_string(buf, false);
+	m_p_iterate_begin();
+	while (m_p_iterate_current_exists()) {
+		m_p_iterate_get_current_string(buf, false);
 
 		if (strcmp(cmd, buf)  == 0) {
 #ifdef METAL_PROMPT_UPTIME
@@ -75,7 +75,7 @@ uint32_t m_p_execute_cmd(char *cmd) {
 #endif
 
 			// TODO: parse syntax of arguments. Only if syntax is OK return 0
-			m_p_command selected_command = m_p_list_get_current_structure();
+			m_p_command selected_command = m_p_iterate_get_current_structure();
 
 			// TODO: Depending on type call it differently / parse return etc.
 			m_p_transport_out("\r\n");
@@ -234,7 +234,7 @@ uint32_t m_p_execute_cmd(char *cmd) {
 
 			return 0; // command executed, return success
 		}
-		m_p_list_select_next();
+		m_p_iterate_next();
 	}
 
 	return 1; // no command found, return error
@@ -257,12 +257,12 @@ void m_p_auto_complete(char* cmd, uint32_t* caret) {
 #endif
 
 
-	m_p_list_begin();
+	m_p_iterate_begin();
 
-	while (m_p_list_current_exist()) {
+	while (m_p_iterate_current_exists()) {
 		// Go through all commands, if the start of the command matches the
 		// current cmd line, then find how many unique characters can be added
-		m_p_list_get_current_string(buf, false);
+		m_p_iterate_get_current_string(buf, false);
 		if (strncmp(cmd, buf, cmd_len) == 0) {
 			if (first) {
 				strcpy(first_command, buf);
@@ -274,7 +274,7 @@ void m_p_auto_complete(char* cmd, uint32_t* caret) {
 				common_location = overlap;
 			}
 		}
-		m_p_list_select_next();
+		m_p_iterate_next();
 	}
 
 	if (common_location == M_P_COMMAND_NAME_LIMIT) {
@@ -299,42 +299,42 @@ void m_p_auto_complete(char* cmd, uint32_t* caret) {
 
 		// If it's full unique command = do nothing
 #ifdef TEST_DO_NOT_LIST_ON_FULL_COMMANDS
-		m_p_list_begin();
-		while (m_p_list_current_exist()) {
+		m_p_iterate_begin();
+		while (m_p_iterate_current_exists()) {
 			// Search if there is full match
-			m_p_list_get_current_string(buf, false);
+			m_p_iterate_get_current_string(buf, false);
 			if (strcmp(cmd, buf) == 0) {
 				return;
 			}
-			m_p_list_select_next();
+			m_p_iterate_next();
 		}
 #endif
 
 		// If not full command, then list all the options
 
 		m_p_transport_out_ln();
-		m_p_list_begin();
-		while (m_p_list_current_exist()) {
+		m_p_iterate_begin();
+		while (m_p_iterate_current_exists()) {
 			// Go through all commands, if the start of the command matches the
-			m_p_list_get_current_string(buf, false);
+			m_p_iterate_get_current_string(buf, false);
 			if (strncmp(cmd, buf, cmd_len) == 0) {
 			    m_p_transport_out_ln();
 
 			    m_p_transport_out("\033[1;33m");
 				// Print the current command
-				uint32_t cmd_len = m_p_list_get_current_string(buf, true);
+				uint32_t cmd_len = m_p_iterate_get_current_string(buf, true);
 				m_p_transport_out(buf);
 				m_p_transport_out("\033[0;39m");
 
 				// Align it to the longest command
-				m_p_list_align_with_longest_command(cmd_len);
+				m_p_iterate_align_with_longest_command(cmd_len);
 
 				// Print the arguments
-				m_p_list_get_current_string_arguments(buf);
+				m_p_iterate_get_current_string_arguments(buf);
 				m_p_transport_out(buf);
 
 			}
-			m_p_list_select_next();
+			m_p_iterate_next();
 		}
 		m_p_print_prompt(cmd);
 	}
@@ -464,18 +464,18 @@ void m_p_evaluate_character(char character) {
 }
 
 
-void m_p_list_begin() {
+void m_p_iterate_begin() {
 	list_group_index   = 0;
 	list_command_index = 0;
 }
 
 
-bool m_p_list_is_first() {
+bool m_p_iterate_is_first() {
 	return (list_group_index == 0) && (list_command_index == 0);
 }
 
 
-bool m_p_list_current_exist() {
+bool m_p_iterate_current_exists() {
 	if ( list_group_index < M_P_ENABLED_SIZE &&
 			list_command_index < m_p_commands_enabled[list_group_index].testsSize) {
 		return true;
@@ -484,7 +484,7 @@ bool m_p_list_current_exist() {
 }
 
 
-void m_p_list_select_next() {
+void m_p_iterate_next() {
 	list_command_index++;
 	if (list_command_index >= m_p_commands_enabled[list_group_index].testsSize) {
 		// Finished with current group, select new group
@@ -494,12 +494,12 @@ void m_p_list_select_next() {
 }
 
 
-m_p_command m_p_list_get_current_structure() {
+m_p_command m_p_iterate_get_current_structure() {
 	return m_p_commands_enabled[list_group_index].tests[list_command_index];
 }
 
 
-uint32_t m_p_list_get_current_string(char *buf, bool color) {
+uint32_t m_p_iterate_get_current_string(char *buf, bool color) {
 	uint32_t group_len = strlen(m_p_commands_enabled[list_group_index].group_name);
 
 	strcpy(buf,"");
@@ -521,7 +521,7 @@ uint32_t m_p_list_get_current_string(char *buf, bool color) {
 }
 
 
-void m_p_list_get_current_string_arguments(char *buf) {
+void m_p_iterate_get_current_string_arguments(char *buf) {
     strcpy(buf, "\033[1;30m");
 	strcat(buf, "return(");
     strcat(buf, "\033[1;39m");
@@ -604,26 +604,25 @@ void m_p_list_get_current_string_arguments(char *buf) {
 }
 
 
-// Find longest command in the set and return it's length
-uint32_t m_p_list_get_longest_size(void) {
+uint32_t m_p_iterate_get_size_of_longest_command(void) {
     char  buf[M_P_COMMAND_NAME_LIMIT];
 	uint32_t longest = 0;
 
-	m_p_list_begin();
-	while (m_p_list_current_exist()) {
-	    m_p_list_get_current_string(buf, false);
+	m_p_iterate_begin();
+	while (m_p_iterate_current_exists()) {
+	    m_p_iterate_get_current_string(buf, false);
 		uint32_t current = strlen(buf);
 		if (longest < current) {
 			longest = current;
 		}
-		m_p_list_select_next();
+		m_p_iterate_next();
 	}
 	return longest;
 }
 
 
 // Find align the current string with the longest command
-void m_p_list_align_with_longest_command(uint32_t current_size) {
+void m_p_iterate_align_with_longest_command(uint32_t current_size) {
     for (uint32_t i = 0; i <= longest_command - current_size; ++i) {
         // <= on purpose, to add space even on the longest commands
         m_p_transport_out(" ");
