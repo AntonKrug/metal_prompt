@@ -47,7 +47,7 @@ void m_p_auto_complete(char* cmd, uint32_t* caret) {
     uint32_t first           = 1;
 
     // Allow auto-complete to work even with empty commands
-#if 0
+#ifndef M_P_AUTOCOMPLETE_ON_EMPTY_COMMANDS
     if (cmd_len == 0) {
         // No auto complete with empty line
         return;
@@ -96,7 +96,7 @@ void m_p_auto_complete(char* cmd, uint32_t* caret) {
         // There is nothing to add with auto-complete
 
         // If it's full unique command = do nothing
-#ifdef TEST_DO_NOT_LIST_ON_FULL_COMMANDS
+#ifdef M_P_DO_NOT_LIST_ON_FULL_COMMANDS
         m_p_iterate_begin();
         while (m_p_iterate_current_exists()) {
             // Search if there is full match
@@ -165,8 +165,8 @@ uint32_t m_p_execute_cmd(char *cmd) {
 		m_p_iterate_get_current_string(buf, false);
 
 		if (strcmp(cmd, buf)  == 0) {
-#ifdef METAL_PROMPT_UPTIME
-			uint64_t begin = metal_prompt_systick_uptime_ticks;
+#ifdef M_P_UPTIME
+			uint32_t begin = m_p_systick_uptime_ticks;
 #endif
 
 			// TODO: parse syntax of arguments. Only if syntax is OK return 0
@@ -185,8 +185,8 @@ uint32_t m_p_execute_cmd(char *cmd) {
                     selected_command.void_void.action();
                     break;
 
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_CHARS:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_CHARS:
                     selected_command.void_chars.action(ret_arg_char_ptr);
                     break;
 #endif
@@ -200,21 +200,21 @@ uint32_t m_p_execute_cmd(char *cmd) {
                     break;
 
 
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
                 // Return type char*
-				case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_VOID:
+				case M_P_COMMAND_TYPE_RET_CHARS_ARG_VOID:
 					ret_arg_char_ptr = selected_command.chars_void.action();
 					break;
 
-                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
                     ret_arg_char_ptr = selected_command.chars_chars.action(ret_arg_char_ptr);
                     break;
 
-                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
                     ret_arg_char_ptr = selected_command.chars_uint32.action(ret_arg_uint32);
                     break;
 
-                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
                     ret_arg_char_ptr = selected_command.chars_uint64.action(ret_arg_uint64);
                     break;
 #endif
@@ -225,8 +225,8 @@ uint32_t m_p_execute_cmd(char *cmd) {
                     ret_arg_uint32 = selected_command.uint32_void.action();
                     break;
 
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
                     ret_arg_uint32 = selected_command.uint32_chars.action(ret_arg_char_ptr);
                     break;
 #endif
@@ -245,8 +245,8 @@ uint32_t m_p_execute_cmd(char *cmd) {
                     ret_arg_uint64 = selected_command.uint64_void.action();
                     break;
 
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
                     ret_arg_uint64 = selected_command.uint64_chars.action(ret_arg_char_ptr);
                     break;
 #endif
@@ -269,26 +269,26 @@ uint32_t m_p_execute_cmd(char *cmd) {
             // Display the returned type
             switch (selected_command.type) {
                 case M_P_COMMAND_TYPE_RET_VOID_ARG_VOID:
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_CHARS:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_CHARS:
 #endif
                 case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32:
                 case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
                     // Void returned, display nothing
                     break;
 
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_VOID:
-                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
-                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
-                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_VOID:
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
                     m_p_transport_out(ret_arg_char_ptr);
                     break;
 #endif
 
                 case M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID:
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
 #endif
                 case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
                 case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
@@ -298,8 +298,8 @@ uint32_t m_p_execute_cmd(char *cmd) {
                     break;
 
                 case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
 #endif
                 case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
                 case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
@@ -318,9 +318,9 @@ uint32_t m_p_execute_cmd(char *cmd) {
             }
 
 
-#ifdef METAL_PROMPT_UPTIME
+#ifdef M_P_UPTIME
 			if (m_p_benchmark_commands) {
-				itoa(metal_prompt_systick_uptime_ticks - begin, buf, 16);
+				itoa(m_p_systick_uptime_ticks - begin, buf, 16);
 				m_p_transport_out("\r\nCommand took 0x");
 				m_p_transport_out(buf);
 				m_p_transport_out(" ticks to execute");

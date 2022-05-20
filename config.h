@@ -19,7 +19,9 @@
 
 // Comment this out when you want the list and it's arguments be triggered
 // even when the command is already written in full
-#define M_P_DO_NOT_LIST_ON_FULL_COMMANDS
+//#define M_P_DO_NOT_LIST_ON_FULL_COMMANDS
+
+#define M_P_AUTOCOMPLETE_ON_EMPTY_COMMANDS
 
 // Enable/disable the uptime and benchmark commands (see systick.c)
 #define M_P_UPTIME
