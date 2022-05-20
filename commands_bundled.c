@@ -10,6 +10,7 @@
 #include "metal_prompt.h"
 #include "transport/interface.h"
 #include "systick.h"
+#include "globals.h"
 
 #include <stdlib.h>
 

@@ -16,13 +16,6 @@
 #define METAL_PROMPT_VERSION "v0.1"
 
 
-#pragma mark Public variables
-extern bool metal_prompt_keep_runnning;
-#ifdef METAL_PROMPT_UPTIME
-extern bool metal_prompt_benchmark_commands;
-#endif
-
-
 #pragma mark Public functions
 extern void metal_prompt_cmd_line_generic(void);
 

@@ -11,17 +11,11 @@
 #include "transport/interface.h"
 #include "systick.h"
 #include "config.h"
+#include "globals.h"
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-#pragma mark Public variables
-bool     metal_prompt_keep_runnning      = true;
-
-#ifdef METAL_PROMPT_UPTIME
-bool     metal_prompt_benchmark_commands = false;
-#endif
 
 
 #pragma mark Private variables
