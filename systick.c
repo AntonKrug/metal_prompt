@@ -14,7 +14,8 @@
 volatile uint32_t m_p_systick_uptime_ticks = 0;
 
 
-// Call this systick handler from application's systick handler
+// Call this systick handler from application's systick handler,
+// preferably at 1000Hz frequency (to get 1ms timestamp accuracy)
 void m_p_systick_handler() {
     m_p_systick_uptime_ticks++;
 }

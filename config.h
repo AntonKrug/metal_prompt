@@ -23,7 +23,6 @@
 
 // Enable/disable the uptime and benchmark commands
 #define M_P_UPTIME
-#define M_P_SYSTICK_FREQUENCY_1MS 1000
 
 
 #endif /* METAL_PROMPT_CONFIG_H_ */
