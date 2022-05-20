@@ -19,6 +19,326 @@
 #include <stdbool.h>
 
 
+#pragma mark Private functions
+void m_p_print_prompt(char *cmd) {
+    m_p_transport_out_ln();
+    m_p_transport_out("\033[1;36m");
+    m_p_transport_out(M_P_COMMAND_PROMPT);
+    m_p_transport_out("\033[0;39m");
+
+    if (cmd != NULL) {
+        m_p_transport_out(cmd);
+    }
+}
+
+
+uint32_t m_p_execute_cmd(char *cmd) {
+    char buf[M_P_COMMAND_NAME_LIMIT];
+
+    // Temporary variables to hold argument inputs and the returned values too
+    char* ret_arg_char_ptr;
+    uint32_t ret_arg_uint32;
+    uint64_t ret_arg_uint64;
+
+    m_p_iterate_begin();
+    while (m_p_iterate_current_exists()) {
+        m_p_iterate_get_current_string(buf, false);
+
+        if (strcmp(cmd, buf)  == 0) {
+#ifdef M_P_UPTIME
+            uint32_t begin = m_p_systick_uptime_ticks;
+#endif
+
+            // TODO: parse syntax of arguments. Only if syntax is OK return 0
+            m_p_command selected_command = m_p_iterate_get_current_structure();
+
+            // TODO: Depending on type call it differently / parse return etc.
+            m_p_transport_out("\r\n");
+
+            // TODO: Parse the argument first
+
+            // Execute the command
+            switch (selected_command.type) {
+
+                // Return type void
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_VOID:
+                    selected_command.void_void.action();
+                    break;
+
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_CHARS:
+                    selected_command.void_chars.action(ret_arg_char_ptr);
+                    break;
+#endif
+
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32:
+                    selected_command.void_uint32.action(ret_arg_uint32);
+                    break;
+
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
+                    selected_command.void_uint64.action(ret_arg_uint64);
+                    break;
+
+
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                // Return type char*
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_VOID:
+                    ret_arg_char_ptr = selected_command.chars_void.action();
+                    break;
+
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
+                    ret_arg_char_ptr = selected_command.chars_chars.action(ret_arg_char_ptr);
+                    break;
+
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+                    ret_arg_char_ptr = selected_command.chars_uint32.action(ret_arg_uint32);
+                    break;
+
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+                    ret_arg_char_ptr = selected_command.chars_uint64.action(ret_arg_uint64);
+                    break;
+#endif
+
+
+                // Return type uint32_t
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID:
+                    ret_arg_uint32 = selected_command.uint32_void.action();
+                    break;
+
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+                    ret_arg_uint32 = selected_command.uint32_chars.action(ret_arg_char_ptr);
+                    break;
+#endif
+
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
+                    ret_arg_uint32 = selected_command.uint32_uint32.action(ret_arg_uint32);
+                    break;
+
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+                    ret_arg_uint32 = selected_command.uint32_uint64.action(ret_arg_uint64);
+                    break;
+
+
+                // Return type uint64_t
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
+                    ret_arg_uint64 = selected_command.uint64_void.action();
+                    break;
+
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
+                    ret_arg_uint64 = selected_command.uint64_chars.action(ret_arg_char_ptr);
+                    break;
+#endif
+
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
+                    ret_arg_uint64 = selected_command.uint64_uint32.action(ret_arg_uint32);
+                    break;
+
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
+                    ret_arg_uint64 = selected_command.uint64_uint64.action(ret_arg_uint64);
+                    break;
+
+                default:
+                    // Misconfiguration of the command structure detected.
+                    // Abort the execution with a error!
+                    return 1;
+                    break;
+            }
+
+            // Display the returned type
+            switch (selected_command.type) {
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_VOID:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_CHARS:
+#endif
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32:
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
+                    // Void returned, display nothing
+                    break;
+
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_VOID:
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+                    m_p_transport_out(ret_arg_char_ptr);
+                    break;
+#endif
+
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+#endif
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+                    itoa(ret_arg_uint32, buf, 16);
+                    m_p_transport_out("0x");
+                    m_p_transport_out(buf);
+                    break;
+
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
+#endif
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
+                    itoa(ret_arg_uint64, buf, 16);
+                    m_p_transport_out("0x");
+                    m_p_transport_out(buf);
+                    break;
+
+                default:
+                    // The misconfiguration should have been detected with the
+                    // previous case/switch statement, but just in case there
+                    // is a bug in it, we will catch it here too.
+                    // Abort the execution with a error!
+                    return 1;
+                    break;
+            }
+
+
+#ifdef M_P_UPTIME
+            if (m_p_benchmark_commands) {
+                itoa(m_p_systick_uptime_ticks - begin, buf, 16);
+                m_p_transport_out("\r\nCommand took 0x");
+                m_p_transport_out(buf);
+                m_p_transport_out(" ticks to execute");
+            }
+#endif
+
+            return 0; // command executed, return success
+        }
+        m_p_iterate_next();
+    }
+
+    return 1; // no command found, return error
+}
+
+
+void m_p_evaluate_character(char character) {
+    static char cmd[255];
+    static char cmd_old[255]="";
+    static uint32_t caret = 0;
+    static uint32_t escape_sequence = 0;
+    static uint32_t escape_sequence_next = 0;
+
+    switch (character) {
+        case 0x0a:
+        case 0x0d:
+            // \r line feed or carriage return \n  (enter)
+            if (strlen(cmd)==0) {
+                m_p_print_prompt(NULL);
+                break;
+            }
+
+
+            if (m_p_execute_cmd(cmd)) {
+                m_p_transport_out("\033[1;31m");
+                m_p_transport_out("\r\n[ERROR] ");
+                m_p_transport_out("\033[0;39m");
+                m_p_transport_out("Missing command or wrong arguments...\r\n");
+            } else {
+                // Executed correctly the command, clean the command line
+            }
+
+            // Store current command into history
+            strcpy(cmd_old,cmd);
+
+            // Clear current command
+            cmd[0] = 0;
+            caret = 0;
+
+            m_p_print_prompt(NULL);
+            break;
+
+        case 0x09:
+            // TAB
+            m_p_auto_complete(cmd, &caret);
+            break;
+
+        case 0x08:
+        case 0x7f:
+            // Backspace
+            if (caret > 0) {
+                // only remove character when there is something to delete
+                cmd[--caret] = 0;
+                // Go back 1 character, print space and go back 1 character again
+                m_p_transport_out("\033[1D \033[1D");
+            }
+            break;
+
+        case 0x03:
+            // Ctrl + C = quit
+            m_p_keep_runnning = false;
+            m_p_transport_out("\r\nCtrl + C, exiting ...\r\n");
+            break;
+
+        case 0x13:
+            // Ctrl + S = clear screen
+            m_p_transport_out("\033[2J\033[H");
+            m_p_print_prompt(cmd);
+            break;
+
+        case 0x0C:
+            // Ctrl + L = recall history
+            if (strlen(cmd) == 0) {
+                // When prompt empty, then print at the same prompt
+                m_p_transport_out(cmd_old);
+            } else{
+                //  Print completely new prompt
+                m_p_print_prompt(cmd_old);
+            }
+
+            strcpy(cmd, cmd_old);
+            caret = strlen(cmd);
+            break;
+
+        case 0x1B:
+            // start of the escape sequence \033, but do not display anything yet
+            if (escape_sequence == 0){
+                escape_sequence_next = 1;
+            }
+            break;
+
+        default:
+            if (escape_sequence == 0) {
+                // Regular character, write it down on the screen and to the buffer
+                cmd[caret++] = character;
+                cmd[caret]   = 0;
+                m_p_transport_out_characters(&character, 1);
+            }
+
+            if (escape_sequence == 1 && character == '[') {
+                // Parsing second part of the escape sequence
+                escape_sequence_next = 2;
+            }
+            else {
+                escape_sequence_next = 0;
+            }
+
+            if (escape_sequence == 2 && character == 'A') {
+                // Parsing last 3rd part of the sequence
+                // Up arrow was pressed, copy previous command
+                if (strlen(cmd) == 0) {
+                    // When prompt empty, then print at the same prompt
+                    m_p_transport_out(cmd_old);
+                } else{
+                    //  Print completely new prompt
+                    m_p_print_prompt(cmd_old);
+                }
+
+                strcpy(cmd, cmd_old);
+                caret = strlen(cmd);
+                escape_sequence_next = 0;
+            }
+
+            break;
+    }
+    escape_sequence = escape_sequence_next;
+}
+
+
 #pragma mark Public functions
 void m_p_cmd_line_generic() {
     m_p_transport_out("\r\nTest Interface ");
@@ -136,325 +456,5 @@ void m_p_auto_complete(char* cmd, uint32_t* caret) {
         }
         m_p_print_prompt(cmd);
     }
-}
-
-
-#pragma mark Private functions
-void m_p_print_prompt(char *cmd) {
-    m_p_transport_out_ln();
-    m_p_transport_out("\033[1;36m");
-    m_p_transport_out(M_P_COMMAND_PROMPT);
-    m_p_transport_out("\033[0;39m");
-
-    if (cmd != NULL) {
-        m_p_transport_out(cmd);
-    }
-}
-
-
-uint32_t m_p_execute_cmd(char *cmd) {
-	char buf[M_P_COMMAND_NAME_LIMIT];
-
-	// Temporary variables to hold argument inputs and the returned values too
-	char* ret_arg_char_ptr;
-    uint32_t ret_arg_uint32;
-	uint64_t ret_arg_uint64;
-
-	m_p_iterate_begin();
-	while (m_p_iterate_current_exists()) {
-		m_p_iterate_get_current_string(buf, false);
-
-		if (strcmp(cmd, buf)  == 0) {
-#ifdef M_P_UPTIME
-			uint32_t begin = m_p_systick_uptime_ticks;
-#endif
-
-			// TODO: parse syntax of arguments. Only if syntax is OK return 0
-			m_p_command selected_command = m_p_iterate_get_current_structure();
-
-			// TODO: Depending on type call it differently / parse return etc.
-			m_p_transport_out("\r\n");
-
-			// TODO: Parse the argument first
-
-			// Execute the command
-			switch (selected_command.type) {
-
-			    // Return type void
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_VOID:
-                    selected_command.void_void.action();
-                    break;
-
-#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_CHARS:
-                    selected_command.void_chars.action(ret_arg_char_ptr);
-                    break;
-#endif
-
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32:
-                    selected_command.void_uint32.action(ret_arg_uint32);
-                    break;
-
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
-                    selected_command.void_uint64.action(ret_arg_uint64);
-                    break;
-
-
-#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                // Return type char*
-				case M_P_COMMAND_TYPE_RET_CHARS_ARG_VOID:
-					ret_arg_char_ptr = selected_command.chars_void.action();
-					break;
-
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
-                    ret_arg_char_ptr = selected_command.chars_chars.action(ret_arg_char_ptr);
-                    break;
-
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
-                    ret_arg_char_ptr = selected_command.chars_uint32.action(ret_arg_uint32);
-                    break;
-
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
-                    ret_arg_char_ptr = selected_command.chars_uint64.action(ret_arg_uint64);
-                    break;
-#endif
-
-
-                // Return type uint32_t
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID:
-                    ret_arg_uint32 = selected_command.uint32_void.action();
-                    break;
-
-#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
-                    ret_arg_uint32 = selected_command.uint32_chars.action(ret_arg_char_ptr);
-                    break;
-#endif
-
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
-                    ret_arg_uint32 = selected_command.uint32_uint32.action(ret_arg_uint32);
-                    break;
-
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
-                    ret_arg_uint32 = selected_command.uint32_uint64.action(ret_arg_uint64);
-                    break;
-
-
-                // Return type uint64_t
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
-                    ret_arg_uint64 = selected_command.uint64_void.action();
-                    break;
-
-#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
-                    ret_arg_uint64 = selected_command.uint64_chars.action(ret_arg_char_ptr);
-                    break;
-#endif
-
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
-                    ret_arg_uint64 = selected_command.uint64_uint32.action(ret_arg_uint32);
-                    break;
-
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
-                    ret_arg_uint64 = selected_command.uint64_uint64.action(ret_arg_uint64);
-                    break;
-
-				default:
-				    // Misconfiguration of the command structure detected.
-				    // Abort the execution with a error!
-					return 1;
-					break;
-			}
-
-            // Display the returned type
-            switch (selected_command.type) {
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_VOID:
-#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_CHARS:
-#endif
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32:
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
-                    // Void returned, display nothing
-                    break;
-
-#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_VOID:
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
-                    m_p_transport_out(ret_arg_char_ptr);
-                    break;
-#endif
-
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID:
-#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
-#endif
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
-                    itoa(ret_arg_uint32, buf, 16);
-                    m_p_transport_out("0x");
-                    m_p_transport_out(buf);
-                    break;
-
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
-#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
-#endif
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
-                    itoa(ret_arg_uint64, buf, 16);
-                    m_p_transport_out("0x");
-                    m_p_transport_out(buf);
-                    break;
-
-                default:
-                    // The misconfiguration should have been detected with the
-                    // previous case/switch statement, but just in case there
-                    // is a bug in it, we will catch it here too.
-                    // Abort the execution with a error!
-                    return 1;
-                    break;
-            }
-
-
-#ifdef M_P_UPTIME
-			if (m_p_benchmark_commands) {
-				itoa(m_p_systick_uptime_ticks - begin, buf, 16);
-				m_p_transport_out("\r\nCommand took 0x");
-				m_p_transport_out(buf);
-				m_p_transport_out(" ticks to execute");
-			}
-#endif
-
-			return 0; // command executed, return success
-		}
-		m_p_iterate_next();
-	}
-
-	return 1; // no command found, return error
-}
-
-
-void m_p_evaluate_character(char character) {
-	static char cmd[255];
-	static char cmd_old[255]="";
-	static uint32_t caret = 0;
-	static uint32_t escape_sequence = 0;
-	static uint32_t escape_sequence_next = 0;
-
-	switch (character) {
-		case 0x0a:
-		case 0x0d:
-			// \r line feed or carriage return \n  (enter)
-			if (strlen(cmd)==0) {
-				m_p_print_prompt(NULL);
-				break;
-			}
-
-
-			if (m_p_execute_cmd(cmd)) {
-			    m_p_transport_out("\033[1;31m");
-			    m_p_transport_out("\r\n[ERROR] ");
-                m_p_transport_out("\033[0;39m");
-			    m_p_transport_out("Missing command or wrong arguments...\r\n");
-			} else {
-				// Executed correctly the command, clean the command line
-			}
-
-			// Store current command into history
-			strcpy(cmd_old,cmd);
-
-			// Clear current command
-			cmd[0] = 0;
-			caret = 0;
-
-			m_p_print_prompt(NULL);
-			break;
-
-		case 0x09:
-			// TAB
-			m_p_auto_complete(cmd, &caret);
-			break;
-
-		case 0x08:
-		case 0x7f:
-			// Backspace
-			if (caret > 0) {
-				// only remove character when there is something to delete
-				cmd[--caret] = 0;
-				// Go back 1 character, print space and go back 1 character again
-				m_p_transport_out("\033[1D \033[1D");
-			}
-			break;
-
-		case 0x03:
-			// Ctrl + C = quit
-			m_p_keep_runnning = false;
-			m_p_transport_out("\r\nCtrl + C, exiting ...\r\n");
-			break;
-
-		case 0x13:
-			// Ctrl + S = clear screen
-		    m_p_transport_out("\033[2J\033[H");
-			m_p_print_prompt(cmd);
-			break;
-
-		case 0x0C:
-			// Ctrl + L = recall history
-			if (strlen(cmd) == 0) {
-				// When prompt empty, then print at the same prompt
-			    m_p_transport_out(cmd_old);
-			} else{
-				//  Print completely new prompt
-				m_p_print_prompt(cmd_old);
-			}
-
-			strcpy(cmd, cmd_old);
-			caret = strlen(cmd);
-			break;
-
-		case 0x1B:
-			// start of the escape sequence \033, but do not display anything yet
-			if (escape_sequence == 0){
-				escape_sequence_next = 1;
-			}
-			break;
-
-		default:
-			if (escape_sequence == 0) {
-				// Regular character, write it down on the screen and to the buffer
-				cmd[caret++] = character;
-				cmd[caret]   = 0;
-				m_p_transport_out_characters(&character, 1);
-			}
-
-			if (escape_sequence == 1 && character == '[') {
-				// Parsing second part of the escape sequence
-				escape_sequence_next = 2;
-			}
-			else {
-				escape_sequence_next = 0;
-			}
-
-			if (escape_sequence == 2 && character == 'A') {
-				// Parsing last 3rd part of the sequence
-				// Up arrow was pressed, copy previous command
-				if (strlen(cmd) == 0) {
-					// When prompt empty, then print at the same prompt
-				    m_p_transport_out(cmd_old);
-				} else{
-					//  Print completely new prompt
-					m_p_print_prompt(cmd_old);
-				}
-
-				strcpy(cmd, cmd_old);
-				caret = strlen(cmd);
-				escape_sequence_next = 0;
-			}
-
-			break;
-	}
-	escape_sequence = escape_sequence_next;
 }
 
