@@ -18,9 +18,9 @@
 
 #pragma mark Public functions
 extern void  m_p_cmd_line_generic(void);
+extern void  m_p_auto_complete(char* cmd, uint32_t* caret);
 
 #pragma mark Private functions
-extern void  m_p_auto_complete(char* cmd, uint32_t* caret);
 extern void  m_p_print_prompt(char *cmd);
 extern void  m_p_evaluate_character(char character);
 

@@ -39,6 +39,106 @@ void m_p_cmd_line_generic() {
 }
 
 
+void m_p_auto_complete(char* cmd, uint32_t* caret) {
+    char     first_command[M_P_COMMAND_NAME_LIMIT];
+    char     buf[M_P_COMMAND_NAME_LIMIT];
+    uint32_t common_location = M_P_COMMAND_NAME_LIMIT;
+    uint32_t cmd_len         = strlen(cmd);
+    uint32_t first           = 1;
+
+    // Allow auto-complete to work even with empty commands
+#if 0
+    if (cmd_len == 0) {
+        // No auto complete with empty line
+        return;
+    }
+#endif
+
+
+    m_p_iterate_begin();
+
+    while (m_p_iterate_current_exists()) {
+        // Go through all commands, if the start of the command matches the
+        // current cmd line, then find how many unique characters can be added
+        m_p_iterate_get_current_string(buf, false);
+        if (strncmp(cmd, buf, cmd_len) == 0) {
+            if (first) {
+                strcpy(first_command, buf);
+                first = 0;
+            }
+
+            uint32_t overlap = strspn(first_command, buf);
+            if (overlap < common_location) {
+                common_location = overlap;
+            }
+        }
+        m_p_iterate_next();
+    }
+
+    if (common_location == M_P_COMMAND_NAME_LIMIT) {
+        // No common overlap found, probably wrong command / typo
+        // Do not auto complete anything.
+        return;
+    }
+
+    // Calculated where is the overlap between the commands and the cmd line
+    if (cmd_len < common_location) {
+
+        // If there are some common characters to add, then add them
+        strncpy(cmd + cmd_len, first_command + cmd_len, common_location - cmd_len);
+        cmd[common_location] = 0;
+
+        // Display only the added difference as the previous part of the command
+        // is already on the UART prompt
+        m_p_transport_out_characters(cmd + cmd_len, common_location - cmd_len);
+        *caret = strlen(cmd);
+    } else {
+        // There is nothing to add with auto-complete
+
+        // If it's full unique command = do nothing
+#ifdef TEST_DO_NOT_LIST_ON_FULL_COMMANDS
+        m_p_iterate_begin();
+        while (m_p_iterate_current_exists()) {
+            // Search if there is full match
+            m_p_iterate_get_current_string(buf, false);
+            if (strcmp(cmd, buf) == 0) {
+                return;
+            }
+            m_p_iterate_next();
+        }
+#endif
+
+        // If not full command, then list all the options
+
+        m_p_transport_out_ln();
+        m_p_iterate_begin();
+        while (m_p_iterate_current_exists()) {
+            // Go through all commands, if the start of the command matches the
+            m_p_iterate_get_current_string(buf, false);
+            if (strncmp(cmd, buf, cmd_len) == 0) {
+                m_p_transport_out_ln();
+
+                m_p_transport_out("\033[1;33m");
+                // Print the current command
+                uint32_t cmd_len = m_p_iterate_get_current_string(buf, true);
+                m_p_transport_out(buf);
+                m_p_transport_out("\033[0;39m");
+
+                // Align it to the longest command
+                m_p_iterate_align_with_longest_command(cmd_len);
+
+                // Print the arguments
+                m_p_iterate_get_current_string_arguments(buf);
+                m_p_transport_out(buf);
+
+            }
+            m_p_iterate_next();
+        }
+        m_p_print_prompt(cmd);
+    }
+}
+
+
 #pragma mark Private functions
 void m_p_print_prompt(char *cmd) {
     m_p_transport_out_ln();
@@ -233,106 +333,6 @@ uint32_t m_p_execute_cmd(char *cmd) {
 	}
 
 	return 1; // no command found, return error
-}
-
-
-void m_p_auto_complete(char* cmd, uint32_t* caret) {
-	char     first_command[M_P_COMMAND_NAME_LIMIT];
-	char     buf[M_P_COMMAND_NAME_LIMIT];
-	uint32_t common_location = M_P_COMMAND_NAME_LIMIT;
-	uint32_t cmd_len         = strlen(cmd);
-	uint32_t first           = 1;
-
-	// Allow auto-complete to work even with empty commands
-#if 0
-	if (cmd_len == 0) {
-		// No auto complete with empty line
-		return;
-	}
-#endif
-
-
-	m_p_iterate_begin();
-
-	while (m_p_iterate_current_exists()) {
-		// Go through all commands, if the start of the command matches the
-		// current cmd line, then find how many unique characters can be added
-		m_p_iterate_get_current_string(buf, false);
-		if (strncmp(cmd, buf, cmd_len) == 0) {
-			if (first) {
-				strcpy(first_command, buf);
-				first = 0;
-			}
-
-			uint32_t overlap = strspn(first_command, buf);
-			if (overlap < common_location) {
-				common_location = overlap;
-			}
-		}
-		m_p_iterate_next();
-	}
-
-	if (common_location == M_P_COMMAND_NAME_LIMIT) {
-		// No common overlap found, probably wrong command / typo
-		// Do not auto complete anything.
-		return;
-	}
-
-	// Calculated where is the overlap between the commands and the cmd line
-	if (cmd_len < common_location) {
-
-		// If there are some common characters to add, then add them
-		strncpy(cmd + cmd_len, first_command + cmd_len, common_location - cmd_len);
-		cmd[common_location] = 0;
-
-		// Display only the added difference as the previous part of the command
-		// is already on the UART prompt
-		m_p_transport_out_characters(cmd + cmd_len, common_location - cmd_len);
-		*caret = strlen(cmd);
-	} else {
-		// There is nothing to add with auto-complete
-
-		// If it's full unique command = do nothing
-#ifdef TEST_DO_NOT_LIST_ON_FULL_COMMANDS
-		m_p_iterate_begin();
-		while (m_p_iterate_current_exists()) {
-			// Search if there is full match
-			m_p_iterate_get_current_string(buf, false);
-			if (strcmp(cmd, buf) == 0) {
-				return;
-			}
-			m_p_iterate_next();
-		}
-#endif
-
-		// If not full command, then list all the options
-
-		m_p_transport_out_ln();
-		m_p_iterate_begin();
-		while (m_p_iterate_current_exists()) {
-			// Go through all commands, if the start of the command matches the
-			m_p_iterate_get_current_string(buf, false);
-			if (strncmp(cmd, buf, cmd_len) == 0) {
-			    m_p_transport_out_ln();
-
-			    m_p_transport_out("\033[1;33m");
-				// Print the current command
-				uint32_t cmd_len = m_p_iterate_get_current_string(buf, true);
-				m_p_transport_out(buf);
-				m_p_transport_out("\033[0;39m");
-
-				// Align it to the longest command
-				m_p_iterate_align_with_longest_command(cmd_len);
-
-				// Print the arguments
-				m_p_iterate_get_current_string_arguments(buf);
-				m_p_transport_out(buf);
-
-			}
-			m_p_iterate_next();
-		}
-		m_p_print_prompt(cmd);
-	}
 }
 
 
