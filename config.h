@@ -10,7 +10,7 @@
 
 #define M_P_COMMAND_PROMPT "metal_prompt:/$ "
 #define M_P_COMMAND_NAME_LIMIT 255
-#define M_P_INTERFACE_ALLOW_QUIT
+#define M_P_ALLOW_QUIT
 #define M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
@@ -21,7 +21,7 @@
 // even when the command is already written in full
 #define M_P_DO_NOT_LIST_ON_FULL_COMMANDS
 
-// Enable/disable the uptime and benchmark commands
+// Enable/disable the uptime and benchmark commands (see systick.c)
 #define M_P_UPTIME
 
 
