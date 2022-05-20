@@ -52,23 +52,23 @@ m_p_command m_p_iterate_get_current_structure() {
 }
 
 
-uint32_t m_p_iterate_get_current_string(char *buf, bool color) {
+uint32_t m_p_iterate_get_current_string(char *buf, bool use_color) {
     uint32_t group_len = strlen(m_p_commands_enabled[list_group_index].group_name);
 
     strcpy(buf,"");
     uint32_t ans = 0;
 
     if ( group_len != 0 ) {
-        if (color) strcat(buf, "\033[1;33m");
+        if (use_color) strcat(buf, "\033[1;33m");
         strcat(buf, m_p_commands_enabled[list_group_index].group_name);
-        if (color) strcat(buf, "\033[1;39m");
+        if (use_color) strcat(buf, "\033[1;39m");
         strcat(buf, ".");
         ans += strlen(m_p_commands_enabled[list_group_index].group_name) + 1;
     }
-    if (color) strcat(buf, "\033[1;35m");
+    if (use_color) strcat(buf, "\033[1;35m");
     strcat(buf, m_p_commands_enabled[list_group_index].tests[list_command_index].command);
     ans += strlen(m_p_commands_enabled[list_group_index].tests[list_command_index].command);
-    if (color) strcat(buf, "\033[0;39m");
+    if (use_color) strcat(buf, "\033[0;39m");
 
     return ans;
 }
