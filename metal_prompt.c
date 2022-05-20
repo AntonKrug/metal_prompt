@@ -25,18 +25,37 @@ uint32_t longest_command    = 0;
 
 
 #pragma mark Public functions
+void m_p_cmd_line_generic() {
+    m_p_transport_out("\r\nTest Interface ");
+    m_p_transport_out(M_P_VERSION);
+    m_p_transport_out("\r\n");
+    m_p_print_prompt(NULL);
+    m_p_keep_runnning = true;
+
+    // Get what is the longest command length
+    longest_command = m_p_list_get_longest_size();
+
+    while (m_p_keep_runnning) {
+        char character;
+        if (m_p_transport_in(&character)) {
+            m_p_evaluate_character(character);
+        }
+    }
+}
+
+#pragma mark Private functions
 void m_p_print_prompt(char *cmd) {
     m_p_transport_out_ln();
     m_p_transport_out("\033[1;36m");
     m_p_transport_out(M_P_COMMAND_PROMPT);
     m_p_transport_out("\033[0;39m");
 
-	if (cmd != NULL) {
-	    m_p_transport_out(cmd);
-	}
+    if (cmd != NULL) {
+        m_p_transport_out(cmd);
+    }
 }
 
-#pragma mark Private functions
+
 uint32_t m_p_execute_cmd(char *cmd) {
 	char buf[M_P_COMMAND_NAME_LIMIT];
 
@@ -272,7 +291,7 @@ void m_p_auto_complete(char* cmd, uint32_t* caret) {
 
 		// Display only the added difference as the previous part of the command
 		// is already on the UART prompt
-		metal_prompt_transport_out_characters(cmd + cmd_len, common_location - cmd_len);
+		m_p_transport_out_characters(cmd + cmd_len, common_location - cmd_len);
 		*caret = strlen(cmd);
 	} else {
 		// There is nothing to add with auto-complete
@@ -411,7 +430,7 @@ void m_p_evaluate_character(char character) {
 				// Regular character, write it down on the screen and to the buffer
 				cmd[caret++] = character;
 				cmd[caret]   = 0;
-				metal_prompt_transport_out_characters(&character, 1);
+				m_p_transport_out_characters(&character, 1);
 			}
 
 			if (escape_sequence == 1 && character == '[') {
@@ -441,25 +460,6 @@ void m_p_evaluate_character(char character) {
 			break;
 	}
 	escape_sequence = escape_sequence_next;
-}
-
-
-void m_p_cmd_line_generic() {
-    m_p_transport_out("\r\nTest Interface ");
-    m_p_transport_out(METAL_PROMPT_VERSION);
-    m_p_transport_out("\r\n");
-	m_p_print_prompt(NULL);
-	m_p_keep_runnning = true;
-
-    // Get what is the longest command length
-    longest_command = m_p_list_get_longest_size();
-
-	while (m_p_keep_runnning) {
-		char character;
-		if (metal_prompt_transport_in(&character)) {
-			m_p_evaluate_character(character);
-		}
-	}
 }
 
 
