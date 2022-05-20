@@ -10,8 +10,6 @@
 
 #include "structures.h"
 
-#define M_P_ENABLED_SIZE 1
-
-extern m_p_group m_p_commands_enabled[];
+extern const m_p_group m_p_commands_enabled[];
 
 #endif /* METAL_PROMPT_COMMANDS_ENABLED_H_ */

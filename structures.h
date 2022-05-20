@@ -134,9 +134,9 @@ typedef struct {
 
 
 typedef struct {
-	char* command;
-	m_p_command_types type;
-	union {
+	const char* command;
+	const m_p_command_types type;
+	const union {
         m_p_command_void_void     void_void;
         m_p_command_void_chars    void_chars;
         m_p_command_void_uint32   void_uint32;
@@ -161,9 +161,8 @@ typedef struct {
 
 
 typedef struct {
-	char*        group_name;
-	uint32_t     testsSize;
-	m_p_command* tests;
+	const char*        namespace;
+	const m_p_command* commands;
 } m_p_group;
 
 

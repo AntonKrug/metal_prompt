@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 
-void m_p_bundled_list_all_tests() {
+void m_p_bundled_list_all_tests(void) {
 	char cmd[255] = "";
 	uint32_t carret = 0;
 
@@ -25,7 +25,7 @@ void m_p_bundled_list_all_tests() {
 }
 
 
-void m_p_bundled_configuration() {
+void m_p_bundled_configuration(void) {
 	char optimization[5];
 #ifdef NDEBUG
 	MSS_UART_polled_tx_string(uart_test_main, "Configuration: Release\r\n");
@@ -57,7 +57,7 @@ void m_p_bundled_configuration() {
 }
 
 
-void m_p_bundled_help() {
+void m_p_bundled_help(void) {
     m_p_transport_out("Help: \r\n\r\n");
     m_p_transport_out(" Ctrl+C exits the metal prompt interface\r\n\r\n");
     m_p_transport_out(" Ctrl+S cleans the screen\r\n\r\n");
@@ -68,31 +68,33 @@ void m_p_bundled_help() {
 
 
 #ifdef M_P_UPTIME
-uint32_t m_p_bundled_uptime() {
+uint32_t m_p_bundled_uptime(void) {
 	return m_p_systick_uptime_ticks;
 }
 
 
-void m_p_bundled_set_command_benchmark() {
+void m_p_bundled_set_command_benchmark(void) {
     m_p_transport_out("Command benchmark mode enabled, now each command will print how long it took to execute.\r\n");
     m_p_benchmark_commands = true;
 }
 #endif
 
 
-void m_p_bundled_quit() {
+void m_p_bundled_quit(void) {
     m_p_transport_out("Exiting...\r\n");
 	m_p_keep_runnning = false;
 }
 
 
 m_p_command m_p_bundled_list[] = {
-        M_P_BUNDLED_CONFIG_META,
-        M_P_BUNDLED_HELP_META,
-        M_P_BUNDLED_LIST_META,
+        { "configuration",         M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_configuration } },
+        { "help",                  M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_help } },
+        { "list",                  M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_list_all_tests } },
 #ifdef M_P_UPTIME
-        M_P_BUNDLED_BENCHMARK_META,
-        M_P_BUNDLED_UPTIME_META,
+        { "set_command_benchmark", M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_set_command_benchmark } },
+        { "uptime",                M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID, .uint32_void = { &m_p_bundled_uptime } },
 #endif
-        M_P_BUNLDED_QUIT_META
+        { "quit",                  M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_quit } },
+        { NULL }  // Terminator of the list
 };
+

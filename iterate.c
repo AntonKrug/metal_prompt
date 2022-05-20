@@ -14,63 +14,61 @@
 
 
 #pragma mark Private variables
-uint32_t list_group_index   = 0;
-uint32_t list_command_index = 0;
+uint32_t group_idx   = 0;
+uint32_t command_idx = 0;
 uint32_t longest_command    = 0;
 
 
 #pragma mark Public functions
 void m_p_iterate_begin() {
-    list_group_index   = 0;
-    list_command_index = 0;
+    group_idx   = 0;
+    command_idx = 0;
 }
 
 
 bool m_p_iterate_is_first() {
-    return (list_group_index == 0) && (list_command_index == 0);
+    return (0 == group_idx) && (0 == command_idx);
 }
 
 
 bool m_p_iterate_current_exists() {
-    if ( list_group_index < M_P_ENABLED_SIZE &&
-            list_command_index < m_p_commands_enabled[list_group_index].testsSize) {
-        return true;
-    }
-    return false;
+    return (NULL != m_p_commands_enabled[group_idx].namespace);
 }
 
 
 void m_p_iterate_next() {
-    list_command_index++;
-    if (list_command_index >= m_p_commands_enabled[list_group_index].testsSize) {
+    command_idx++;
+    if (NULL == m_p_commands_enabled[group_idx].commands[command_idx].command) {
         // Finished with current group, select new group
-        list_command_index = 0;
-        list_group_index++;  // no need to check here if it's valid group
+        command_idx = 0;
+        group_idx++;
+        // no need to check here if it's valid group as the loops later call the
+        // m_p_iterate_current_exists which will check if it's end of the groups
     }
 }
 
 
 m_p_command m_p_iterate_get_current_structure() {
-    return m_p_commands_enabled[list_group_index].tests[list_command_index];
+    return m_p_commands_enabled[group_idx].commands[command_idx];
 }
 
 
 uint32_t m_p_iterate_get_current_string(char *buf, bool use_color) {
-    uint32_t group_len = strlen(m_p_commands_enabled[list_group_index].group_name);
+    uint32_t group_len = strlen(m_p_commands_enabled[group_idx].namespace);
 
     strcpy(buf,"");
     uint32_t ans = 0;
 
     if ( group_len != 0 ) {
         if (use_color) strcat(buf, "\033[1;33m");
-        strcat(buf, m_p_commands_enabled[list_group_index].group_name);
+        strcat(buf, m_p_commands_enabled[group_idx].namespace);
         if (use_color) strcat(buf, "\033[1;39m");
         strcat(buf, ".");
-        ans += strlen(m_p_commands_enabled[list_group_index].group_name) + 1;
+        ans += strlen(m_p_commands_enabled[group_idx].namespace) + 1;
     }
     if (use_color) strcat(buf, "\033[1;35m");
-    strcat(buf, m_p_commands_enabled[list_group_index].tests[list_command_index].command);
-    ans += strlen(m_p_commands_enabled[list_group_index].tests[list_command_index].command);
+    strcat(buf, m_p_commands_enabled[group_idx].commands[command_idx].command);
+    ans += strlen(m_p_commands_enabled[group_idx].commands[command_idx].command);
     if (use_color) strcat(buf, "\033[0;39m");
 
     return ans;
@@ -82,7 +80,7 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
     strcat(buf, "return(");
     strcat(buf, "\033[1;39m");
 
-    switch (m_p_commands_enabled[list_group_index].tests[list_command_index].type) {
+    switch (m_p_commands_enabled[group_idx].commands[command_idx].type) {
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         case M_P_COMMAND_TYPE_RET_CHARS_ARG_VOID:
         case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
@@ -119,7 +117,7 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
     strcat(buf, ") arg(");
     strcat(buf, "\033[1;39m");
 
-    switch (m_p_commands_enabled[list_group_index].tests[list_command_index].type) {
+    switch (m_p_commands_enabled[group_idx].commands[command_idx].type) {
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 
         case M_P_COMMAND_TYPE_RET_VOID_ARG_CHARS:
