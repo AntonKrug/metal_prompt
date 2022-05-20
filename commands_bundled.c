@@ -58,11 +58,12 @@ void m_p_bundled_configuration() {
 
 
 void m_p_bundled_help() {
-    m_p_transport_out("Help: \r\n");
-    m_p_transport_out(" Ctrl+C exits the test interface\r\n");
-    m_p_transport_out(" Ctrl+S cleans the screen\r\n");
-    m_p_transport_out(" Up arrow repeats the last command\r\n");
-    m_p_transport_out(" Use TAB for auto-complete, or to list all possible commands\r\n");
+    m_p_transport_out("Help: \r\n\r\n");
+    m_p_transport_out(" Ctrl+C exits the metal prompt interface\r\n\r\n");
+    m_p_transport_out(" Ctrl+S cleans the screen\r\n\r\n");
+    m_p_transport_out(" Up arrow repeats the last command\r\n\r\n");
+    m_p_transport_out(" TAB auto-completes the command, if there are multiple options,\r\n");
+    m_p_transport_out(" then it will list all options.\r\n");
 }
 
 
