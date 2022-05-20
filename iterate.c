@@ -14,9 +14,9 @@
 
 
 #pragma mark Private variables
-uint32_t group_idx   = 0;
-uint32_t command_idx = 0;
-uint32_t longest_command    = 0;
+uint32_t group_idx       = 0;
+uint32_t command_idx     = 0;
+uint32_t longest_command = 0;
 
 
 #pragma mark Public functions
