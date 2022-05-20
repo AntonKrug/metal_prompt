@@ -8,6 +8,9 @@
 
 #include "commands_enabled.h"
 #include "config.h"
+#include "transport/interface.h"
+
+#include <string.h>
 
 
 #pragma mark Private variables
