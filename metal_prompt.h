@@ -21,8 +21,10 @@ extern void        m_p_cmd_line_generic(void);
 
 #pragma mark Private functions
 extern void        m_p_auto_complete(char* cmd, uint32_t* caret);
+extern void        m_p_print_prompt(char *cmd);
 
 #pragma mark Private functions - command list handlers
+extern void        m_p_evaluate_character(char character);
 extern void        m_p_list_begin(void);
 extern bool        m_p_list_is_first(void);
 extern bool        m_p_list_current_exist(void);
