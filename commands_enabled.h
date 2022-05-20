@@ -10,8 +10,8 @@
 
 #include "structures.h"
 
-#define METAL_PROMPT_ENABLED_SIZE 1
+#define M_P_ENABLED_SIZE 1
 
-extern metal_prompt_group metal_prompt_commands_enabled[];
+extern m_p_group m_p_commands_enabled[];
 
 #endif /* METAL_PROMPT_COMMANDS_ENABLED_H_ */

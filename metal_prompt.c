@@ -25,29 +25,29 @@ uint32_t longest_command    = 0;
 
 
 #pragma mark Public functions
-void metal_prompt_print_prompt(char *cmd) {
-    metal_prompt_transport_out_ln();
-    metal_prompt_transport_out("\033[1;36m");
-    metal_prompt_transport_out(METAL_PROMPT_COMMAND_PROMPT);
-    metal_prompt_transport_out("\033[0;39m");
+void m_p_print_prompt(char *cmd) {
+    m_p_transport_out_ln();
+    m_p_transport_out("\033[1;36m");
+    m_p_transport_out(M_P_COMMAND_PROMPT);
+    m_p_transport_out("\033[0;39m");
 
 	if (cmd != NULL) {
-	    metal_prompt_transport_out(cmd);
+	    m_p_transport_out(cmd);
 	}
 }
 
 #pragma mark Private functions
-uint32_t metal_prompt_execute_cmd(char *cmd) {
-	char buf[METAL_PROMPT_COMMAND_NAME_LIMIT];
+uint32_t m_p_execute_cmd(char *cmd) {
+	char buf[M_P_COMMAND_NAME_LIMIT];
 
 	// Temporary variables to hold argument inputs and the returned values too
 	char* ret_arg_char_ptr;
     uint32_t ret_arg_uint32;
 	uint64_t ret_arg_uint64;
 
-	metal_prompt_list_begin();
-	while (metal_prompt_list_current_exist()) {
-		metal_prompt_list_get_current_string(buf, false);
+	m_p_list_begin();
+	while (m_p_list_current_exist()) {
+		m_p_list_get_current_string(buf, false);
 
 		if (strcmp(cmd, buf)  == 0) {
 #ifdef METAL_PROMPT_UPTIME
@@ -55,10 +55,10 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
 #endif
 
 			// TODO: parse syntax of arguments. Only if syntax is OK return 0
-			metal_prompt_command selected_command = metal_prompt_list_get_current_structure();
+			m_p_command selected_command = m_p_list_get_current_structure();
 
 			// TODO: Depending on type call it differently / parse return etc.
-			metal_prompt_transport_out("\r\n");
+			m_p_transport_out("\r\n");
 
 			// TODO: Parse the argument first
 
@@ -66,7 +66,7 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
 			switch (selected_command.type) {
 
 			    // Return type void
-                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID:
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_VOID:
                     selected_command.void_void.action();
                     break;
 
@@ -76,11 +76,11 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
                     break;
 #endif
 
-                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT32:
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32:
                     selected_command.void_uint32.action(ret_arg_uint32);
                     break;
 
-                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT64:
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
                     selected_command.void_uint64.action(ret_arg_uint64);
                     break;
 
@@ -106,7 +106,7 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
 
 
                 // Return type uint32_t
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_VOID:
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID:
                     ret_arg_uint32 = selected_command.uint32_void.action();
                     break;
 
@@ -116,17 +116,17 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
                     break;
 #endif
 
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
                     ret_arg_uint32 = selected_command.uint32_uint32.action(ret_arg_uint32);
                     break;
 
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
                     ret_arg_uint32 = selected_command.uint32_uint64.action(ret_arg_uint64);
                     break;
 
 
                 // Return type uint64_t
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_VOID:
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
                     ret_arg_uint64 = selected_command.uint64_void.action();
                     break;
 
@@ -136,11 +136,11 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
                     break;
 #endif
 
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
                     ret_arg_uint64 = selected_command.uint64_uint32.action(ret_arg_uint32);
                     break;
 
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
                     ret_arg_uint64 = selected_command.uint64_uint64.action(ret_arg_uint64);
                     break;
 
@@ -153,12 +153,12 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
 
             // Display the returned type
             switch (selected_command.type) {
-                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID:
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_VOID:
 #ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
                 case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_CHARS:
 #endif
-                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT32:
-                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT64:
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32:
+                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
                     // Void returned, display nothing
                     break;
 
@@ -167,34 +167,34 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
                 case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
                 case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
                 case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
-                    metal_prompt_transport_out(ret_arg_char_ptr);
+                    m_p_transport_out(ret_arg_char_ptr);
                     break;
 #endif
 
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_VOID:
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID:
 #ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
                 case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
 #endif
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
+                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
                     itoa(ret_arg_uint32, buf, 16);
-                    metal_prompt_transport_out("0x");
-                    metal_prompt_transport_out(buf);
+                    m_p_transport_out("0x");
+                    m_p_transport_out(buf);
                     break;
 
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_VOID:
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
 #ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
                 case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
 #endif
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
-                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
+                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
                     itoa(ret_arg_uint64, buf, 16);
-                    metal_prompt_transport_out("0x");
-                    metal_prompt_transport_out(buf);
+                    m_p_transport_out("0x");
+                    m_p_transport_out(buf);
                     break;
 
                 default:
-                    // The misconfiguration should have been detect with the
+                    // The misconfiguration should have been detected with the
                     // previous case/switch statement, but just in case there
                     // is a bug in it, we will catch it here too.
                     // Abort the execution with a error!
@@ -204,27 +204,27 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
 
 
 #ifdef METAL_PROMPT_UPTIME
-			if (metal_prompt_benchmark_commands) {
+			if (m_p_benchmark_commands) {
 				itoa(metal_prompt_systick_uptime_ticks - begin, buf, 16);
-				metal_prompt_transport_out("\r\nCommand took 0x");
-				metal_prompt_transport_out(buf);
-				metal_prompt_transport_out(" ticks to execute");
+				m_p_transport_out("\r\nCommand took 0x");
+				m_p_transport_out(buf);
+				m_p_transport_out(" ticks to execute");
 			}
 #endif
 
 			return 0; // command executed, return success
 		}
-		metal_prompt_list_select_next();
+		m_p_list_select_next();
 	}
 
 	return 1; // no command found, return error
 }
 
 
-void metal_prompt_auto_complete(char* cmd, uint32_t* caret) {
-	char     first_command[METAL_PROMPT_COMMAND_NAME_LIMIT];
-	char     buf[METAL_PROMPT_COMMAND_NAME_LIMIT];
-	uint32_t common_location = METAL_PROMPT_COMMAND_NAME_LIMIT;
+void m_p_auto_complete(char* cmd, uint32_t* caret) {
+	char     first_command[M_P_COMMAND_NAME_LIMIT];
+	char     buf[M_P_COMMAND_NAME_LIMIT];
+	uint32_t common_location = M_P_COMMAND_NAME_LIMIT;
 	uint32_t cmd_len         = strlen(cmd);
 	uint32_t first           = 1;
 
@@ -237,12 +237,12 @@ void metal_prompt_auto_complete(char* cmd, uint32_t* caret) {
 #endif
 
 
-	metal_prompt_list_begin();
+	m_p_list_begin();
 
-	while (metal_prompt_list_current_exist()) {
+	while (m_p_list_current_exist()) {
 		// Go through all commands, if the start of the command matches the
 		// current cmd line, then find how many unique characters can be added
-		metal_prompt_list_get_current_string(buf, false);
+		m_p_list_get_current_string(buf, false);
 		if (strncmp(cmd, buf, cmd_len) == 0) {
 			if (first) {
 				strcpy(first_command, buf);
@@ -254,10 +254,10 @@ void metal_prompt_auto_complete(char* cmd, uint32_t* caret) {
 				common_location = overlap;
 			}
 		}
-		metal_prompt_list_select_next();
+		m_p_list_select_next();
 	}
 
-	if (common_location == METAL_PROMPT_COMMAND_NAME_LIMIT) {
+	if (common_location == M_P_COMMAND_NAME_LIMIT) {
 		// No common overlap found, probably wrong command / typo
 		// Do not auto complete anything.
 		return;
@@ -279,49 +279,49 @@ void metal_prompt_auto_complete(char* cmd, uint32_t* caret) {
 
 		// If it's full unique command = do nothing
 #ifdef TEST_DO_NOT_LIST_ON_FULL_COMMANDS
-		metal_prompt_list_begin();
-		while (metal_prompt_list_current_exist()) {
+		m_p_list_begin();
+		while (m_p_list_current_exist()) {
 			// Search if there is full match
-			metal_prompt_list_get_current_string(buf, false);
+			m_p_list_get_current_string(buf, false);
 			if (strcmp(cmd, buf) == 0) {
 				return;
 			}
-			metal_prompt_list_select_next();
+			m_p_list_select_next();
 		}
 #endif
 
 		// If not full command, then list all the options
 
-		metal_prompt_transport_out_ln();
-		metal_prompt_list_begin();
-		while (metal_prompt_list_current_exist()) {
+		m_p_transport_out_ln();
+		m_p_list_begin();
+		while (m_p_list_current_exist()) {
 			// Go through all commands, if the start of the command matches the
-			metal_prompt_list_get_current_string(buf, false);
+			m_p_list_get_current_string(buf, false);
 			if (strncmp(cmd, buf, cmd_len) == 0) {
-			    metal_prompt_transport_out_ln();
+			    m_p_transport_out_ln();
 
-			    metal_prompt_transport_out("\033[1;33m");
+			    m_p_transport_out("\033[1;33m");
 				// Print the current command
-				uint32_t cmd_len = metal_prompt_list_get_current_string(buf, true);
-				metal_prompt_transport_out(buf);
-				metal_prompt_transport_out("\033[0;39m");
+				uint32_t cmd_len = m_p_list_get_current_string(buf, true);
+				m_p_transport_out(buf);
+				m_p_transport_out("\033[0;39m");
 
 				// Align it to the longest command
-				metal_prompt_list_align_with_longest_command(cmd_len);
+				m_p_list_align_with_longest_command(cmd_len);
 
 				// Print the arguments
-				metal_prompt_list_get_current_string_arguments(buf);
-				metal_prompt_transport_out(buf);
+				m_p_list_get_current_string_arguments(buf);
+				m_p_transport_out(buf);
 
 			}
-			metal_prompt_list_select_next();
+			m_p_list_select_next();
 		}
-		metal_prompt_print_prompt(cmd);
+		m_p_print_prompt(cmd);
 	}
 }
 
 
-void metal_prompt_evaluate_character(char character) {
+void m_p_evaluate_character(char character) {
 	static char cmd[255];
 	static char cmd_old[255]="";
 	static uint32_t caret = 0;
@@ -333,16 +333,16 @@ void metal_prompt_evaluate_character(char character) {
 		case 0x0d:
 			// \r line feed or carriage return \n  (enter)
 			if (strlen(cmd)==0) {
-				metal_prompt_print_prompt(NULL);
+				m_p_print_prompt(NULL);
 				break;
 			}
 
 
-			if (metal_prompt_execute_cmd(cmd)) {
-			    metal_prompt_transport_out("\033[1;31m");
-			    metal_prompt_transport_out("\r\n[ERROR] ");
-                metal_prompt_transport_out("\033[0;39m");
-			    metal_prompt_transport_out("Missing command or wrong arguments...\r\n");
+			if (m_p_execute_cmd(cmd)) {
+			    m_p_transport_out("\033[1;31m");
+			    m_p_transport_out("\r\n[ERROR] ");
+                m_p_transport_out("\033[0;39m");
+			    m_p_transport_out("Missing command or wrong arguments...\r\n");
 			} else {
 				// Executed correctly the command, clean the command line
 			}
@@ -354,12 +354,12 @@ void metal_prompt_evaluate_character(char character) {
 			cmd[0] = 0;
 			caret = 0;
 
-			metal_prompt_print_prompt(NULL);
+			m_p_print_prompt(NULL);
 			break;
 
 		case 0x09:
 			// TAB
-			metal_prompt_auto_complete(cmd, &caret);
+			m_p_auto_complete(cmd, &caret);
 			break;
 
 		case 0x08:
@@ -369,30 +369,30 @@ void metal_prompt_evaluate_character(char character) {
 				// only remove character when there is something to delete
 				cmd[--caret] = 0;
 				// Go back 1 character, print space and go back 1 character again
-				metal_prompt_transport_out("\033[1D \033[1D");
+				m_p_transport_out("\033[1D \033[1D");
 			}
 			break;
 
 		case 0x03:
 			// Ctrl + C = quit
-			metal_prompt_keep_runnning = false;
-			metal_prompt_transport_out("\r\nCtrl + C, exiting ...\r\n");
+			m_p_keep_runnning = false;
+			m_p_transport_out("\r\nCtrl + C, exiting ...\r\n");
 			break;
 
 		case 0x13:
 			// Ctrl + S = clear screen
-		    metal_prompt_transport_out("\033[2J\033[H");
-			metal_prompt_print_prompt(cmd);
+		    m_p_transport_out("\033[2J\033[H");
+			m_p_print_prompt(cmd);
 			break;
 
 		case 0x0C:
 			// Ctrl + L = recall history
 			if (strlen(cmd) == 0) {
 				// When prompt empty, then print at the same prompt
-			    metal_prompt_transport_out(cmd_old);
+			    m_p_transport_out(cmd_old);
 			} else{
 				//  Print completely new prompt
-				metal_prompt_print_prompt(cmd_old);
+				m_p_print_prompt(cmd_old);
 			}
 
 			strcpy(cmd, cmd_old);
@@ -427,10 +427,10 @@ void metal_prompt_evaluate_character(char character) {
 				// Up arrow was pressed, copy previous command
 				if (strlen(cmd) == 0) {
 					// When prompt empty, then print at the same prompt
-				    metal_prompt_transport_out(cmd_old);
+				    m_p_transport_out(cmd_old);
 				} else{
 					//  Print completely new prompt
-					metal_prompt_print_prompt(cmd_old);
+					m_p_print_prompt(cmd_old);
 				}
 
 				strcpy(cmd, cmd_old);
@@ -444,48 +444,48 @@ void metal_prompt_evaluate_character(char character) {
 }
 
 
-void metal_prompt_cmd_line_generic() {
-    metal_prompt_transport_out("\r\nTest Interface ");
-    metal_prompt_transport_out(METAL_PROMPT_VERSION);
-    metal_prompt_transport_out("\r\n");
-	metal_prompt_print_prompt(NULL);
-	metal_prompt_keep_runnning = true;
+void m_p_cmd_line_generic() {
+    m_p_transport_out("\r\nTest Interface ");
+    m_p_transport_out(METAL_PROMPT_VERSION);
+    m_p_transport_out("\r\n");
+	m_p_print_prompt(NULL);
+	m_p_keep_runnning = true;
 
     // Get what is the longest command length
-    longest_command = metal_prompt_list_get_longest_size();
+    longest_command = m_p_list_get_longest_size();
 
-	while (metal_prompt_keep_runnning) {
+	while (m_p_keep_runnning) {
 		char character;
 		if (metal_prompt_transport_in(&character)) {
-			metal_prompt_evaluate_character(character);
+			m_p_evaluate_character(character);
 		}
 	}
 }
 
 
-void metal_prompt_list_begin() {
+void m_p_list_begin() {
 	list_group_index   = 0;
 	list_command_index = 0;
 }
 
 
-bool metal_prompt_list_is_first() {
+bool m_p_list_is_first() {
 	return (list_group_index == 0) && (list_command_index == 0);
 }
 
 
-bool metal_prompt_list_current_exist() {
-	if ( list_group_index < METAL_PROMPT_ENABLED_SIZE &&
-			list_command_index < metal_prompt_commands_enabled[list_group_index].testsSize) {
+bool m_p_list_current_exist() {
+	if ( list_group_index < M_P_ENABLED_SIZE &&
+			list_command_index < m_p_commands_enabled[list_group_index].testsSize) {
 		return true;
 	}
 	return false;
 }
 
 
-void metal_prompt_list_select_next() {
+void m_p_list_select_next() {
 	list_command_index++;
-	if (list_command_index >= metal_prompt_commands_enabled[list_group_index].testsSize) {
+	if (list_command_index >= m_p_commands_enabled[list_group_index].testsSize) {
 		// Finished with current group, select new group
 		list_command_index = 0;
 		list_group_index++;  // no need to check here if it's valid group
@@ -493,63 +493,63 @@ void metal_prompt_list_select_next() {
 }
 
 
-metal_prompt_command metal_prompt_list_get_current_structure() {
-	return metal_prompt_commands_enabled[list_group_index].tests[list_command_index];
+m_p_command m_p_list_get_current_structure() {
+	return m_p_commands_enabled[list_group_index].tests[list_command_index];
 }
 
 
-uint32_t metal_prompt_list_get_current_string(char *buf, bool color) {
-	uint32_t group_len = strlen(metal_prompt_commands_enabled[list_group_index].group_name);
+uint32_t m_p_list_get_current_string(char *buf, bool color) {
+	uint32_t group_len = strlen(m_p_commands_enabled[list_group_index].group_name);
 
 	strcpy(buf,"");
 	uint32_t ans = 0;
 
 	if ( group_len != 0 ) {
         if (color) strcat(buf, "\033[1;33m");
-		strcat(buf, metal_prompt_commands_enabled[list_group_index].group_name);
+		strcat(buf, m_p_commands_enabled[list_group_index].group_name);
         if (color) strcat(buf, "\033[1;39m");
 		strcat(buf, ".");
-        ans += strlen(metal_prompt_commands_enabled[list_group_index].group_name) + 1;
+        ans += strlen(m_p_commands_enabled[list_group_index].group_name) + 1;
 	}
     if (color) strcat(buf, "\033[1;35m");
-	strcat(buf, metal_prompt_commands_enabled[list_group_index].tests[list_command_index].command);
-	ans += strlen(metal_prompt_commands_enabled[list_group_index].tests[list_command_index].command);
+	strcat(buf, m_p_commands_enabled[list_group_index].tests[list_command_index].command);
+	ans += strlen(m_p_commands_enabled[list_group_index].tests[list_command_index].command);
     if (color) strcat(buf, "\033[0;39m");
 
 	return ans;
 }
 
 
-void metal_prompt_list_get_current_string_arguments(char *buf) {
+void m_p_list_get_current_string_arguments(char *buf) {
     strcpy(buf, "\033[1;30m");
 	strcat(buf, "return(");
     strcat(buf, "\033[1;39m");
 
-	switch (metal_prompt_commands_enabled[list_group_index].tests[list_command_index].type) {
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-	    case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_VOID:
-		case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
-        case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
-        case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+	switch (m_p_commands_enabled[list_group_index].tests[list_command_index].type) {
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+	    case M_P_COMMAND_TYPE_RET_CHARS_ARG_VOID:
+		case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
+        case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+        case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
 			strcat(buf, "char*   ");
 			break;
 #endif
 
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_VOID:
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+        case M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+        case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
 #endif
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+        case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
+        case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
             strcat(buf, "uint32_t");
         break;
 
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_VOID:
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
+        case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+        case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
 #endif
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
+        case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
+        case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
 			strcat(buf, "uint64_t");
 			break;
 
@@ -562,32 +562,32 @@ void metal_prompt_list_get_current_string_arguments(char *buf) {
 	strcat(buf, ") arg(");
     strcat(buf, "\033[1;39m");
 
-	switch (metal_prompt_commands_enabled[list_group_index].tests[list_command_index].type) {
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
+	switch (m_p_commands_enabled[list_group_index].tests[list_command_index].type) {
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 
-	    case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_CHARS:
-	    case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
-	    case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
-	    case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
-			strcat(buf, "char");
+	    case M_P_COMMAND_TYPE_RET_VOID_ARG_CHARS:
+	    case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
+	    case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+	    case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
+			strcat(buf, "char*");
 			break;
 #endif
 
-        case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT32:
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-        case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+        case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+        case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
 #endif
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
+        case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
+        case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
             strcat(buf, "uint32_t");
             break;
 
-        case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT64:
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-        case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+        case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+        case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
 #endif
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
-        case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
+        case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+        case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
             strcat(buf, "uint64_t");
             break;
 
@@ -604,27 +604,27 @@ void metal_prompt_list_get_current_string_arguments(char *buf) {
 
 
 // Find longest command in the set and return it's length
-uint32_t metal_prompt_list_get_longest_size(void) {
-    char  buf[METAL_PROMPT_COMMAND_NAME_LIMIT];
+uint32_t m_p_list_get_longest_size(void) {
+    char  buf[M_P_COMMAND_NAME_LIMIT];
 	uint32_t longest = 0;
 
-	metal_prompt_list_begin();
-	while (metal_prompt_list_current_exist()) {
-	    metal_prompt_list_get_current_string(buf, false);
+	m_p_list_begin();
+	while (m_p_list_current_exist()) {
+	    m_p_list_get_current_string(buf, false);
 		uint32_t current = strlen(buf);
 		if (longest < current) {
 			longest = current;
 		}
-		metal_prompt_list_select_next();
+		m_p_list_select_next();
 	}
 	return longest;
 }
 
 
 // Find align the current string with the longest command
-void metal_prompt_list_align_with_longest_command(uint32_t current_size) {
+void m_p_list_align_with_longest_command(uint32_t current_size) {
     for (uint32_t i = 0; i <= longest_command - current_size; ++i) {
         // <= on purpose, to add space even on the longest commands
-        metal_prompt_transport_out(" ");
+        m_p_transport_out(" ");
     }
 }

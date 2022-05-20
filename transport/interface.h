@@ -11,9 +11,9 @@
 #include <stdbool.h>
 
 #pragma mark Public functions
-extern void metal_prompt_transport_out(const char* text);
-extern void metal_prompt_transport_out_characters(const char* characters, uint32_t count);
-extern void metal_prompt_transport_out_ln(void);
-extern bool metal_prompt_transport_in(char* out_buffer);
+extern void m_p_transport_out(const char* text);
+extern void m_p_transport_out_characters(const char* characters, uint32_t count);
+extern void m_p_transport_out_ln(void);
+extern bool m_p_transport_in(char* out_buffer);
 
 #endif /* METAL_PROMPT_TRANSPORT_INTERFACE_H_ */

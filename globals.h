@@ -13,14 +13,14 @@
 #include <stdbool.h>
 
 #pragma mark Public variables
-extern bool metal_prompt_keep_runnning;
+extern bool m_p_keep_runnning;
 
-#ifdef METAL_PROMPT_UPTIME
-extern bool metal_prompt_benchmark_commands;
+#ifdef M_P_UPTIME
+extern bool m_p_benchmark_commands;
 #endif
 
-#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
-extern char metal_prompt_return_and_argument_buf[];
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+extern char m_p_return_and_argument_buf[];
 #endif
 
 

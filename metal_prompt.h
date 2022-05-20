@@ -13,27 +13,27 @@
 
 #include <stdbool.h>
 
-#define METAL_PROMPT_VERSION "v0.1"
+#define M_P_VERSION "v0.1"
 
 
 #pragma mark Public functions
-extern void metal_prompt_cmd_line_generic(void);
+extern void m_p_cmd_line_generic(void);
 
 
 #pragma mark Private functions
-extern void metal_prompt_auto_complete(char* cmd, uint32_t* caret);
+extern void m_p_auto_complete(char* cmd, uint32_t* caret);
 
 
 #pragma mark Private functions - command list handlers
-extern void                 metal_prompt_list_begin(void);
-extern bool                 metal_prompt_list_is_first(void);
-extern bool                 metal_prompt_list_current_exist(void);
-extern void                 metal_prompt_list_select_next(void);
-extern metal_prompt_command metal_prompt_list_get_current_structure(void);
-extern uint32_t             metal_prompt_list_get_current_string(char *buf, bool color);
-extern void                 metal_prompt_list_get_current_string_arguments(char *buf);
-extern void                 metal_prompt_list_align_with_longest_command(uint32_t current_size);
-extern uint32_t             metal_prompt_list_get_longest_size(void);
+extern void        m_p_list_begin(void);
+extern bool        m_p_list_is_first(void);
+extern bool        m_p_list_current_exist(void);
+extern void        m_p_list_select_next(void);
+extern m_p_command m_p_list_get_current_structure(void);
+extern uint32_t    m_p_list_get_current_string(char *buf, bool color);
+extern void        m_p_list_get_current_string_arguments(char *buf);
+extern void        m_p_list_align_with_longest_command(uint32_t current_size);
+extern uint32_t    m_p_list_get_longest_size(void);
 
 
 #endif /* METAL_PROMPT_METAL_PROMPT_H_ */

@@ -10,13 +10,13 @@
 #include <stdlib.h>
 
 
-#ifdef METAL_PROMPT_UPTIME
-volatile uint32_t metal_prompt_systick_uptime_ticks = 0;
+#ifdef M_P_UPTIME
+volatile uint32_t m_p_systick_uptime_ticks = 0;
 
 
 // Call this systick handler from application's systick handler
-void metal_prompt_systick_handler() {
-    metal_prompt_systick_uptime_ticks++;
+void m_p_systick_handler() {
+    m_p_systick_uptime_ticks++;
 }
 
 #endif

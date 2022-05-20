@@ -12,9 +12,9 @@
 
 #include <stdint.h>
 
-#ifdef METAL_PROMPT_UPTIME
-extern volatile uint32_t metal_prompt_systick_uptime_ticks;
-extern void              metal_prompt_systick_handler(void);
+#ifdef M_P_UPTIME
+extern volatile uint32_t m_p_systick_uptime_ticks;
+extern void              m_p_systick_handler(void);
 #endif
 
 
