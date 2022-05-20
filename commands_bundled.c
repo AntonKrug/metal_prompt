@@ -66,7 +66,7 @@ void metal_prompt_bundled_help() {
 
 
 #ifdef METAL_PROMPT_UPTIME
-uint64_t metal_prompt_uptime() {
+uint32_t metal_prompt_uptime() {
 	return metal_prompt_systick_uptime_ticks;
 }
 

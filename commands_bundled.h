@@ -18,7 +18,7 @@ extern void     metal_prompt_bundled_quit(void);
 
 #ifdef METAL_PROMPT_UPTIME
 extern void     metal_prompt_set_command_benchmark(void);
-extern uint64_t metal_prompt_uptime(void);
+extern uint32_t metal_prompt_uptime(void);
 #endif
 
 
@@ -26,7 +26,7 @@ extern uint64_t metal_prompt_uptime(void);
 #define METAL_PROMPT_BUNDLED_HELP_META      { "help",                  METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &metal_prompt_bundled_help } }
 #define METAL_PROMPT_BUNDLED_LIST_META      { "list",                  METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &metal_prompt_bundled_list_all_tests } }
 #define METAL_PROMPT_BUNDLED_BENCHMARK_META { "set_command_benchmark", METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &metal_prompt_set_command_benchmark } }
-#define METAL_PROMPT_BUNDLED_UPTIME_META    { "uptime",                METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_VOID, .uint64_void = { &metal_prompt_uptime } }
+#define METAL_PROMPT_BUNDLED_UPTIME_META    { "uptime",                METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_VOID, .uint32_void = { &metal_prompt_uptime } }
 #define METAL_PROMPT_BUNLDED_QUIT_META      { "quit",                  METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &metal_prompt_bundled_quit } }
 
 extern metal_prompt_command metal_prompt_bundled_list[];
