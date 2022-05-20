@@ -45,9 +45,12 @@ void metal_prompt_print_prompt(char *cmd) {
 #pragma mark Private functions
 uint32_t metal_prompt_execute_cmd(char *cmd) {
 	char buf[METAL_PROMPT_COMMAND_NAME_LIMIT];
-	char* ret_char_ptr;
-    uint32_t ret_uint32;
-	uint64_t ret_uint64;
+
+	// Temporary variables to hold argument inputs and the returned values too
+	char* ret_arg_char_ptr;
+    uint32_t ret_arg_uint32;
+	uint64_t ret_arg_uint64;
+
 	metal_prompt_list_begin();
 	while (metal_prompt_list_current_exist()) {
 		metal_prompt_list_get_current_string(buf, false);
@@ -63,32 +66,133 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
 			// TODO: Depending on type call it differently / parse return etc.
 			metal_prompt_transport_out("\r\n");
 
+			// TODO: Parse the argument first
+
+			// Execute the command
 			switch (selected_command.type) {
+
+			    // Return type void
+                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID:
+                    selected_command.void_void.action();
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_CHARS:
+                    selected_command.void_chars.action(ret_arg_char_ptr);
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT32:
+                    selected_command.void_uint32.action(ret_arg_uint32);
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT64:
+                    selected_command.void_uint64.action(ret_arg_uint64);
+                    break;
+
+
+                // Return type char*
 				case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_VOID:
-					ret_char_ptr = selected_command.chars_void.action();
-					metal_prompt_transport_out(ret_char_ptr);
+					ret_arg_char_ptr = selected_command.chars_void.action();
 					break;
 
+                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
+                    ret_arg_char_ptr = selected_command.chars_chars.action(ret_arg_char_ptr);
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+                    ret_arg_char_ptr = selected_command.chars_uint32.action(ret_arg_uint32);
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+                    ret_arg_char_ptr = selected_command.chars_uint64.action(ret_arg_uint64);
+                    break;
+
+
+                // Return type uint32_t
                 case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_VOID:
-                    ret_uint32 = selected_command.uint32_void.action();
-                    itoa(ret_uint32, buf, 16);
+                    ret_arg_uint32 = selected_command.uint32_void.action();
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+                    ret_arg_uint32 = selected_command.uint32_chars.action(ret_arg_char_ptr);
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
+                    ret_arg_uint32 = selected_command.uint32_uint32.action(ret_arg_uint32);
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+                    ret_arg_uint32 = selected_command.uint32_uint64.action(ret_arg_uint64);
+                    break;
+
+
+                // Return type uint64_t
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_VOID:
+                    ret_arg_uint64 = selected_command.uint64_void.action();
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
+                    ret_arg_uint64 = selected_command.uint64_chars.action(ret_arg_char_ptr);
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
+                    ret_arg_uint64 = selected_command.uint64_uint32.action(ret_arg_uint32);
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
+                    ret_arg_uint64 = selected_command.uint64_uint64.action(ret_arg_uint64);
+                    break;
+
+				default:
+				    // Misconfiguration of the command structure detected.
+				    // Abort the execution with a error!
+					return 1;
+					break;
+			}
+
+            // Display the returned type
+            switch (selected_command.type) {
+                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID:
+                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_CHARS:
+                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT32:
+                case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_UINT64:
+                    // Void returned, display nothing
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_VOID:
+                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
+                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+                case METAL_PROMPT_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+                    metal_prompt_transport_out(ret_arg_char_ptr);
+                    break;
+
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_VOID:
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+                    itoa(ret_arg_uint32, buf, 16);
                     metal_prompt_transport_out("0x");
                     metal_prompt_transport_out(buf);
                     break;
 
-				case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_VOID:
-				    ret_uint64 = selected_command.uint64_void.action();
-					itoa(ret_uint64, buf, 16);
-					metal_prompt_transport_out("0x");
-					metal_prompt_transport_out(buf);
-					break;
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_VOID:
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
+                case METAL_PROMPT_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
+                    itoa(ret_arg_uint64, buf, 16);
+                    metal_prompt_transport_out("0x");
+                    metal_prompt_transport_out(buf);
+                    break;
+
+                default:
+                    // The misconfiguration should have been detect with the
+                    // previous case/switch statement, but just in case there
+                    // is a bug in it, we will catch it here too.
+                    // Abort the execution with a error!
+                    return 1;
+                    break;
+            }
 
 
-				case METAL_PROMPT_COMMAND_TYPE_RET_VOID_ARG_VOID:
-				default:
-					selected_command.void_void.action();
-					break;
-			}
 #ifdef METAL_PROMPT_UPTIME
 			if (metal_prompt_benchmark_commands) {
 				itoa(metal_prompt_systick_uptime_ticks - begin, buf, 16);
@@ -102,6 +206,7 @@ uint32_t metal_prompt_execute_cmd(char *cmd) {
 		}
 		metal_prompt_list_select_next();
 	}
+
 	return 1; // no command found, return error
 }
 
