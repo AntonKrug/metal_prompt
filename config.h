@@ -12,7 +12,10 @@
 #define METAL_PROMPT_COMMAND_NAME_LIMIT 255
 #define METAL_PROMPT_INTERFACE_ALLOW_QUIT
 #define METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
+
+#ifdef METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_ENABLE
 #define METAL_PROMPT_RETURN_AND_ARGUMENT_STRING_BUFFER_SIZE 64
+#endif
 
 // Comment this out when you want the list and it's arguments be triggered
 // even when the command is already written in full
