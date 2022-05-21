@@ -13,13 +13,60 @@
 #include <string.h>
 
 
-#pragma mark Private variables
+#pragma mark - Private variables
+
+
 uint32_t group_idx       = 0;
 uint32_t command_idx     = 0;
 uint32_t longest_command = 0;
 
 
-#pragma mark Public functions
+#pragma mark - Private functions - color handling inside a buffer
+
+
+M_P_FORCE_OPTIMIZATION
+static void m_p_color_buf_default(char* buf) {
+#ifdef M_P_COLOR_ENABLE
+    strcat(buf, "\033[0;39m");
+#endif
+}
+
+
+M_P_FORCE_OPTIMIZATION
+static void m_p_color_buf_default_bold(char* buf) {
+#ifdef M_P_COLOR_ENABLE
+    strcat(buf, "\033[1;39m");
+#endif
+}
+
+
+M_P_FORCE_OPTIMIZATION
+static inline void m_p_color_buf_command_namespace(char* buf) {
+#ifdef M_P_COLOR_ENABLE
+    strcat(buf, "\033[1;33m");
+#endif
+}
+
+
+M_P_FORCE_OPTIMIZATION
+static inline void m_p_color_buf_command_name(char* buf) {
+#ifdef M_P_COLOR_ENABLE
+    strcat(buf, "\033[1;35m");
+#endif
+}
+
+
+M_P_FORCE_OPTIMIZATION
+static void m_p_color_buf_gray(char* buf) {
+#ifdef M_P_COLOR_ENABLE
+    strcat(buf, "\033[1;30m");
+#endif
+}
+
+
+#pragma mark - Public functions - iterate
+
+
 M_P_FORCE_OPTIMIZATION
 void m_p_iterate_begin() {
     group_idx   = 0;
@@ -66,26 +113,32 @@ uint32_t m_p_iterate_get_current_string(char *buf, bool use_color) {
     uint32_t ans = 0;
 
     if ( group_len != 0 ) {
-        if (use_color) strcat(buf, "\033[1;33m");
+        // Print namespace of the commands
+        if (use_color) m_p_color_buf_command_namespace(buf);
         strcat(buf, m_p_commands_enabled[group_idx].namespace);
-        if (use_color) strcat(buf, "\033[1;39m");
+
+        // Print in default color '.'
+        if (use_color) m_p_color_buf_default(buf);
         strcat(buf, ".");
         ans += strlen(m_p_commands_enabled[group_idx].namespace) + 1;
     }
-    if (use_color) strcat(buf, "\033[1;35m");
+
+    // Print the name of the command
+    if (use_color) m_p_color_buf_command_name(buf);
     strcat(buf, m_p_commands_enabled[group_idx].commands[command_idx].command);
     ans += strlen(m_p_commands_enabled[group_idx].commands[command_idx].command);
-    if (use_color) strcat(buf, "\033[0;39m");
+    if (use_color) m_p_color_buf_default(buf);
 
-    return ans;
+    return ans; // return count how many characters we added to the buffer
 }
 
 
 M_P_FORCE_OPTIMIZATION
 void m_p_iterate_get_current_string_arguments(char *buf) {
-    strcpy(buf, "\033[1;30m");
+    strcpy(buf, "");
+    m_p_color_buf_gray(buf);
     strcat(buf, "return(");
-    strcat(buf, "\033[1;39m");
+    m_p_color_buf_default_bold(buf);
 
     switch (m_p_commands_enabled[group_idx].commands[command_idx].type) {
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
@@ -120,9 +173,9 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
             break;
     }
 
-    strcat(buf, "\033[1;30m");
+    m_p_color_buf_gray(buf);
     strcat(buf, ") arg(");
-    strcat(buf, "\033[1;39m");
+    m_p_color_buf_default_bold(buf);
 
     switch (m_p_commands_enabled[group_idx].commands[command_idx].type) {
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
@@ -158,10 +211,9 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
             break;
     }
 
-    strcat(buf, "\033[1;30m");
+    m_p_color_buf_gray(buf);
     strcat(buf, ")");
-    strcat(buf, "\033[0;39m");
-
+    m_p_color_buf_default(buf);
 }
 
 
