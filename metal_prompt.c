@@ -406,8 +406,10 @@ M_P_FORCE_OPTIMIZATION
 void m_p_auto_complete(char* cmd, uint32_t* caret) {
     char     first_command[M_P_COMMAND_NAME_LIMIT];
     char     buf[M_P_COMMAND_NAME_LIMIT];
+
     uint32_t common_location = M_P_COMMAND_NAME_LIMIT;
     uint32_t cmd_len         = strlen(cmd);
+    bool     first           = true;
 
     // Allow auto-complete to work even with empty commands
 #ifndef M_P_AUTOCOMPLETE_ON_EMPTY_COMMANDS
@@ -423,8 +425,6 @@ void m_p_auto_complete(char* cmd, uint32_t* caret) {
     while (m_p_iterate_current_exists()) {
         // Go through all commands, if the start of the command matches the
         // current cmd line, then find how many unique characters can be added
-        static bool first = true;
-
         m_p_iterate_get_current_string(buf, false);
         if (strncmp(cmd, buf, cmd_len) == 0) {
             if (first) {
