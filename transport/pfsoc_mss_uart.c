@@ -4,6 +4,9 @@
  * Created: 24/03/2018
  */
 
+/* This is a transport implementation for Microchip - PolarFire SoC
+ * devices which can use the microchip subsystem (mss) UART peripherals
+ */
 
 #include "pfsoc_mss_uart.h"
 
