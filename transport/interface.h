@@ -8,6 +8,7 @@
 #ifndef METAL_PROMPT_TRANSPORT_INTERFACE_H_
 #define METAL_PROMPT_TRANSPORT_INTERFACE_H_
 
+#include <stdint.h>
 #include <stdbool.h>
 
 #pragma mark Public functions for generic transport interface
