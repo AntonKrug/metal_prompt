@@ -14,6 +14,7 @@
 //#define M_P_FORCE_OPTIMIZATION // uncomment this line instead for no optimizations
 #define M_P_ALLOW_QUIT
 #define M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+//#define M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
 #define M_P_COLOR_ENABLE
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE

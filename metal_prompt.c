@@ -75,9 +75,13 @@ static uint32_t m_p_execute_cmd(char *cmd) {
     char buf[M_P_COMMAND_NAME_LIMIT];
 
     // Temporary variables to hold argument inputs and the returned values too
-    char* ret_arg_char_ptr;
     uint32_t ret_arg_uint32;
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+    char* ret_arg_char_ptr;
+#endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
     uint64_t ret_arg_uint64;
+#endif
 
     m_p_iterate_begin();
     while (m_p_iterate_current_exists()) {
@@ -114,9 +118,11 @@ static uint32_t m_p_execute_cmd(char *cmd) {
                     selected_command.void_uint32.action(ret_arg_uint32);
                     break;
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
                     selected_command.void_uint64.action(ret_arg_uint64);
                     break;
+#endif
 
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
@@ -133,9 +139,11 @@ static uint32_t m_p_execute_cmd(char *cmd) {
                     ret_arg_char_ptr = selected_command.chars_uint32.action(ret_arg_uint32);
                     break;
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
                     ret_arg_char_ptr = selected_command.chars_uint64.action(ret_arg_uint64);
                     break;
+#endif
 #endif
 
 
@@ -154,11 +162,14 @@ static uint32_t m_p_execute_cmd(char *cmd) {
                     ret_arg_uint32 = selected_command.uint32_uint32.action(ret_arg_uint32);
                     break;
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
                     ret_arg_uint32 = selected_command.uint32_uint64.action(ret_arg_uint64);
                     break;
+#endif
 
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 // Return type uint64_t
                 case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
                     ret_arg_uint64 = selected_command.uint64_void.action();
@@ -177,6 +188,7 @@ static uint32_t m_p_execute_cmd(char *cmd) {
                 case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
                     ret_arg_uint64 = selected_command.uint64_uint64.action(ret_arg_uint64);
                     break;
+#endif
 
                 default:
                     // Misconfiguration of the command structure detected.
@@ -192,7 +204,9 @@ static uint32_t m_p_execute_cmd(char *cmd) {
                 case M_P_COMMAND_TYPE_RET_VOID_ARG_CHARS:
 #endif
                 case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32:
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
+#endif
                     // Void returned, display nothing
                     break;
 
@@ -200,7 +214,9 @@ static uint32_t m_p_execute_cmd(char *cmd) {
                 case M_P_COMMAND_TYPE_RET_CHARS_ARG_VOID:
                 case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
                 case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+#endif
                     m_p_transport_out(ret_arg_char_ptr);
                     break;
 #endif
@@ -210,12 +226,16 @@ static uint32_t m_p_execute_cmd(char *cmd) {
                 case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
 #endif
                 case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
+                    case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+#endif
                     itoa(ret_arg_uint32, buf, 16);
                     m_p_transport_out("0x");
                     m_p_transport_out(buf);
                     break;
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
                 case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
@@ -226,6 +246,7 @@ static uint32_t m_p_execute_cmd(char *cmd) {
                     m_p_transport_out("0x");
                     m_p_transport_out(buf);
                     break;
+#endif
 
                 default:
                     // The misconfiguration should have been detected with the
