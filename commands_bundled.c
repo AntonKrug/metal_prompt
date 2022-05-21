@@ -16,6 +16,8 @@
 #include <stdlib.h>
 
 
+#pragma mark - The default set prompt commands
+
 M_P_FORCE_OPTIMIZATION
 void m_p_bundled_list_all_tests(void) {
 	char cmd[255] = "";

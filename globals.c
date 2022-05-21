@@ -6,7 +6,10 @@
 
 #include "globals.h"
 
-#pragma mark Public variables
+
+#pragma mark - Public variables
+
+
 bool     m_p_keep_runnning      = true;
 
 #ifdef M_P_UPTIME

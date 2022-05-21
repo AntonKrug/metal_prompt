@@ -12,7 +12,10 @@
 
 #include <stdbool.h>
 
-#pragma mark Public variables
+
+#pragma mark - Public variables
+
+
 extern bool m_p_keep_runnning;
 
 #ifdef M_P_UPTIME

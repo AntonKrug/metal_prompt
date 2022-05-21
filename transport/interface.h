@@ -11,7 +11,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#pragma mark Public functions for generic transport interface
+#pragma mark - Public functions for generic transport interface
 extern void m_p_transport_out(const char* text);
 extern void m_p_transport_out_characters(const char* characters, uint32_t count);
 extern void m_p_transport_out_ln(void);

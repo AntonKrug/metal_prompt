@@ -19,7 +19,7 @@
 #include <stdbool.h>
 
 
-#pragma mark Private functions - color handling
+#pragma mark - Private functions - color handling
 
 
 M_P_FORCE_OPTIMIZATION
@@ -54,7 +54,7 @@ static void m_p_color_out_namespace(void) {
 }
 
 
-#pragma mark Private functions - prompt handling
+#pragma mark - Private functions - prompt handling
 
 
 M_P_FORCE_OPTIMIZATION
@@ -379,7 +379,7 @@ static void m_p_evaluate_character(char character) {
 }
 
 
-#pragma mark Public functions
+#pragma mark - Public functions
 
 
 M_P_FORCE_OPTIMIZATION

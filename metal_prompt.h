@@ -16,7 +16,9 @@
 #define M_P_VERSION "v0.1"
 
 
-#pragma mark Public functions
+#pragma mark - Public functions
+
+
 extern void  m_p_cmd_line_generic(void);
 extern void  m_p_auto_complete(char* cmd, uint32_t* caret);
 

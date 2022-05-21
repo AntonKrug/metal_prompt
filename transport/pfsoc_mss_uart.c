@@ -16,6 +16,7 @@
 
 mss_uart_instance_t* test_interface_uart_instance;
 
+#pragma mark - Public functions
 
 M_P_FORCE_OPTIMIZATION
 void m_p_cmd_line(mss_uart_instance_t* port_to_be_used, const char* application_name) {
@@ -23,6 +24,9 @@ void m_p_cmd_line(mss_uart_instance_t* port_to_be_used, const char* application_
 
     m_p_cmd_line_generic();
 }
+
+
+#pragma mark - Public functions implementing the transport interface
 
 
 M_P_FORCE_OPTIMIZATION

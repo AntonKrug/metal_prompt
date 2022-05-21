@@ -13,7 +13,8 @@
 #include <stdbool.h>
 
 
-#pragma mark Public functions
+#pragma mark - Public functions - iterate
+
 
 extern void        m_p_iterate_begin(void);
 extern bool        m_p_iterate_is_first(void);
