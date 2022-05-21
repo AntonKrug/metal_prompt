@@ -10,6 +10,17 @@ tests and a human friendly interactive use-case. It’s structured in such a way
 that in the future different transport layers could be implemented, but 
 currently it’s just using a UART.
 
+# Targets
+
+Mainly focusesd on GCC bare-metal projects, tested with Arm and RISC-V targets,
+both 32-bit and 64-bit. This project currently is not suitable for very low-end
+devices such as 8-bit with 1KB of RAM. Create issue if a 8-bit port of this 
+project would be useful to somebody and I could make that port.
+
+This project should work with other compilers after some tweaking, but by 
+default it's using GCC's features. 
+
+
 # The name
 
 `Metal Prompt` is a play with words that this is a minimalistic bare-metal 
