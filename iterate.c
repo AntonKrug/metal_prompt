@@ -16,9 +16,9 @@
 #pragma mark - Private variables
 
 
-uint32_t group_idx       = 0;
-uint32_t command_idx     = 0;
-uint32_t longest_command = 0;
+unsigned int group_idx       = 0;
+unsigned int command_idx     = 0;
+unsigned int longest_command = 0;
 
 
 #pragma mark - Private functions - color handling inside a buffer
@@ -106,11 +106,11 @@ m_p_command m_p_iterate_get_current_structure() {
 
 
 M_P_FORCE_OPTIMIZATION
-uint32_t m_p_iterate_get_current_string(char *buf, bool use_color) {
-    uint32_t group_len = strlen(m_p_commands_enabled[group_idx].namespace);
+unsigned int m_p_iterate_get_current_string(char *buf, bool use_color) {
+    unsigned int group_len = strlen(m_p_commands_enabled[group_idx].namespace);
 
     strcpy(buf,"");
-    uint32_t ans = 0;
+    unsigned int ans = 0;
 
     if ( group_len != 0 ) {
         // Print namespace of the commands
@@ -236,7 +236,7 @@ void m_p_iterate_set_size_of_longest_command(void) {
     m_p_iterate_begin();
     while (m_p_iterate_current_exists()) {
         m_p_iterate_get_current_string(buf, false);
-        uint32_t current = strlen(buf);
+        unsigned int current = strlen(buf);
         if (longest_command < current) {
             longest_command = current;
         }
@@ -247,8 +247,8 @@ void m_p_iterate_set_size_of_longest_command(void) {
 
 // Find align the current string with the longest command
 M_P_FORCE_OPTIMIZATION
-void m_p_iterate_align_with_longest_command(uint32_t current_size) {
-    for (uint32_t i = 0; i <= longest_command - current_size; ++i) {
+void m_p_iterate_align_with_longest_command(unsigned int current_size) {
+    for (unsigned int i = 0; i <= longest_command - current_size; ++i) {
         // <= on purpose, to add space even on the longest commands
         m_p_transport_out(" ");
     }

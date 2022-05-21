@@ -13,7 +13,7 @@
 
 #pragma mark - Public functions for generic transport interface
 extern void m_p_transport_out(const char* text);
-extern void m_p_transport_out_characters(const char* characters, uint32_t count);
+extern void m_p_transport_out_characters(const char* characters, unsigned int count);
 extern void m_p_transport_out_ln(void);
 extern bool m_p_transport_in(char* out_buffer);
 

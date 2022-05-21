@@ -16,16 +16,16 @@
 #pragma mark - Public functions - iterate
 
 
-extern void        m_p_iterate_begin(void);
-extern bool        m_p_iterate_is_first(void);
-extern bool        m_p_iterate_current_exists(void);
-extern void        m_p_iterate_next(void);
+extern void         m_p_iterate_begin(void);
+extern bool         m_p_iterate_is_first(void);
+extern bool         m_p_iterate_current_exists(void);
+extern void         m_p_iterate_next(void);
 
-extern m_p_command m_p_iterate_get_current_structure(void);
-extern uint32_t    m_p_iterate_get_current_string(char *buf, bool use_color);
-extern void        m_p_iterate_get_current_string_arguments(char *buf);
+extern m_p_command  m_p_iterate_get_current_structure(void);
+extern unsigned int m_p_iterate_get_current_string(char *buf, bool use_color);
+extern void         m_p_iterate_get_current_string_arguments(char *buf);
 
-extern void        m_p_iterate_set_size_of_longest_command(void);
-extern void        m_p_iterate_align_with_longest_command(uint32_t current_size);
+extern void         m_p_iterate_set_size_of_longest_command(void);
+extern void         m_p_iterate_align_with_longest_command(unsigned int current_size);
 
 #endif /* METAL_PROMPT_ITERATE_H_ */

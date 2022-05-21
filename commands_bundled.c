@@ -21,7 +21,7 @@
 M_P_FORCE_OPTIMIZATION
 void m_p_bundled_list_all_tests(void) {
 	char cmd[255] = "";
-	uint32_t carret = 0;
+	unsigned int carret = 0;
 
 
 	// Auto-complete now list commands on the when empty command is given

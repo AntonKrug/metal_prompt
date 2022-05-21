@@ -39,7 +39,7 @@ void m_p_transport_out(const char* text) {
 
 
 M_P_FORCE_OPTIMIZATION
-void m_p_transport_out_characters(const char* characters, uint32_t count) {
+void m_p_transport_out_characters(const char* characters, unsigned int count) {
     MSS_UART_polled_tx(test_interface_uart_instance, (const uint8_t*)characters, (uint32_t)count);
 }
 

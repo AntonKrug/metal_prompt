@@ -71,7 +71,7 @@ static void m_p_print_prompt(char *cmd) {
 
 
 M_P_FORCE_OPTIMIZATION
-static uint32_t m_p_execute_cmd(char *cmd) {
+static bool m_p_execute_cmd(char *cmd) {
     char buf[M_P_COMMAND_NAME_LIMIT];
 
     // Temporary variables to hold argument inputs and the returned values too
@@ -193,7 +193,7 @@ static uint32_t m_p_execute_cmd(char *cmd) {
                 default:
                     // Misconfiguration of the command structure detected.
                     // Abort the execution with a error!
-                    return 1;
+                    return false;
                     break;
             }
 
@@ -253,7 +253,7 @@ static uint32_t m_p_execute_cmd(char *cmd) {
                     // previous case/switch statement, but just in case there
                     // is a bug in it, we will catch it here too.
                     // Abort the execution with a error!
-                    return 1;
+                    return false;
                     break;
             }
 
@@ -267,12 +267,12 @@ static uint32_t m_p_execute_cmd(char *cmd) {
             }
 #endif
 
-            return 0; // command executed, return success
+            return true; // command executed, return success
         }
         m_p_iterate_next();
     }
 
-    return 1; // no command found, return error
+    return false; // no command found, return error
 }
 
 
@@ -280,9 +280,9 @@ M_P_FORCE_OPTIMIZATION
 static void m_p_evaluate_character(char character) {
     static char cmd[255];
     static char cmd_old[255]="";
-    static uint32_t caret = 0;
-    static uint32_t escape_sequence = 0;
-    static uint32_t escape_sequence_next = 0;
+    static unsigned int caret = 0;
+    static unsigned int escape_sequence = 0;
+    static unsigned int escape_sequence_next = 0;
 
     switch (character) {
         case 0x0a:
@@ -294,7 +294,7 @@ static void m_p_evaluate_character(char character) {
             }
 
 
-            if (m_p_execute_cmd(cmd)) {
+            if (!m_p_execute_cmd(cmd)) {
                 m_p_color_out_error();
                 m_p_transport_out("\r\n[ERROR]");
                 m_p_color_out_default();
@@ -424,13 +424,13 @@ void m_p_cmd_line_generic() {
 
 
 M_P_FORCE_OPTIMIZATION
-void m_p_auto_complete(char* cmd, uint32_t* caret) {
-    char     first_command[M_P_COMMAND_NAME_LIMIT];
-    char     buf[M_P_COMMAND_NAME_LIMIT];
+void m_p_auto_complete(char* cmd, unsigned int* caret) {
+    char         first_command[M_P_COMMAND_NAME_LIMIT];
+    char         buf[M_P_COMMAND_NAME_LIMIT];
 
-    uint32_t common_location = M_P_COMMAND_NAME_LIMIT;
-    uint32_t cmd_len         = strlen(cmd);
-    bool     first           = true;
+    unsigned int common_location = M_P_COMMAND_NAME_LIMIT;
+    unsigned int cmd_len         = strlen(cmd);
+    bool         first           = true;
 
     // Allow auto-complete to work even with empty commands
 #ifndef M_P_AUTOCOMPLETE_ON_EMPTY_COMMANDS
@@ -453,7 +453,7 @@ void m_p_auto_complete(char* cmd, uint32_t* caret) {
                 first = false;
             }
 
-            uint32_t overlap = strspn(first_command, buf);
+            unsigned int overlap = strspn(first_command, buf);
             if (overlap < common_location) {
                 common_location = overlap;
             }
@@ -506,7 +506,7 @@ void m_p_auto_complete(char* cmd, uint32_t* caret) {
 
                 m_p_color_out_namespace();
                 // Print the current command
-                uint32_t cmd_len = m_p_iterate_get_current_string(buf, true);
+                unsigned int cmd_len = m_p_iterate_get_current_string(buf, true);
                 m_p_transport_out(buf);
                 m_p_color_out_default();
 
