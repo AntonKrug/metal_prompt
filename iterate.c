@@ -20,22 +20,26 @@ uint32_t longest_command = 0;
 
 
 #pragma mark Public functions
+M_P_FORCE_OPTIMIZATION
 void m_p_iterate_begin() {
     group_idx   = 0;
     command_idx = 0;
 }
 
 
+M_P_FORCE_OPTIMIZATION
 bool m_p_iterate_is_first() {
     return (0 == group_idx) && (0 == command_idx);
 }
 
 
+M_P_FORCE_OPTIMIZATION
 bool m_p_iterate_current_exists() {
     return (NULL != m_p_commands_enabled[group_idx].namespace);
 }
 
 
+M_P_FORCE_OPTIMIZATION
 void m_p_iterate_next() {
     command_idx++;
     if (NULL == m_p_commands_enabled[group_idx].commands[command_idx].command) {
@@ -48,11 +52,13 @@ void m_p_iterate_next() {
 }
 
 
+M_P_FORCE_OPTIMIZATION
 m_p_command m_p_iterate_get_current_structure() {
     return m_p_commands_enabled[group_idx].commands[command_idx];
 }
 
 
+M_P_FORCE_OPTIMIZATION
 uint32_t m_p_iterate_get_current_string(char *buf, bool use_color) {
     uint32_t group_len = strlen(m_p_commands_enabled[group_idx].namespace);
 
@@ -75,6 +81,7 @@ uint32_t m_p_iterate_get_current_string(char *buf, bool use_color) {
 }
 
 
+M_P_FORCE_OPTIMIZATION
 void m_p_iterate_get_current_string_arguments(char *buf) {
     strcpy(buf, "\033[1;30m");
     strcat(buf, "return(");
@@ -158,6 +165,7 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
 }
 
 
+M_P_FORCE_OPTIMIZATION
 void m_p_iterate_set_size_of_longest_command(void) {
     char  buf[M_P_COMMAND_NAME_LIMIT];
 
@@ -174,6 +182,7 @@ void m_p_iterate_set_size_of_longest_command(void) {
 
 
 // Find align the current string with the longest command
+M_P_FORCE_OPTIMIZATION
 void m_p_iterate_align_with_longest_command(uint32_t current_size) {
     for (uint32_t i = 0; i <= longest_command - current_size; ++i) {
         // <= on purpose, to add space even on the longest commands

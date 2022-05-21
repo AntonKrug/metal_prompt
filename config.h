@@ -9,9 +9,12 @@
 #define METAL_PROMPT_CONFIG_H_
 
 #define M_P_COMMAND_PROMPT "metal_prompt:/$ "
-#define M_P_COMMAND_NAME_LIMIT 255
+#define M_P_COMMAND_NAME_LIMIT 256
+#define M_P_FORCE_OPTIMIZATION __attribute__((optimize("-Os")))
+//#define M_P_FORCE_OPTIMIZATION // uncomment this line for no optimizations
 #define M_P_ALLOW_QUIT
 #define M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+#define M_P_COLOR_ENABLE
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 #define M_P_RETURN_AND_ARGUMENT_STRING_BUFFER_SIZE 64

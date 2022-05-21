@@ -20,6 +20,7 @@
 
 
 #pragma mark Private functions
+M_P_FORCE_OPTIMIZATION
 void m_p_print_prompt(char *cmd) {
     m_p_transport_out_ln();
     m_p_transport_out("\033[1;36m");
@@ -32,6 +33,7 @@ void m_p_print_prompt(char *cmd) {
 }
 
 
+M_P_FORCE_OPTIMIZATION
 uint32_t m_p_execute_cmd(char *cmd) {
     char buf[M_P_COMMAND_NAME_LIMIT];
 
@@ -216,6 +218,7 @@ uint32_t m_p_execute_cmd(char *cmd) {
 }
 
 
+M_P_FORCE_OPTIMIZATION
 void m_p_evaluate_character(char character) {
     static char cmd[255];
     static char cmd_old[255]="";
@@ -340,6 +343,7 @@ void m_p_evaluate_character(char character) {
 
 
 #pragma mark Public functions
+M_P_FORCE_OPTIMIZATION
 void m_p_cmd_line_generic() {
     m_p_transport_out("\r\nTest Interface ");
     m_p_transport_out(M_P_VERSION);
@@ -359,6 +363,7 @@ void m_p_cmd_line_generic() {
 }
 
 
+M_P_FORCE_OPTIMIZATION
 void m_p_auto_complete(char* cmd, uint32_t* caret) {
     char     first_command[M_P_COMMAND_NAME_LIMIT];
     char     buf[M_P_COMMAND_NAME_LIMIT];

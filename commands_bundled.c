@@ -11,10 +11,12 @@
 #include "transport/interface.h"
 #include "systick.h"
 #include "globals.h"
+#include "config.h"
 
 #include <stdlib.h>
 
 
+M_P_FORCE_OPTIMIZATION
 void m_p_bundled_list_all_tests(void) {
 	char cmd[255] = "";
 	uint32_t carret = 0;
@@ -25,6 +27,7 @@ void m_p_bundled_list_all_tests(void) {
 }
 
 
+M_P_FORCE_OPTIMIZATION
 void m_p_bundled_configuration(void) {
 	char optimization[5];
 #ifdef NDEBUG
@@ -57,6 +60,7 @@ void m_p_bundled_configuration(void) {
 }
 
 
+M_P_FORCE_OPTIMIZATION
 void m_p_bundled_help(void) {
     m_p_transport_out("Help: \r\n\r\n");
     m_p_transport_out(" Ctrl+C exits the metal prompt interface\r\n\r\n");
@@ -68,18 +72,23 @@ void m_p_bundled_help(void) {
 
 
 #ifdef M_P_UPTIME
+
+M_P_FORCE_OPTIMIZATION
 uint32_t m_p_bundled_uptime(void) {
 	return m_p_systick_uptime_ticks;
 }
 
 
+M_P_FORCE_OPTIMIZATION
 void m_p_bundled_set_command_benchmark(void) {
     m_p_transport_out("Command benchmark mode enabled, now each command will print how long it took to execute.\r\n");
     m_p_benchmark_commands = true;
 }
+
 #endif
 
 
+M_P_FORCE_OPTIMIZATION
 void m_p_bundled_quit(void) {
     m_p_transport_out("Exiting...\r\n");
 	m_p_keep_runnning = false;
