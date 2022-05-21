@@ -21,9 +21,11 @@ typedef struct {
 } m_p_command_void_void;
 
 
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 typedef struct {
     void (*action)(char*);
 } m_p_command_void_chars;
+#endif
 
 
 typedef struct {
@@ -39,6 +41,7 @@ typedef struct {
 #pragma mark - Structs with char* return type
 
 
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 typedef struct {
 	char* (*action)(void);
 } m_p_command_chars_void;
@@ -57,6 +60,7 @@ typedef struct {
 typedef struct {
     char* (*action)(uint64_t);
 } m_p_command_chars_uint64;
+#endif
 
 
 #pragma mark - Structs with uint32_t return type
@@ -67,9 +71,11 @@ typedef struct {
 } m_p_command_uint32_void;
 
 
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 typedef struct {
     uint32_t (*action)(char*);
 } m_p_command_uint32_chars;
+#endif
 
 
 typedef struct {
@@ -90,9 +96,11 @@ typedef struct {
 } m_p_command_uint64_void;
 
 
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 typedef struct {
     uint64_t (*action)(char*);
 } m_p_command_uint64_chars;
+#endif
 
 
 typedef struct {
@@ -148,22 +156,30 @@ typedef struct {
 	const m_p_command_types type;
 	const union {
         m_p_command_void_void     void_void;
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         m_p_command_void_chars    void_chars;
+#endif
         m_p_command_void_uint32   void_uint32;
         m_p_command_void_uint64   void_uint64;
 
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         m_p_command_chars_void    chars_void;
         m_p_command_chars_chars   chars_chars;
         m_p_command_chars_uint32  chars_uint32;
 		m_p_command_chars_uint64  chars_uint64;
+#endif
 
         m_p_command_uint32_void   uint32_void;
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         m_p_command_uint32_chars  uint32_chars;
+#endif
         m_p_command_uint32_uint32 uint32_uint32;
         m_p_command_uint32_uint64 uint32_uint64;
 
 		m_p_command_uint64_void   uint64_void;
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         m_p_command_uint64_chars  uint64_chars;
+#endif
         m_p_command_uint64_uint32 uint64_uint32;
         m_p_command_uint64_uint64 uint64_uint64;
 	};
