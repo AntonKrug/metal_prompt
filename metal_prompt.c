@@ -19,13 +19,50 @@
 #include <stdbool.h>
 
 
-#pragma mark Private functions
+#pragma mark Private functions - color handling
+
+
+M_P_FORCE_OPTIMIZATION
+void m_p_color_out_default(void) {
+#ifdef M_P_COLOR_ENABLE
+    m_p_transport_out("\033[0;39m");
+#endif
+}
+
+
+M_P_FORCE_OPTIMIZATION
+void m_p_color_out_prompt(void) {
+#ifdef M_P_COLOR_ENABLE
+    m_p_transport_out("\033[1;36m");
+#endif
+}
+
+
+M_P_FORCE_OPTIMIZATION
+void m_p_color_out_error(void) {
+#ifdef M_P_COLOR_ENABLE
+    m_p_transport_out("\033[1;31m");
+#endif
+}
+
+
+M_P_FORCE_OPTIMIZATION
+void m_p_color_out_namespace(void) {
+#ifdef M_P_COLOR_ENABLE
+    m_p_transport_out("\033[1;33m");
+#endif
+}
+
+
+#pragma mark Private functions - prompt handling
+
+
 M_P_FORCE_OPTIMIZATION
 void m_p_print_prompt(char *cmd) {
     m_p_transport_out_ln();
-    m_p_transport_out("\033[1;36m");
+    m_p_color_out_prompt();
     m_p_transport_out(M_P_COMMAND_PROMPT);
-    m_p_transport_out("\033[0;39m");
+    m_p_color_out_default();
 
     if (cmd != NULL) {
         m_p_transport_out(cmd);
@@ -237,10 +274,10 @@ void m_p_evaluate_character(char character) {
 
 
             if (m_p_execute_cmd(cmd)) {
-                m_p_transport_out("\033[1;31m");
-                m_p_transport_out("\r\n[ERROR] ");
-                m_p_transport_out("\033[0;39m");
-                m_p_transport_out("Missing command or wrong arguments...\r\n");
+                m_p_color_out_error();
+                m_p_transport_out("\r\n[ERROR]");
+                m_p_color_out_default();
+                m_p_transport_out(" Missing command or wrong arguments...\r\n");
             } else {
                 // Executed correctly the command, clean the command line
             }
@@ -343,6 +380,8 @@ void m_p_evaluate_character(char character) {
 
 
 #pragma mark Public functions
+
+
 M_P_FORCE_OPTIMIZATION
 void m_p_cmd_line_generic() {
     m_p_transport_out("\r\nTest Interface ");
@@ -444,11 +483,11 @@ void m_p_auto_complete(char* cmd, uint32_t* caret) {
             if (strncmp(cmd, buf, cmd_len) == 0) {
                 m_p_transport_out_ln();
 
-                m_p_transport_out("\033[1;33m");
+                m_p_color_out_namespace();
                 // Print the current command
                 uint32_t cmd_len = m_p_iterate_get_current_string(buf, true);
                 m_p_transport_out(buf);
-                m_p_transport_out("\033[0;39m");
+                m_p_color_out_default();
 
                 // Align it to the longest command
                 m_p_iterate_align_with_longest_command(cmd_len);
