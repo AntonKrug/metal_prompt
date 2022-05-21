@@ -23,7 +23,7 @@
 
 
 M_P_FORCE_OPTIMIZATION
-void m_p_color_out_default(void) {
+static void m_p_color_out_default(void) {
 #ifdef M_P_COLOR_ENABLE
     m_p_transport_out("\033[0;39m");
 #endif
@@ -31,7 +31,7 @@ void m_p_color_out_default(void) {
 
 
 M_P_FORCE_OPTIMIZATION
-void m_p_color_out_prompt(void) {
+static void m_p_color_out_prompt(void) {
 #ifdef M_P_COLOR_ENABLE
     m_p_transport_out("\033[1;36m");
 #endif
@@ -39,7 +39,7 @@ void m_p_color_out_prompt(void) {
 
 
 M_P_FORCE_OPTIMIZATION
-void m_p_color_out_error(void) {
+static void m_p_color_out_error(void) {
 #ifdef M_P_COLOR_ENABLE
     m_p_transport_out("\033[1;31m");
 #endif
@@ -47,7 +47,7 @@ void m_p_color_out_error(void) {
 
 
 M_P_FORCE_OPTIMIZATION
-void m_p_color_out_namespace(void) {
+static void m_p_color_out_namespace(void) {
 #ifdef M_P_COLOR_ENABLE
     m_p_transport_out("\033[1;33m");
 #endif
@@ -58,7 +58,7 @@ void m_p_color_out_namespace(void) {
 
 
 M_P_FORCE_OPTIMIZATION
-void m_p_print_prompt(char *cmd) {
+static void m_p_print_prompt(char *cmd) {
     m_p_transport_out_ln();
     m_p_color_out_prompt();
     m_p_transport_out(M_P_COMMAND_PROMPT);
@@ -71,7 +71,7 @@ void m_p_print_prompt(char *cmd) {
 
 
 M_P_FORCE_OPTIMIZATION
-uint32_t m_p_execute_cmd(char *cmd) {
+static uint32_t m_p_execute_cmd(char *cmd) {
     char buf[M_P_COMMAND_NAME_LIMIT];
 
     // Temporary variables to hold argument inputs and the returned values too
@@ -256,7 +256,7 @@ uint32_t m_p_execute_cmd(char *cmd) {
 
 
 M_P_FORCE_OPTIMIZATION
-void m_p_evaluate_character(char character) {
+static void m_p_evaluate_character(char character) {
     static char cmd[255];
     static char cmd_old[255]="";
     static uint32_t caret = 0;
