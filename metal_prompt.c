@@ -19,52 +19,19 @@
 #include <stdbool.h>
 
 
-#pragma mark - Private functions - color handling
-
-
-M_P_FORCE_OPTIMIZATION
-static void m_p_color_out_default(void) {
-#ifdef M_P_COLOR_ENABLE
-    m_p_transport_out("\033[0;39m");
-#endif
-}
-
-
-M_P_FORCE_OPTIMIZATION
-static void m_p_color_out_prompt(void) {
-#ifdef M_P_COLOR_ENABLE
-    m_p_transport_out("\033[1;36m");
-#endif
-}
-
-
-M_P_FORCE_OPTIMIZATION
-static void m_p_color_out_error(void) {
-#ifdef M_P_COLOR_ENABLE
-    m_p_transport_out("\033[1;31m");
-#endif
-}
-
-
-#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
-M_P_FORCE_OPTIMIZATION
-static void m_p_color_out_namespace(void) {
-#ifdef M_P_COLOR_ENABLE
-    m_p_transport_out("\033[1;33m");
-#endif
-}
-#endif
-
-
 #pragma mark - Private functions - prompt handling
 
 
 M_P_FORCE_OPTIMIZATION
 static void m_p_print_prompt(char *cmd) {
     m_p_transport_out_ln();
+#ifdef M_P_COLOR_ENABLE
     m_p_color_out_prompt();
+#endif
     m_p_transport_out(M_P_COMMAND_PROMPT);
+#ifdef M_P_COLOR_ENABLE
     m_p_color_out_default();
+#endif
 
     if (cmd != NULL) {
         m_p_transport_out(cmd);
@@ -297,9 +264,13 @@ static void m_p_evaluate_character(char character) {
 
 
             if (!m_p_execute_cmd(cmd)) {
+#ifdef M_P_COLOR_ENABLE
                 m_p_color_out_error();
+#endif
                 m_p_transport_out("\r\n[ERROR]");
+#ifdef M_P_COLOR_ENABLE
                 m_p_color_out_default();
+#endif
                 m_p_transport_out(" Missing command or wrong arguments...\r\n");
             } else {
                 // Executed correctly the command, clean the command line
@@ -520,11 +491,15 @@ void m_p_auto_complete(char* cmd, unsigned int* caret) {
             if (strncmp(cmd, buf, cmd_len) == 0) {
                 m_p_transport_out_ln();
 
+#ifdef M_P_COLOR_ENABLE
                 m_p_color_out_namespace();
+#endif
                 // Print the current command
                 unsigned int cmd_len = m_p_iterate_get_current_string(buf, true);
                 m_p_transport_out(buf);
+#ifdef M_P_COLOR_ENABLE
                 m_p_color_out_default();
+#endif
 
                 // Align it to the longest command
                 m_p_iterate_align_with_longest_command(cmd_len);
