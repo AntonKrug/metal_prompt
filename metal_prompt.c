@@ -333,11 +333,13 @@ static void m_p_evaluate_character(char character) {
             }
             break;
 
+#ifdef M_P_ALLOW_QUIT
         case 0x03:
             // Ctrl + C = quit
             m_p_keep_runnning = false;
             m_p_transport_out("\r\nCtrl + C, exiting ...\r\n");
             break;
+#endif
 
         case 0x13:
             // Ctrl + S = clear screen

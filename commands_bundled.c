@@ -68,7 +68,9 @@ void m_p_bundled_configuration(void) {
 M_P_FORCE_OPTIMIZATION
 void m_p_bundled_help(void) {
     m_p_transport_out("Help: \r\n\r\n");
+#ifdef M_P_ALLOW_QUIT
     m_p_transport_out(" Ctrl+C exits the metal prompt interface\r\n\r\n");
+#endif
     m_p_transport_out(" Ctrl+S cleans the screen\r\n\r\n");
     m_p_transport_out(" Up arrow repeats the last command\r\n\r\n");
 #ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
