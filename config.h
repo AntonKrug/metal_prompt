@@ -16,7 +16,11 @@
 #define M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 //#define M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
 #define M_P_COLOR_ENABLE
-//#define M_P_LIST_AND_AUTOCOMPLETE_ENABLE
+#define M_P_LIST_AND_AUTOCOMPLETE_ENABLE
+
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
+#define M_P_AUTOCOMPLETE_ON_EMPTY_COMMANDS
+#endif
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 #define M_P_RETURN_AND_ARGUMENT_STRING_BUFFER_SIZE 48
@@ -26,7 +30,6 @@
 // even when the command is already written in full
 //#define M_P_DO_NOT_LIST_ON_FULL_COMMANDS
 
-#define M_P_AUTOCOMPLETE_ON_EMPTY_COMMANDS
 
 // Enable/disable the uptime and benchmark commands (see systick.c)
 #define M_P_UPTIME
