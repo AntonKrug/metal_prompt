@@ -74,7 +74,7 @@ int main() {
 
     // configure UART instance, baud rate, parity, stop bits...
 
-    m_p_cmd_line(&myUartInstance);
+    m_p_prompt(&myUartInstance);
 
     // do something after the cmd line quit (if the config.h allows the cmd_line
     // to quit)
