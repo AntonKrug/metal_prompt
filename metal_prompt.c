@@ -18,6 +18,7 @@
 #include "config.h"
 #include "globals.h"
 #include "iterate.h"
+#include "color.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -386,7 +387,7 @@ static void m_p_evaluate_character(char character) {
 
 
 M_P_FORCE_OPTIMIZATION
-void m_p_cmd_line_generic() {
+void m_p_prompt_generic() {
     m_p_transport_out("\r\nTest Interface ");
     m_p_transport_out(M_P_VERSION);
     m_p_transport_out("\r\n");

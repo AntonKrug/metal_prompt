@@ -24,7 +24,7 @@
 #pragma mark - Public functions
 
 
-extern void  m_p_cmd_line_generic(void);
+extern void  m_p_prompt_generic(void);
 #ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
 extern void  m_p_auto_complete(char* cmd, unsigned int* caret);
 #endif

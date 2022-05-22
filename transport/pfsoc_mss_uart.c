@@ -4,7 +4,8 @@
  * Created: 24/03/2018
  */
 
-/* This is a transport implementation for Microchip - PolarFire SoC
+/*
+ * This is a transport implementation for Microchip - PolarFire SoC
  * devices which can use the microchip subsystem (mss) UART peripherals
  */
 
@@ -17,15 +18,15 @@
 #include <stdint.h>
 
 
-mss_uart_instance_t* test_interface_uart_instance;
+mss_uart_instance_t* uart_instance;
 
 #pragma mark - Public functions
 
 M_P_FORCE_OPTIMIZATION
-void m_p_cmd_line(mss_uart_instance_t* port_to_be_used) {
-    test_interface_uart_instance = port_to_be_used;
+void m_p_prompt(mss_uart_instance_t* port_to_be_used) {
+    uart_instance = port_to_be_used;
 
-    m_p_cmd_line_generic();
+    m_p_prompt_generic();
 }
 
 
@@ -34,13 +35,13 @@ void m_p_cmd_line(mss_uart_instance_t* port_to_be_used) {
 
 M_P_FORCE_OPTIMIZATION
 void m_p_transport_out(const char* text) {
-    MSS_UART_polled_tx_string(test_interface_uart_instance, (const uint8_t*)text);
+    MSS_UART_polled_tx_string(uart_instance, (const uint8_t*)text);
 }
 
 
 M_P_FORCE_OPTIMIZATION
 void m_p_transport_out_characters(const char* characters, unsigned int count) {
-    MSS_UART_polled_tx(test_interface_uart_instance, (const uint8_t*)characters, (uint32_t)count);
+    MSS_UART_polled_tx(uart_instance, (const uint8_t*)characters, (uint32_t)count);
 }
 
 
@@ -52,7 +53,7 @@ void m_p_transport_out_ln(void) {
 
 M_P_FORCE_OPTIMIZATION
 bool m_p_transport_in(char* out_buffer) {
-    uint32_t rx_count = MSS_UART_get_rx(test_interface_uart_instance, out_buffer, 1);
+    uint32_t rx_count = MSS_UART_get_rx(uart_instance, out_buffer, 1);
 
     return (rx_count > 0);
 }
