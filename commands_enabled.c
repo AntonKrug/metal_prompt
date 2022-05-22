@@ -4,6 +4,11 @@
  * Created: 24/03/2018
  */
 
+/*
+ * Selection which command groups (and under what namespace) are enabled in the
+ * metal prompt
+ */
+
 #include "commands_enabled.h"
 
 #include "commands_bundled.h"

@@ -6,7 +6,7 @@
 
 /*
  * Functions which can iterate through the whole command structure and get the
- * desired command structures, command names and print the command's syntax
+ * the specific command structures, command names and print the command's syntax
  */
 
 #include "iterate.h"
