@@ -50,9 +50,11 @@ static bool m_p_execute_cmd(char *cmd) {
     char buf[M_P_COMMAND_NAME_LIMIT];
 
     // Temporary variables to hold argument inputs and the returned values too
-    uint32_t ret_arg_uint32;
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
     char* ret_arg_char_ptr;
+#endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
+    uint32_t ret_arg_uint32;
 #endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
     uint64_t ret_arg_uint64;
@@ -89,9 +91,11 @@ static bool m_p_execute_cmd(char *cmd) {
                     break;
 #endif
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 case M_P_CMD_RET_VOID_ARG_UINT32:
                     selected_command.void_uint32.action(ret_arg_uint32);
                     break;
+#endif
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_CMD_RET_VOID_ARG_UINT64:
@@ -110,9 +114,11 @@ static bool m_p_execute_cmd(char *cmd) {
                     ret_arg_char_ptr = selected_command.chars_chars.action(ret_arg_char_ptr);
                     break;
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 case M_P_CMD_RET_CHARS_ARG_UINT32:
                     ret_arg_char_ptr = selected_command.chars_uint32.action(ret_arg_uint32);
                     break;
+#endif
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_CMD_RET_CHARS_ARG_UINT64:
@@ -122,6 +128,7 @@ static bool m_p_execute_cmd(char *cmd) {
 #endif
 
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 // Return type uint32_t
                 case M_P_CMD_RET_UINT32_ARG_VOID:
                     ret_arg_uint32 = selected_command.uint32_void.action();
@@ -142,6 +149,7 @@ static bool m_p_execute_cmd(char *cmd) {
                     ret_arg_uint32 = selected_command.uint32_uint64.action(ret_arg_uint64);
                     break;
 #endif
+#endif // M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
 
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
@@ -156,9 +164,11 @@ static bool m_p_execute_cmd(char *cmd) {
                     break;
 #endif
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 case M_P_CMD_RET_UINT64_ARG_UINT32:
                     ret_arg_uint64 = selected_command.uint64_uint32.action(ret_arg_uint32);
                     break;
+#endif
 
                 case M_P_CMD_RET_UINT64_ARG_UINT64:
                     ret_arg_uint64 = selected_command.uint64_uint64.action(ret_arg_uint64);
@@ -178,7 +188,9 @@ static bool m_p_execute_cmd(char *cmd) {
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
                 case M_P_CMD_RET_VOID_ARG_CHARS:
 #endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 case M_P_CMD_RET_VOID_ARG_UINT32:
+#endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_CMD_RET_VOID_ARG_UINT64:
 #endif
@@ -188,7 +200,9 @@ static bool m_p_execute_cmd(char *cmd) {
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
                 case M_P_CMD_RET_CHARS_ARG_VOID:
                 case M_P_CMD_RET_CHARS_ARG_CHARS:
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 case M_P_CMD_RET_CHARS_ARG_UINT32:
+#endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_CMD_RET_CHARS_ARG_UINT64:
 #endif
@@ -196,6 +210,7 @@ static bool m_p_execute_cmd(char *cmd) {
                     break;
 #endif
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 case M_P_CMD_RET_UINT32_ARG_VOID:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
                 case M_P_CMD_RET_UINT32_ARG_CHARS:
@@ -213,13 +228,16 @@ static bool m_p_execute_cmd(char *cmd) {
                     }
                     m_p_transport_out(buf);
                     break;
+#endif
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_CMD_RET_UINT64_ARG_VOID:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
                 case M_P_CMD_RET_UINT64_ARG_CHARS:
 #endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 case M_P_CMD_RET_UINT64_ARG_UINT32:
+#endif
                 case M_P_CMD_RET_UINT64_ARG_UINT64:
                     if (m_p_print_in_dec) {
                         itoa(ret_arg_uint64, buf, 10);

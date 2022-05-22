@@ -122,6 +122,7 @@ void m_p_bundled_set_prompt_color(uint32_t val) {
 #endif
 
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
 M_P_FORCE_OPTIMIZATION
 void m_p_bundled_print_in_dec(uint32_t val) {
     if (val) {
@@ -130,25 +131,36 @@ void m_p_bundled_print_in_dec(uint32_t val) {
         m_p_print_in_dec = false;
     }
 }
+#endif
 
 
 m_p_command m_p_bundled_list[] = {
         { "configuration",         M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_configuration } },
         { "help",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_help } },
+
 #ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
         { "list",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_list_all_tests } },
 #endif
+
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
         { "print_in_dec"         , M_P_CMD_RET_VOID_ARG_UINT32, .void_uint32 = { &m_p_bundled_print_in_dec } },
+#endif
+
 #ifdef M_P_UPTIME
         { "set_command_benchmark", M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_set_command_benchmark } },
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
         { "uptime",                M_P_CMD_RET_UINT32_ARG_VOID, .uint32_void = { &m_p_bundled_uptime } },
-#endif
-#ifdef M_P_COLOR_ENABLE
+#endif // M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
+#endif // M_P_UPTIME
+
+#if defined(M_P_COLOR_ENABLE) && defined(M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE)
         { "set_prompt_color",      M_P_CMD_RET_VOID_ARG_UINT32, .void_uint32 = { &m_p_bundled_set_prompt_color } },
 #endif
+
 #ifdef M_P_ALLOW_QUIT
         { "quit",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_quit } },
 #endif
+
         { NULL }  // Terminator of the list
 };
 

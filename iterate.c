@@ -123,14 +123,17 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         case M_P_CMD_RET_CHARS_ARG_VOID:
         case M_P_CMD_RET_CHARS_ARG_CHARS:
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
         case M_P_CMD_RET_CHARS_ARG_UINT32:
+#endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
             case M_P_CMD_RET_CHARS_ARG_UINT64:
 #endif
             strcat(buf, "char*   ");
             break;
-#endif
+#endif // M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
         case M_P_CMD_RET_UINT32_ARG_VOID:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         case M_P_CMD_RET_UINT32_ARG_CHARS:
@@ -141,17 +144,21 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
 #endif
             strcat(buf, "uint32_t");
         break;
+#endif // M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
+
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
         case M_P_CMD_RET_UINT64_ARG_VOID:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         case M_P_CMD_RET_UINT64_ARG_CHARS:
 #endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
         case M_P_CMD_RET_UINT64_ARG_UINT32:
+#endif
         case M_P_CMD_RET_UINT64_ARG_UINT64:
             strcat(buf, "uint64_t");
             break;
-#endif
+#endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
 
         default:
             strcat(buf, "void    ");
@@ -171,7 +178,9 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
 
         case M_P_CMD_RET_VOID_ARG_CHARS:
         case M_P_CMD_RET_CHARS_ARG_CHARS:
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
         case M_P_CMD_RET_UINT32_ARG_CHARS:
+#endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
         case M_P_CMD_RET_UINT64_ARG_CHARS:
 #endif
@@ -179,7 +188,9 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
             break;
 #endif
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
         case M_P_CMD_RET_VOID_ARG_UINT32:
+
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         case M_P_CMD_RET_CHARS_ARG_UINT32:
 #endif
@@ -189,6 +200,8 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
 #endif
             strcat(buf, "uint32_t");
             break;
+#endif // M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
+
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
         case M_P_CMD_RET_VOID_ARG_UINT64:

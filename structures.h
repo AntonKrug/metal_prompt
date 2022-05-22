@@ -32,16 +32,18 @@ typedef struct {
 #endif
 
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
 typedef struct {
     void (*action)(uint32_t);
 } m_p_command_void_uint32;
+#endif
 
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
 typedef struct {
     void (*action)(uint64_t);
 } m_p_command_void_uint64;
-#endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
+#endif
 
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
@@ -58,19 +60,23 @@ typedef struct {
 } m_p_command_chars_chars;
 
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
 typedef struct {
     char* (*action)(uint32_t);
 } m_p_command_chars_uint32;
+#endif
 
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
 typedef struct {
     char* (*action)(uint64_t);
 } m_p_command_chars_uint64;
-#endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
+#endif
 
 #endif // M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 
+
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
 
 #pragma mark - Callback structs with uint32_t return type
 
@@ -98,6 +104,8 @@ typedef struct {
 } m_p_command_uint32_uint64;
 #endif
 
+#endif // M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
+
 
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
@@ -117,14 +125,17 @@ typedef struct {
 #endif
 
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
 typedef struct {
     uint64_t (*action)(uint32_t);
 } m_p_command_uint64_uint32;
+#endif
 
 
 typedef struct {
     uint64_t (*action)(uint64_t);
 } m_p_command_uint64_uint64;
+
 #endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
 
 
@@ -137,11 +148,13 @@ typedef enum {
     M_P_CMD_RET_VOID_ARG_VOID,
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
     M_P_CMD_RET_VOID_ARG_CHARS,
-#endif // M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+#endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
     M_P_CMD_RET_VOID_ARG_UINT32,
+#endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
     M_P_CMD_RET_VOID_ARG_UINT64,
-#endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
+#endif
 
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
@@ -150,29 +163,35 @@ typedef enum {
     // will fit into it
     M_P_CMD_RET_CHARS_ARG_VOID,
     M_P_CMD_RET_CHARS_ARG_CHARS,
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
     M_P_CMD_RET_CHARS_ARG_UINT32,
+#endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
     M_P_CMD_RET_CHARS_ARG_UINT64,
-#endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
+#endif
 #endif // M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
     M_P_CMD_RET_UINT32_ARG_VOID,
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
     M_P_CMD_RET_UINT32_ARG_CHARS,
-#endif // M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+#endif
     M_P_CMD_RET_UINT32_ARG_UINT32,
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
     M_P_CMD_RET_UINT32_ARG_UINT64,
-#endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
+#endif
+#endif // M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
 
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
     M_P_CMD_RET_UINT64_ARG_VOID,
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
     M_P_CMD_RET_UINT64_ARG_CHARS,
-#endif // M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+#endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
     M_P_CMD_RET_UINT64_ARG_UINT32,
+#endif
     M_P_CMD_RET_UINT64_ARG_UINT64,
 #endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
 
@@ -186,31 +205,37 @@ typedef struct {
         m_p_command_void_void     void_void;
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         m_p_command_void_chars    void_chars;
-#endif // M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+#endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
         m_p_command_void_uint32   void_uint32;
+#endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
         m_p_command_void_uint64   void_uint64;
-#endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
+#endif
 
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         m_p_command_chars_void    chars_void;
         m_p_command_chars_chars   chars_chars;
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
         m_p_command_chars_uint32  chars_uint32;
+#endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
 		m_p_command_chars_uint64  chars_uint64;
-#endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
 #endif
+#endif // M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
         m_p_command_uint32_void   uint32_void;
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         m_p_command_uint32_chars  uint32_chars;
-#endif // M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+#endif
         m_p_command_uint32_uint32 uint32_uint32;
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
         m_p_command_uint32_uint64 uint32_uint64;
-#endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
+#endif
+#endif // M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
 
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
@@ -218,7 +243,9 @@ typedef struct {
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
         m_p_command_uint64_chars  uint64_chars;
 #endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
         m_p_command_uint64_uint32 uint64_uint32;
+#endif
         m_p_command_uint64_uint64 uint64_uint64;
 #endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
 
@@ -233,3 +260,4 @@ typedef struct {
 
 
 #endif /* METAL_PROMPT_STRUCTURES_H_ */
+
