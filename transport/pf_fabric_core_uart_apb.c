@@ -4,7 +4,8 @@
  * Created: 24/03/2018
  */
 
-/* This is a transport implementation for Microchip - PolarFire
+/*
+ * This is a transport implementation for Microchip - PolarFire
  * (and SmartFusion2) devices which can have instantiated CoreUART_apb
  * peripheral as a soft IP inside the FPGA fabric.
  */

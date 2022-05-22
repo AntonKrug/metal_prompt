@@ -4,6 +4,12 @@
  * Created: 24/03/2018
  */
 
+/*
+ * Generic transport interface, each transport implementation (uart, telnet ...)
+ * needs to implement these functions for the metal prompt to be able to use
+ * that specific transport layer.
+ */
+
 
 #ifndef METAL_PROMPT_TRANSPORT_INTERFACE_H_
 #define METAL_PROMPT_TRANSPORT_INTERFACE_H_

@@ -4,6 +4,10 @@
  * Created: 24/03/2018
  */
 
+/*
+ * Structures and enums needed to construct the command's metadata/description
+ */
+
 
 #ifndef METAL_PROMPT_STRUCTURES_H_
 #define METAL_PROMPT_STRUCTURES_H_

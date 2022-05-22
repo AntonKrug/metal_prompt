@@ -4,6 +4,11 @@
  * Created: 24/03/2018
  */
 
+/*
+ * Metal prompt systick handler, which can be used to determine application's
+ * uptime and to run benchmarks on all commands.
+ */
+
 
 #include "systick.h"
 #include "config.h"

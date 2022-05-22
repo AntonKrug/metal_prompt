@@ -4,6 +4,10 @@
  * Created: 24/03/2018
  */
 
+/*
+ * Global config to tweak, or enable/disable certain features of metal prompt
+ */
+
 
 #ifndef METAL_PROMPT_CONFIG_H_
 #define METAL_PROMPT_CONFIG_H_

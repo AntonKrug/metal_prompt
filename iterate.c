@@ -4,6 +4,11 @@
  * Created: 20/05/2022
  */
 
+/*
+ * Functions which can iterate through the whole command structure and get the
+ * desired command structures, command names and print the command's syntax
+ */
+
 #include "iterate.h"
 
 #include "commands_enabled.h"

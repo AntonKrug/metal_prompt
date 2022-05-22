@@ -4,6 +4,10 @@
  * Created: 24/03/2018
  */
 
+/*
+ * Selection which command groups (and under what namespace) are enabled in the
+ * metal prompt
+ */
 
 #ifndef METAL_PROMPT_COMMANDS_ENABLED_H_
 #define METAL_PROMPT_COMMANDS_ENABLED_H_

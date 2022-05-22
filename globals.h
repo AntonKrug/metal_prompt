@@ -4,6 +4,9 @@
  * Created: 20/05/2022
  */
 
+/*
+ * Set of variables which is meant to be accessible globally
+ */
 
 #ifndef METAL_PROMPT_GLOBALS_H_
 #define METAL_PROMPT_GLOBALS_H_

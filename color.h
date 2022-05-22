@@ -4,6 +4,11 @@
  * Created: 21/05/2022
  */
 
+/*
+ * Terminal VT100 color functionality, can be completely disabled in
+ * compile-time (config.h) or on runtime 'set_prompt_colors'
+ */
+
 #ifndef METAL_PROMPT_COLOR_H_
 #define METAL_PROMPT_COLOR_H_
 

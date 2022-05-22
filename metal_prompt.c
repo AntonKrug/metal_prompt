@@ -4,6 +4,11 @@
  * Created: 24/03/2018
  */
 
+/*
+ * Prompt handlers, handling the user-input, parsing command's arguments,
+ * invoking the commands and parsing command's return values.
+ */
+
 
 #include "metal_prompt.h"
 

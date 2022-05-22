@@ -4,6 +4,10 @@
  * Created: 20/05/2022
  */
 
+/*
+ * Set of variables which is meant to be accessible globally
+ */
+
 #include "globals.h"
 
 

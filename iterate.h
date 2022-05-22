@@ -4,6 +4,11 @@
  * Created: 20/05/2022
  */
 
+/*
+ * Functions which can iterate through the whole command structure and get the
+ * the specific command structures, command names and print the command's syntax
+ */
+
 #ifndef METAL_PROMPT_ITERATE_H_
 #define METAL_PROMPT_ITERATE_H_
 
