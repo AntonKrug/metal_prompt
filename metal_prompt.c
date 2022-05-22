@@ -46,12 +46,14 @@ static void m_p_color_out_error(void) {
 }
 
 
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
 M_P_FORCE_OPTIMIZATION
 static void m_p_color_out_namespace(void) {
 #ifdef M_P_COLOR_ENABLE
     m_p_transport_out("\033[1;33m");
 #endif
 }
+#endif
 
 
 #pragma mark - Private functions - prompt handling
@@ -313,10 +315,12 @@ static void m_p_evaluate_character(char character) {
             m_p_print_prompt(NULL);
             break;
 
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
         case 0x09:
             // TAB
             m_p_auto_complete(cmd, &caret);
             break;
+#endif
 
         case 0x08:
         case 0x7f:
@@ -423,6 +427,7 @@ void m_p_cmd_line_generic() {
 }
 
 
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
 M_P_FORCE_OPTIMIZATION
 void m_p_auto_complete(char* cmd, unsigned int* caret) {
     char         first_command[M_P_COMMAND_NAME_LIMIT];
@@ -523,4 +528,4 @@ void m_p_auto_complete(char* cmd, unsigned int* caret) {
         m_p_print_prompt(cmd);
     }
 }
-
+#endif

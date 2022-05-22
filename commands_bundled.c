@@ -18,6 +18,8 @@
 
 #pragma mark - The default set prompt commands
 
+
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
 M_P_FORCE_OPTIMIZATION
 void m_p_bundled_list_all_tests(void) {
 	char cmd[255] = "";
@@ -27,6 +29,7 @@ void m_p_bundled_list_all_tests(void) {
 	// Auto-complete now list commands on the when empty command is given
 	m_p_auto_complete(cmd, &carret);
 }
+#endif
 
 
 M_P_FORCE_OPTIMIZATION
@@ -68,8 +71,10 @@ void m_p_bundled_help(void) {
     m_p_transport_out(" Ctrl+C exits the metal prompt interface\r\n\r\n");
     m_p_transport_out(" Ctrl+S cleans the screen\r\n\r\n");
     m_p_transport_out(" Up arrow repeats the last command\r\n\r\n");
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
     m_p_transport_out(" TAB auto-completes the command, if there are multiple options,\r\n");
     m_p_transport_out(" then it will list all options.\r\n");
+#endif
 }
 
 
@@ -100,7 +105,9 @@ void m_p_bundled_quit(void) {
 m_p_command m_p_bundled_list[] = {
         { "configuration",         M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_configuration } },
         { "help",                  M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_help } },
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
         { "list",                  M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_list_all_tests } },
+#endif
 #ifdef M_P_UPTIME
         { "set_command_benchmark", M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_set_command_benchmark } },
         { "uptime",                M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID, .uint32_void = { &m_p_bundled_uptime } },
