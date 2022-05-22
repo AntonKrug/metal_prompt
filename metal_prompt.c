@@ -79,22 +79,22 @@ static bool m_p_execute_cmd(char *cmd) {
             switch (selected_command.type) {
 
                 // Return type void
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_VOID:
+                case M_P_CMD_RET_VOID_ARG_VOID:
                     selected_command.void_void.action();
                     break;
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_CHARS:
+                case M_P_CMD_RET_VOID_ARG_CHARS:
                     selected_command.void_chars.action(ret_arg_char_ptr);
                     break;
 #endif
 
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32:
+                case M_P_CMD_RET_VOID_ARG_UINT32:
                     selected_command.void_uint32.action(ret_arg_uint32);
                     break;
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
+                case M_P_CMD_RET_VOID_ARG_UINT64:
                     selected_command.void_uint64.action(ret_arg_uint64);
                     break;
 #endif
@@ -102,20 +102,20 @@ static bool m_p_execute_cmd(char *cmd) {
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
                 // Return type char*
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_VOID:
+                case M_P_CMD_RET_CHARS_ARG_VOID:
                     ret_arg_char_ptr = selected_command.chars_void.action();
                     break;
 
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
+                case M_P_CMD_RET_CHARS_ARG_CHARS:
                     ret_arg_char_ptr = selected_command.chars_chars.action(ret_arg_char_ptr);
                     break;
 
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+                case M_P_CMD_RET_CHARS_ARG_UINT32:
                     ret_arg_char_ptr = selected_command.chars_uint32.action(ret_arg_uint32);
                     break;
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+                case M_P_CMD_RET_CHARS_ARG_UINT64:
                     ret_arg_char_ptr = selected_command.chars_uint64.action(ret_arg_uint64);
                     break;
 #endif
@@ -123,22 +123,22 @@ static bool m_p_execute_cmd(char *cmd) {
 
 
                 // Return type uint32_t
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID:
+                case M_P_CMD_RET_UINT32_ARG_VOID:
                     ret_arg_uint32 = selected_command.uint32_void.action();
                     break;
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+                case M_P_CMD_RET_UINT32_ARG_CHARS:
                     ret_arg_uint32 = selected_command.uint32_chars.action(ret_arg_char_ptr);
                     break;
 #endif
 
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
+                case M_P_CMD_RET_UINT32_ARG_UINT32:
                     ret_arg_uint32 = selected_command.uint32_uint32.action(ret_arg_uint32);
                     break;
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+                case M_P_CMD_RET_UINT32_ARG_UINT64:
                     ret_arg_uint32 = selected_command.uint32_uint64.action(ret_arg_uint64);
                     break;
 #endif
@@ -146,21 +146,21 @@ static bool m_p_execute_cmd(char *cmd) {
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 // Return type uint64_t
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
+                case M_P_CMD_RET_UINT64_ARG_VOID:
                     ret_arg_uint64 = selected_command.uint64_void.action();
                     break;
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
+                case M_P_CMD_RET_UINT64_ARG_CHARS:
                     ret_arg_uint64 = selected_command.uint64_chars.action(ret_arg_char_ptr);
                     break;
 #endif
 
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
+                case M_P_CMD_RET_UINT64_ARG_UINT32:
                     ret_arg_uint64 = selected_command.uint64_uint32.action(ret_arg_uint32);
                     break;
 
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
+                case M_P_CMD_RET_UINT64_ARG_UINT64:
                     ret_arg_uint64 = selected_command.uint64_uint64.action(ret_arg_uint64);
                     break;
 #endif
@@ -174,36 +174,36 @@ static bool m_p_execute_cmd(char *cmd) {
 
             // Display the returned type
             switch (selected_command.type) {
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_VOID:
+                case M_P_CMD_RET_VOID_ARG_VOID:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_CHARS:
+                case M_P_CMD_RET_VOID_ARG_CHARS:
 #endif
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32:
+                case M_P_CMD_RET_VOID_ARG_UINT32:
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-                case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
+                case M_P_CMD_RET_VOID_ARG_UINT64:
 #endif
                     // Void returned, display nothing
                     break;
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_VOID:
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+                case M_P_CMD_RET_CHARS_ARG_VOID:
+                case M_P_CMD_RET_CHARS_ARG_CHARS:
+                case M_P_CMD_RET_CHARS_ARG_UINT32:
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-                case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+                case M_P_CMD_RET_CHARS_ARG_UINT64:
 #endif
                     m_p_transport_out(ret_arg_char_ptr);
                     break;
 #endif
 
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID:
+                case M_P_CMD_RET_UINT32_ARG_VOID:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+                case M_P_CMD_RET_UINT32_ARG_CHARS:
 #endif
-                case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
+                case M_P_CMD_RET_UINT32_ARG_UINT32:
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-                    case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+                    case M_P_CMD_RET_UINT32_ARG_UINT64:
 #endif
                     itoa(ret_arg_uint32, buf, 16);
                     m_p_transport_out("0x");
@@ -211,12 +211,12 @@ static bool m_p_execute_cmd(char *cmd) {
                     break;
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
+                case M_P_CMD_RET_UINT64_ARG_VOID:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
+                case M_P_CMD_RET_UINT64_ARG_CHARS:
 #endif
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
-                case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
+                case M_P_CMD_RET_UINT64_ARG_UINT32:
+                case M_P_CMD_RET_UINT64_ARG_UINT64:
                     itoa(ret_arg_uint64, buf, 16);
                     m_p_transport_out("0x");
                     m_p_transport_out(buf);

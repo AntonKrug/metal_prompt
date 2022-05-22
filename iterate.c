@@ -121,34 +121,34 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
 
     switch (m_p_commands_enabled[group_idx].commands[command_idx].type) {
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-        case M_P_COMMAND_TYPE_RET_CHARS_ARG_VOID:
-        case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
-        case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+        case M_P_CMD_RET_CHARS_ARG_VOID:
+        case M_P_CMD_RET_CHARS_ARG_CHARS:
+        case M_P_CMD_RET_CHARS_ARG_UINT32:
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-            case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+            case M_P_CMD_RET_CHARS_ARG_UINT64:
 #endif
             strcat(buf, "char*   ");
             break;
 #endif
 
-        case M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID:
+        case M_P_CMD_RET_UINT32_ARG_VOID:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-        case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+        case M_P_CMD_RET_UINT32_ARG_CHARS:
 #endif
-        case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
+        case M_P_CMD_RET_UINT32_ARG_UINT32:
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-        case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
+        case M_P_CMD_RET_UINT32_ARG_UINT64:
 #endif
             strcat(buf, "uint32_t");
         break;
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-        case M_P_COMMAND_TYPE_RET_UINT64_ARG_VOID:
+        case M_P_CMD_RET_UINT64_ARG_VOID:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-        case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
+        case M_P_CMD_RET_UINT64_ARG_CHARS:
 #endif
-        case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
-        case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
+        case M_P_CMD_RET_UINT64_ARG_UINT32:
+        case M_P_CMD_RET_UINT64_ARG_UINT64:
             strcat(buf, "uint64_t");
             break;
 #endif
@@ -169,34 +169,34 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
     switch (m_p_commands_enabled[group_idx].commands[command_idx].type) {
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 
-        case M_P_COMMAND_TYPE_RET_VOID_ARG_CHARS:
-        case M_P_COMMAND_TYPE_RET_CHARS_ARG_CHARS:
-        case M_P_COMMAND_TYPE_RET_UINT32_ARG_CHARS:
+        case M_P_CMD_RET_VOID_ARG_CHARS:
+        case M_P_CMD_RET_CHARS_ARG_CHARS:
+        case M_P_CMD_RET_UINT32_ARG_CHARS:
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-        case M_P_COMMAND_TYPE_RET_UINT64_ARG_CHARS:
+        case M_P_CMD_RET_UINT64_ARG_CHARS:
 #endif
             strcat(buf, "char*");
             break;
 #endif
 
-        case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32:
+        case M_P_CMD_RET_VOID_ARG_UINT32:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-        case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT32:
+        case M_P_CMD_RET_CHARS_ARG_UINT32:
 #endif
-        case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT32:
+        case M_P_CMD_RET_UINT32_ARG_UINT32:
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-        case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT32:
+        case M_P_CMD_RET_UINT64_ARG_UINT32:
 #endif
             strcat(buf, "uint32_t");
             break;
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-        case M_P_COMMAND_TYPE_RET_VOID_ARG_UINT64:
+        case M_P_CMD_RET_VOID_ARG_UINT64:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-        case M_P_COMMAND_TYPE_RET_CHARS_ARG_UINT64:
+        case M_P_CMD_RET_CHARS_ARG_UINT64:
 #endif
-        case M_P_COMMAND_TYPE_RET_UINT32_ARG_UINT64:
-        case M_P_COMMAND_TYPE_RET_UINT64_ARG_UINT64:
+        case M_P_CMD_RET_UINT32_ARG_UINT64:
+        case M_P_CMD_RET_UINT64_ARG_UINT64:
             strcat(buf, "uint64_t");
             break;
 #endif

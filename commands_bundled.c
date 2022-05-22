@@ -123,20 +123,20 @@ void m_p_bundled_set_prompt_color(uint32_t val) {
 
 
 m_p_command m_p_bundled_list[] = {
-        { "configuration",         M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_configuration } },
-        { "help",                  M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_help } },
+        { "configuration",         M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_configuration } },
+        { "help",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_help } },
 #ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
-        { "list",                  M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_list_all_tests } },
+        { "list",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_list_all_tests } },
 #endif
 #ifdef M_P_UPTIME
-        { "set_command_benchmark", M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_set_command_benchmark } },
-        { "uptime",                M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID, .uint32_void = { &m_p_bundled_uptime } },
+        { "set_command_benchmark", M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_set_command_benchmark } },
+        { "uptime",                M_P_CMD_RET_UINT32_ARG_VOID, .uint32_void = { &m_p_bundled_uptime } },
 #endif
 #ifdef M_P_COLOR_ENABLE
-        { "set_prompt_color",      M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32, .void_uint32 = { &m_p_bundled_set_prompt_color } },
+        { "set_prompt_color",      M_P_CMD_RET_VOID_ARG_UINT32, .void_uint32 = { &m_p_bundled_set_prompt_color } },
 #endif
 #ifdef M_P_ALLOW_QUIT
-        { "quit",                  M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_quit } },
+        { "quit",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_quit } },
 #endif
         { NULL }  // Terminator of the list
 };
