@@ -12,6 +12,7 @@
 #include "systick.h"
 #include "globals.h"
 #include "config.h"
+#include "color.h"
 
 #include <stdlib.h>
 
@@ -106,6 +107,18 @@ void m_p_bundled_quit(void) {
 #endif
 
 
+#ifdef M_P_COLOR_ENABLE
+M_P_FORCE_OPTIMIZATION
+void m_p_bundled_set_prompt_color(uint32_t val) {
+    if (val) {
+        m_p_color_enabled = true;
+    } else {
+        m_p_color_enabled = false;
+    }
+}
+#endif
+
+
 m_p_command m_p_bundled_list[] = {
         { "configuration",         M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_configuration } },
         { "help",                  M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_help } },
@@ -115,6 +128,9 @@ m_p_command m_p_bundled_list[] = {
 #ifdef M_P_UPTIME
         { "set_command_benchmark", M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_set_command_benchmark } },
         { "uptime",                M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID, .uint32_void = { &m_p_bundled_uptime } },
+#endif
+#ifdef M_P_COLOR_ENABLE
+        { "set_prompt_color",      M_P_COMMAND_TYPE_RET_VOID_ARG_UINT32, .void_uint32 = { &m_p_bundled_set_prompt_color } },
 #endif
 #ifdef M_P_ALLOW_QUIT
         { "quit",                  M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_quit } },

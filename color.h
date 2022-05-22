@@ -9,8 +9,13 @@
 
 #include "config.h"
 
+#include <stdbool.h>
+
 #ifdef M_P_COLOR_ENABLE
 
+#pragma mark - Public variables
+
+extern bool m_p_color_enabled;
 
 #pragma mark - Public functions outputing into the string buffer
 
