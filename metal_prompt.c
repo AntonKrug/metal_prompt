@@ -497,9 +497,6 @@ void m_p_auto_complete(char* cmd, unsigned int* caret) {
             if (strncmp(cmd, buf, cmd_len) == 0) {
                 m_p_transport_out_ln();
 
-#ifdef M_P_COLOR_ENABLE
-                m_p_color_out_namespace();
-#endif
                 // Print the current command
                 unsigned int cmd_len = m_p_iterate_get_current_string(buf, true);
                 m_p_transport_out(buf);

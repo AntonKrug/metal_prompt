@@ -79,13 +79,5 @@ void m_p_color_out_error(void) {
 }
 
 
-#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
-M_P_FORCE_OPTIMIZATION
-void m_p_color_out_namespace(void) {
-    if (m_p_color_enabled) m_p_transport_out("\033[1;35m");
-}
-#endif // M_P_LIST_AND_AUTOCOMPLETE_ENABLE
-
-
 #endif // M_P_COLOR_ENABLE
 
