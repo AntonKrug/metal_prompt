@@ -67,20 +67,19 @@ more versatile.
 
 ```c
 
+// Use some specific transport implementation
 #include “test_interface/transport/pfsoc_mss_uart.h”
 
 int main() {
 
-    // configure UART instance
+    // configure UART instance, baud rate, parity, stop bits...
 
-    test_interface_cmd_line(&myUartInstance, “name of my application”);
+    m_p_cmd_line(&myUartInstance);
 
-    
-
-    // do something after the cmd line is quit
+    // do something after the cmd line quit (if the config.h allows the cmd_line
+    // to quit)
 
     return 0;
-
 }
 
 ```
