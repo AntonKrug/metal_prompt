@@ -415,7 +415,9 @@ void m_p_cmd_line_generic() {
     m_p_transport_out(M_P_VERSION);
     m_p_transport_out("\r\n");
     m_p_print_prompt(NULL);
+#ifdef M_P_ALLOW_QUIT
     m_p_keep_runnning = true;
+#endif
 
 #ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
     // Find out what is the length of the longest command
