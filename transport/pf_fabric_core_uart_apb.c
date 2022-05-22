@@ -23,7 +23,7 @@ UART_instance_t* test_interface_uart_instance;
 #pragma mark - Public functions
 
 M_P_FORCE_OPTIMIZATION
-void m_p_cmd_line(UART_instance_t* port_to_be_used, const char* application_name) {
+void m_p_cmd_line(UART_instance_t* port_to_be_used) {
     test_interface_uart_instance = port_to_be_used;
 
     m_p_cmd_line_generic();
