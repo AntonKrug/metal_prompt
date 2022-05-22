@@ -205,8 +205,12 @@ static bool m_p_execute_cmd(char *cmd) {
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                     case M_P_CMD_RET_UINT32_ARG_UINT64:
 #endif
-                    itoa(ret_arg_uint32, buf, 16);
-                    m_p_transport_out("0x");
+                    if (m_p_print_in_dec) {
+                        itoa(ret_arg_uint32, buf, 10);
+                    } else {
+                        itoa(ret_arg_uint32, buf, 16);
+                        m_p_transport_out("0x");
+                    }
                     m_p_transport_out(buf);
                     break;
 
@@ -217,8 +221,12 @@ static bool m_p_execute_cmd(char *cmd) {
 #endif
                 case M_P_CMD_RET_UINT64_ARG_UINT32:
                 case M_P_CMD_RET_UINT64_ARG_UINT64:
-                    itoa(ret_arg_uint64, buf, 16);
-                    m_p_transport_out("0x");
+                    if (m_p_print_in_dec) {
+                        itoa(ret_arg_uint64, buf, 10);
+                    } else {
+                        itoa(ret_arg_uint64, buf, 16);
+                        m_p_transport_out("0x");
+                    }
                     m_p_transport_out(buf);
                     break;
 #endif

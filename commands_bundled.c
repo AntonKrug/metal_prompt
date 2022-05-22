@@ -122,12 +122,23 @@ void m_p_bundled_set_prompt_color(uint32_t val) {
 #endif
 
 
+M_P_FORCE_OPTIMIZATION
+void m_p_bundled_print_in_dec(uint32_t val) {
+    if (val) {
+        m_p_print_in_dec = true;
+    } else {
+        m_p_print_in_dec = false;
+    }
+}
+
+
 m_p_command m_p_bundled_list[] = {
         { "configuration",         M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_configuration } },
         { "help",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_help } },
 #ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
         { "list",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_list_all_tests } },
 #endif
+        { "print_in_dec"         , M_P_CMD_RET_VOID_ARG_UINT32, .void_uint32 = { &m_p_bundled_print_in_dec } },
 #ifdef M_P_UPTIME
         { "set_command_benchmark", M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_set_command_benchmark } },
         { "uptime",                M_P_CMD_RET_UINT32_ARG_VOID, .uint32_void = { &m_p_bundled_uptime } },

@@ -18,6 +18,8 @@
 
 #pragma mark - Public variables
 
+extern bool m_p_print_in_dec;
+
 #ifdef M_P_ALLOW_QUIT
 extern bool m_p_keep_runnning;
 #endif
