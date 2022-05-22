@@ -18,7 +18,10 @@
 
 unsigned int group_idx       = 0;
 unsigned int command_idx     = 0;
+
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
 unsigned int longest_command = 0;
+#endif
 
 
 #pragma mark - Private functions - color handling inside a buffer
@@ -133,6 +136,7 @@ unsigned int m_p_iterate_get_current_string(char *buf, bool use_color) {
 }
 
 
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
 M_P_FORCE_OPTIMIZATION
 void m_p_iterate_get_current_string_arguments(char *buf) {
     strcpy(buf, "");
@@ -253,3 +257,4 @@ void m_p_iterate_align_with_longest_command(unsigned int current_size) {
         m_p_transport_out(" ");
     }
 }
+#endif // M_P_LIST_AND_AUTOCOMPLETE_ENABLE

@@ -415,8 +415,10 @@ void m_p_cmd_line_generic() {
     m_p_print_prompt(NULL);
     m_p_keep_runnning = true;
 
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
     // Find out what is the length of the longest command
     m_p_iterate_set_size_of_longest_command();
+#endif
 
     while (m_p_keep_runnning) {
         char character;
