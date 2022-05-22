@@ -95,11 +95,13 @@ void m_p_bundled_set_command_benchmark(void) {
 #endif
 
 
+#ifdef M_P_ALLOW_QUIT
 M_P_FORCE_OPTIMIZATION
 void m_p_bundled_quit(void) {
     m_p_transport_out("Exiting...\r\n");
 	m_p_keep_runnning = false;
 }
+#endif
 
 
 m_p_command m_p_bundled_list[] = {
@@ -112,7 +114,9 @@ m_p_command m_p_bundled_list[] = {
         { "set_command_benchmark", M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_set_command_benchmark } },
         { "uptime",                M_P_COMMAND_TYPE_RET_UINT32_ARG_VOID, .uint32_void = { &m_p_bundled_uptime } },
 #endif
+#ifdef M_P_ALLOW_QUIT
         { "quit",                  M_P_COMMAND_TYPE_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_quit } },
+#endif
         { NULL }  // Terminator of the list
 };
 
