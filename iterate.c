@@ -35,36 +35,44 @@ static void m_p_color_buf_default(char* buf) {
 }
 
 
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
 M_P_FORCE_OPTIMIZATION
 static void m_p_color_buf_default_bold(char* buf) {
 #ifdef M_P_COLOR_ENABLE
     strcat(buf, "\033[1;39m");
 #endif
 }
+#endif
 
 
 M_P_FORCE_OPTIMIZATION
 static inline void m_p_color_buf_command_namespace(char* buf) {
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
 #ifdef M_P_COLOR_ENABLE
     strcat(buf, "\033[1;33m");
+#endif
 #endif
 }
 
 
 M_P_FORCE_OPTIMIZATION
 static inline void m_p_color_buf_command_name(char* buf) {
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
 #ifdef M_P_COLOR_ENABLE
     strcat(buf, "\033[1;35m");
+#endif
 #endif
 }
 
 
+#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
 M_P_FORCE_OPTIMIZATION
 static void m_p_color_buf_gray(char* buf) {
 #ifdef M_P_COLOR_ENABLE
     strcat(buf, "\033[1;30m");
 #endif
 }
+#endif
 
 
 #pragma mark - Public functions - iterate
