@@ -15,8 +15,9 @@
 
 #pragma mark - Public variables
 
-
+#ifdef M_P_ALLOW_QUIT
 extern bool m_p_keep_runnning;
+#endif
 
 #ifdef M_P_UPTIME
 extern bool m_p_benchmark_commands;

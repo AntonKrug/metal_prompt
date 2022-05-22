@@ -9,8 +9,9 @@
 
 #pragma mark - Public variables
 
-
+#ifdef M_P_ALLOW_QUIT
 bool     m_p_keep_runnning      = true;
+#endif
 
 #ifdef M_P_UPTIME
 bool     m_p_benchmark_commands = false;

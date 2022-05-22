@@ -422,12 +422,17 @@ void m_p_cmd_line_generic() {
     m_p_iterate_set_size_of_longest_command();
 #endif
 
+#ifdef M_P_ALLOW_QUIT
     while (m_p_keep_runnning) {
+#else
+    while (1) {
+#endif
         char character;
         if (m_p_transport_in(&character)) {
             m_p_evaluate_character(character);
         }
     }
+
 }
 
 
