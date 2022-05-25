@@ -134,7 +134,7 @@ void m_p_bundled_print_in_dec(uint32_t val) {
 #endif
 
 
-m_p_command m_p_bundled_list[] = {
+const m_p_command m_p_bundled_list[] = {
         { "configuration",         M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_configuration } },
         { "help",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_help } },
 

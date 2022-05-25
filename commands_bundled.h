@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 #include "structures.h"
-extern m_p_command m_p_bundled_list[];
+extern const m_p_command m_p_bundled_list[];
 
 #ifdef __cplusplus
 }

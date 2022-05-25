@@ -31,7 +31,7 @@ typedef struct {
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 typedef struct {
-    void (*action)(char*);
+    void (*action)(const char*);
 } m_p_command_void_chars;
 #endif
 
@@ -60,7 +60,7 @@ typedef struct {
 
 
 typedef struct {
-    char* (*action)(char*);
+    char* (*action)(const char*);
 } m_p_command_chars_chars;
 
 
@@ -92,7 +92,7 @@ typedef struct {
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 typedef struct {
-    uint32_t (*action)(char*);
+    uint32_t (*action)(const char*);
 } m_p_command_uint32_chars;
 #endif
 
@@ -124,7 +124,7 @@ typedef struct {
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
 typedef struct {
-    uint64_t (*action)(char*);
+    uint64_t (*action)(const char*);
 } m_p_command_uint64_chars;
 #endif
 
