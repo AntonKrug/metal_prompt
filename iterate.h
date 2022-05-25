@@ -12,6 +12,10 @@
 #ifndef METAL_PROMPT_ITERATE_H_
 #define METAL_PROMPT_ITERATE_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "structures.h"
 
 #include "config.h"
@@ -35,6 +39,11 @@ extern unsigned int m_p_iterate_get_current_string(char *buf, bool use_color);
 extern void         m_p_iterate_get_current_string_arguments(char *buf);
 extern void         m_p_iterate_set_size_of_longest_command(void);
 extern void         m_p_iterate_align_with_longest_command(unsigned int current_size);
+#endif
+
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif /* METAL_PROMPT_ITERATE_H_ */

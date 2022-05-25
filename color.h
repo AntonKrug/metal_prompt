@@ -12,15 +12,22 @@
 #ifndef METAL_PROMPT_COLOR_H_
 #define METAL_PROMPT_COLOR_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #include "config.h"
 
 #include <stdbool.h>
+
 
 #ifdef M_P_COLOR_ENABLE
 
 #pragma mark - Public variables
 
 extern bool m_p_color_enabled;
+
 
 #pragma mark - Public functions outputing into the string buffer
 
@@ -45,5 +52,9 @@ extern void m_p_color_out_error(void);
 
 #endif // M_P_COLOR_ENABLE
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PLATFORM_METAL_PROMPT_COLOR_H_ */

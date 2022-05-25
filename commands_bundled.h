@@ -11,7 +11,15 @@
 #ifndef METAL_PROMPT_COMMANDS_BUNDLED_H_
 #define METAL_PROMPT_COMMANDS_BUNDLED_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "structures.h"
 extern m_p_command m_p_bundled_list[];
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* METAL_PROMPT_COMMANDS_BUNDLED_H_ */

@@ -12,6 +12,10 @@
 #ifndef METAL_PROMPT_CONFIG_H_
 #define METAL_PROMPT_CONFIG_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdbool.h>
 
 #define M_P_COMMAND_PROMPT "metal_prompt:/$ "
@@ -43,5 +47,8 @@
 // Enable/disable the uptime and benchmark commands (see systick.c)
 #define M_P_UPTIME
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* METAL_PROMPT_CONFIG_H_ */

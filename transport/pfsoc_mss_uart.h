@@ -12,9 +12,19 @@
 #ifndef METAL_PROMPT_TRANSPORT_PFSOC_MSS_UART_H_
 #define METAL_PROMPT_TRANSPORT_PFSOC_MSS_UART_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #include "drivers/mss/mss_mmuart/mss_uart.h"
 
 #pragma mark - Public functions
 extern void m_p_prompt(mss_uart_instance_t* port_to_be_used);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* METAL_PROMPT_TRANSPORT_PFSOC_MSS_UART_H_ */

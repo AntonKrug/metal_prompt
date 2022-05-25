@@ -11,6 +11,10 @@
 #ifndef METAL_PROMPT_GLOBALS_H_
 #define METAL_PROMPT_GLOBALS_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "config.h"
 
 #include <stdbool.h>
@@ -32,5 +36,8 @@ extern bool m_p_benchmark_commands;
 extern char m_p_return_and_argument_buf[];
 #endif
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* METAL_PROMPT_GLOBALS_H_ */

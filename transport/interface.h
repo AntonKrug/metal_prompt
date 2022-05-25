@@ -14,6 +14,10 @@
 #ifndef METAL_PROMPT_TRANSPORT_INTERFACE_H_
 #define METAL_PROMPT_TRANSPORT_INTERFACE_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -22,5 +26,9 @@ extern void m_p_transport_out(const char* text);
 extern void m_p_transport_out_characters(const char* characters, unsigned int count);
 extern void m_p_transport_out_ln(void);
 extern bool m_p_transport_in(char* out_buffer);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* METAL_PROMPT_TRANSPORT_INTERFACE_H_ */

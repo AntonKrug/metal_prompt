@@ -12,6 +12,10 @@
 #ifndef METAL_PROMPT_STRUCTURES_H_
 #define METAL_PROMPT_STRUCTURES_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "config.h"
 
 #include <stdint.h>
@@ -258,6 +262,10 @@ typedef struct {
 	const m_p_command* commands;
 } m_p_group;
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* METAL_PROMPT_STRUCTURES_H_ */
 
