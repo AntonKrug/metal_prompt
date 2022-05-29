@@ -21,7 +21,9 @@
 
 UART_instance_t* uart_instance;
 
+
 #pragma mark - Public functions
+
 
 M_P_FORCE_OPTIMIZATION
 void m_p_prompt(UART_instance_t* port_to_be_used) {

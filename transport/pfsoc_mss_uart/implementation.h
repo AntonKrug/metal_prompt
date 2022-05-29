@@ -19,7 +19,10 @@ extern "C" {
 
 #include "drivers/mss/mss_mmuart/mss_uart.h"
 
+
 #pragma mark - Public functions
+
+
 extern void m_p_prompt(mss_uart_instance_t* port_to_be_used);
 
 

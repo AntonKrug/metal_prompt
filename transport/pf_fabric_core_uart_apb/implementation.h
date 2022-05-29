@@ -21,6 +21,8 @@ extern "C" {
 #include "drivers/fabric_ip/CoreUARTapb/core_uart_apb.h"
 
 #pragma mark - Public functions
+
+
 extern void m_p_prompt(UART_instance_t* port_to_be_used);
 
 
