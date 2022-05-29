@@ -67,8 +67,8 @@ more versatile.
 
 ```c
 
-// Use some specific transport implementation
-#include “test_interface/transport/pfsoc_mss_uart.h”
+// Use the global all-in-one implementation 
+#include "metal_prompt/transport/implementation.h”
 
 int main() {
 
@@ -83,6 +83,12 @@ int main() {
 }
 
 ```
+
+While having the makefile (or other build management system) to select a 
+specific define for one of the implementations:
+
+- `M_P_TRANSPORT_IMPLEMENTATION_PF_FABRIC_CORE_UART_APB`
+- `M_P_TRANSPORT_IMPLEMENTATION_PFSOC_MSS_UART`
 
 The `config.h` has multiple options to enable/disable some features or tweak 
 aspects of the test interface prompt. 
