@@ -9,6 +9,8 @@
  * devices which can use the microchip subsystem (mss) UART peripherals
  */
 
+#ifdef M_P_TRANSPORT_IMPLEMENTATION_PFSOC_MSS_UART
+
 #include "implementation.h"
 
 #include "metal_prompt/transport/interface.h"
@@ -59,3 +61,5 @@ bool m_p_transport_in(char* out_buffer) {
 
     return (rx_count > 0);
 }
+
+#endif

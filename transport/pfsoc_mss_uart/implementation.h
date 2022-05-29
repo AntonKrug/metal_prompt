@@ -9,12 +9,15 @@
  * devices which can use the microchip subsystem (mss) UART peripherals
  */
 
+#ifdef M_P_TRANSPORT_IMPLEMENTATION_PFSOC_MSS_UART
+
 #ifndef METAL_PROMPT_TRANSPORT_PFSOC_MSS_UART_H_
 #define METAL_PROMPT_TRANSPORT_PFSOC_MSS_UART_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 
 #include "drivers/mss/mss_mmuart/mss_uart.h"
@@ -31,3 +34,5 @@ extern void m_p_prompt(mss_uart_instance_t* port_to_be_used);
 #endif
 
 #endif /* METAL_PROMPT_TRANSPORT_PFSOC_MSS_UART_H_ */
+
+#endif

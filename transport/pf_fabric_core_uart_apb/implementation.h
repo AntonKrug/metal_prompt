@@ -10,6 +10,8 @@
  * peripheral as a soft IP inside the FPGA fabric.
  */
 
+#ifdef M_P_TRANSPORT_IMPLEMENTATION_PF_FABRIC_CORE_UART_APB
+
 #ifndef METAL_PROMPT_TRANSPORT_PF_FABRIC_CODE_UART_APB_H_
 #define METAL_PROMPT_TRANSPORT_PF_FABRIC_CODE_UART_APB_H_
 
@@ -32,3 +34,5 @@ extern void m_p_prompt(UART_instance_t* port_to_be_used);
 #endif
 
 #endif /* METAL_PROMPT_TRANSPORT_PF_FABRIC_CODE_UART_APB_H_ */
+
+#endif

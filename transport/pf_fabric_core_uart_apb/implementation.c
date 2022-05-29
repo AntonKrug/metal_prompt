@@ -10,6 +10,8 @@
  * peripheral as a soft IP inside the FPGA fabric.
  */
 
+#ifdef M_P_TRANSPORT_IMPLEMENTATION_PF_FABRIC_CORE_UART_APB
+
 #include "implementation.h"
 
 #include "metal_prompt/transport/interface.h"
@@ -60,3 +62,5 @@ bool m_p_transport_in(char* out_buffer) {
 
     return (rx_count > 0);
 }
+
+#endif
