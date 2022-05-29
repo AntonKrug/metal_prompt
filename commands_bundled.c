@@ -40,17 +40,17 @@ M_P_FORCE_OPTIMIZATION
 void m_p_bundled_configuration(void) {
 	char optimization[5];
 #ifdef NDEBUG
-	MSS_UART_polled_tx_string(uart_test_main, "Configuration: Release\r\n");
+	m_p_transport_out("Configuration: Release\r\n");
 #else
 	m_p_transport_out("Configuration: Debug\r\n");
 #endif
 
 #ifdef __OPTIMIZE__
-	MSS_UART_polled_tx_string(uart_test_main, "__OPTIMIZE__\r\n");
+	m_p_transport_out("__OPTIMIZE__\r\n");
 #endif
 
 #ifdef __OPTIMIZE_SIZE__
-	MSS_UART_polled_tx_string(uart_test_main, "__OPTIMIZE_SIZE__\r\n");
+	m_p_transport_out("__OPTIMIZE_SIZE__\r\n");
 #endif
 
 #ifndef __OPTIMIZE__
