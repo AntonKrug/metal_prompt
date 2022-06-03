@@ -53,6 +53,9 @@ static bool m_p_execute_cmd(char *cmd) {
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
     char* ret_arg_char_ptr;
 #endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
+    unsigned int ret_arg_uint; // Intentionally leaving it's size to change depending on the target
+#endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
     uint32_t ret_arg_uint32;
 #endif
@@ -90,18 +93,22 @@ static bool m_p_execute_cmd(char *cmd) {
                     selected_command.void_chars.action(ret_arg_char_ptr);
                     break;
 #endif
-
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
+                case M_P_CMD_RET_VOID_ARG_UINT:
+                    selected_command.void_uint.action(ret_arg_uint);
+                    break;
+#endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 case M_P_CMD_RET_VOID_ARG_UINT32:
                     selected_command.void_uint32.action(ret_arg_uint32);
                     break;
 #endif
-
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_CMD_RET_VOID_ARG_UINT64:
                     selected_command.void_uint64.action(ret_arg_uint64);
                     break;
 #endif
+// end of the void return callbacks
 
 
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
@@ -113,19 +120,48 @@ static bool m_p_execute_cmd(char *cmd) {
                 case M_P_CMD_RET_CHARS_ARG_CHARS:
                     ret_arg_char_ptr = selected_command.chars_chars.action(ret_arg_char_ptr);
                     break;
-
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
+                case M_P_CMD_RET_CHARS_ARG_UINT:
+                    ret_arg_char_ptr = selected_command.chars_uint.action(ret_arg_uint);
+                    break;
+#endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 case M_P_CMD_RET_CHARS_ARG_UINT32:
                     ret_arg_char_ptr = selected_command.chars_uint32.action(ret_arg_uint32);
                     break;
 #endif
-
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
                 case M_P_CMD_RET_CHARS_ARG_UINT64:
                     ret_arg_char_ptr = selected_command.chars_uint64.action(ret_arg_uint64);
                     break;
 #endif
+#endif // M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+
+
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
+                // Return type unsigned int
+                case M_P_CMD_RET_UINT_ARG_VOID:
+                    ret_arg_uint = selected_command.uint_void.action();
+                    break;
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_CMD_RET_UINT_ARG_CHARS:
+                    ret_arg_uint = selected_command.uint_chars.action(ret_arg_char_ptr);
+                    break;
 #endif
+                case M_P_CMD_RET_UINT_ARG_UINT:
+                    ret_arg_uint = selected_command.uint_uint.action(ret_arg_uint);
+                    break;
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
+                case M_P_CMD_RET_UINT_ARG_UINT32:
+                    ret_arg_uint = selected_command.uint_uint32.action(ret_arg_uint32);
+                    break;
+#endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
+                case M_P_CMD_RET_UINT_ARG_UINT64:
+                    ret_arg_uint = selected_command.uint_uint64.action(ret_arg_uint64);
+                    break;
+#endif
+#endif // M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
 
 
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
@@ -137,6 +173,12 @@ static bool m_p_execute_cmd(char *cmd) {
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
                 case M_P_CMD_RET_UINT32_ARG_CHARS:
                     ret_arg_uint32 = selected_command.uint32_chars.action(ret_arg_char_ptr);
+                    break;
+#endif
+
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
+                case M_P_CMD_RET_UINT32_ARG_UINT:
+                    ret_arg_uint32 = selected_command.uint32_uint.action(ret_arg_uint);
                     break;
 #endif
 
@@ -164,6 +206,13 @@ static bool m_p_execute_cmd(char *cmd) {
                     break;
 #endif
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
+                case M_P_CMD_RET_UINT64_ARG_UINT:
+                    ret_arg_uint64 = selected_command.uint64_uint.action(ret_arg_uint);
+                    break;
+#endif
+
+
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 case M_P_CMD_RET_UINT64_ARG_UINT32:
                     ret_arg_uint64 = selected_command.uint64_uint32.action(ret_arg_uint32);
@@ -173,7 +222,7 @@ static bool m_p_execute_cmd(char *cmd) {
                 case M_P_CMD_RET_UINT64_ARG_UINT64:
                     ret_arg_uint64 = selected_command.uint64_uint64.action(ret_arg_uint64);
                     break;
-#endif
+#endif // M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
 
                 default:
                     // Misconfiguration of the command structure detected.
@@ -187,6 +236,9 @@ static bool m_p_execute_cmd(char *cmd) {
                 case M_P_CMD_RET_VOID_ARG_VOID:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
                 case M_P_CMD_RET_VOID_ARG_CHARS:
+#endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
+                case M_P_CMD_RET_VOID_ARG_UINT:
 #endif
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 case M_P_CMD_RET_VOID_ARG_UINT32:
@@ -210,15 +262,35 @@ static bool m_p_execute_cmd(char *cmd) {
                     break;
 #endif
 
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
+                case M_P_CMD_RET_UINT_ARG_VOID:
+#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+                case M_P_CMD_RET_UINT_ARG_CHARS:
+#endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
+                case M_P_CMD_RET_UINT_ARG_UINT32:
+#endif
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
+                case M_P_CMD_RET_UINT_ARG_UINT64:
+#endif
+                    if (m_p_print_in_dec) {
+                        itoa(ret_arg_uint, buf, 10);
+                    } else {
+                        itoa(ret_arg_uint, buf, 16);
+                        m_p_transport_out("0x");
+                    }
+                    m_p_transport_out(buf);
+                    break;
+#endif
+
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
                 case M_P_CMD_RET_UINT32_ARG_VOID:
 #ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
                 case M_P_CMD_RET_UINT32_ARG_CHARS:
 #endif
                 case M_P_CMD_RET_UINT32_ARG_UINT32:
-
 #ifdef M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
-                    case M_P_CMD_RET_UINT32_ARG_UINT64:
+                case M_P_CMD_RET_UINT32_ARG_UINT64:
 #endif
                     if (m_p_print_in_dec) {
                         itoa(ret_arg_uint32, buf, 10);

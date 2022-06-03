@@ -23,8 +23,9 @@ extern "C" {
 #define M_P_FORCE_OPTIMIZATION __attribute__((optimize("-Os")))
 //#define M_P_FORCE_OPTIMIZATION // uncomment this line instead for no optimizations
 #define M_P_ALLOW_QUIT
-#define M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-#define M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
+//#define M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+#define M_P_RETURN_AND_ARGUMENT_UINT_ENABLE    // its size is target specific
+//#define M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
 //#define M_P_RETURN_AND_ARGUMENT_UINT64_ENABLE
 #define M_P_COLOR_ENABLE
 #define M_P_LIST_AND_AUTOCOMPLETE_ENABLE
@@ -45,7 +46,7 @@ extern "C" {
 
 
 // Enable/disable the uptime and benchmark commands (see systick.c)
-#define M_P_UPTIME
+//#define M_P_UPTIME
 
 #ifdef __cplusplus
 }

@@ -122,9 +122,9 @@ void m_p_bundled_set_prompt_color(uint32_t val) {
 #endif
 
 
-#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
 M_P_FORCE_OPTIMIZATION
-void m_p_bundled_print_in_dec(uint32_t val) {
+void m_p_bundled_print_in_dec(unsigned int val) {
     if (val) {
         m_p_print_in_dec = true;
     } else {
@@ -142,8 +142,8 @@ const m_p_command m_p_bundled_list[] = {
         { "list",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_list_all_tests } },
 #endif
 
-#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
-        { "print_in_dec"         , M_P_CMD_RET_VOID_ARG_UINT32, .void_uint32 = { &m_p_bundled_print_in_dec } },
+#ifdef M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
+        { "print_in_dec"         , M_P_CMD_RET_VOID_ARG_UINT,   .void_uint   = { &m_p_bundled_print_in_dec } },
 #endif
 
 #ifdef M_P_UPTIME
