@@ -112,7 +112,7 @@ void m_p_bundled_quit(void) {
 
 #ifdef M_P_CFG_COLOR_ENABLE
 M_P_CFG_FORCE_OPTIMIZATION
-void m_p_bundled_set_prompt_color(uint32_t val) {
+void m_p_bundled_set_prompt_color(unsigned int val) {
     if (val) {
         M_P_CFG_COLOR_ENABLEd = true;
     } else {
@@ -135,30 +135,30 @@ void m_p_bundled_print_in_dec(unsigned int val) {
 
 
 const m_p_command m_p_bundled_list[] = {
-        { "configuration",         M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_configuration } },
-        { "help",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_help } },
+        { "configuration",         M_P_CMD_TYPES(M_P_CMD_TYPE_VOID, M_P_CMD_TYPE_VOID),   .void_void   = { &m_p_bundled_configuration } },
+        { "help",                  M_P_CMD_TYPES(M_P_CMD_TYPE_VOID, M_P_CMD_TYPE_VOID),   .void_void   = { &m_p_bundled_help } },
 
 #ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
-        { "list",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_list_all_tests } },
+        { "list",                  M_P_CMD_TYPES(M_P_CMD_TYPE_VOID, M_P_CMD_TYPE_VOID),   .void_void   = { &m_p_bundled_list_all_tests } },
 #endif
 
 #ifdef M_P_CFG_TYPE_UINT
-        { "print_in_dec"         , M_P_CMD_RET_VOID_ARG_UINT,   .void_uint   = { &m_p_bundled_print_in_dec } },
+        { "print_in_dec"         , M_P_CMD_TYPES(M_P_CMD_TYPE_VOID, M_P_CMD_TYPE_UINT),   .void_uint   = { &m_p_bundled_print_in_dec } },
 #endif
 
 #ifdef M_P_CFG_UPTIME
-        { "set_command_benchmark", M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_set_command_benchmark } },
+        { "set_command_benchmark", M_P_CMD_TYPES(M_P_CMD_TYPE_VOID, M_P_CMD_TYPE_VOID),   .void_void   = { &m_p_bundled_set_command_benchmark } },
 #ifdef M_P_CFG_TYPE_UINT32
         { "uptime",                M_P_CMD_RET_UINT32_ARG_VOID, .uint32_void = { &m_p_bundled_uptime } },
 #endif // M_P_CFG_TYPE_UINT32
 #endif // M_P_CFG_UPTIME
 
-#if defined(M_P_CFG_COLOR_ENABLE) && defined(M_P_CFG_TYPE_UINT32)
-        { "set_prompt_color",      M_P_CMD_RET_VOID_ARG_UINT32, .void_uint32 = { &m_p_bundled_set_prompt_color } },
+#if defined(M_P_CFG_COLOR_ENABLE) && defined(M_P_CFG_TYPE_UINT)
+        { "set_prompt_color",      M_P_CMD_TYPES(M_P_CMD_TYPE_VOID, M_P_CMD_TYPE_UINT),   .void_uint = { &m_p_bundled_set_prompt_color } },
 #endif
 
 #ifdef M_P_CFG_ALLOW_QUIT
-        { "quit",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_quit } },
+        { "quit",                  M_P_CMD_TYPES(M_P_CMD_TYPE_VOID, M_P_CMD_TYPE_VOID),   .void_void   = { &m_p_bundled_quit } },
 #endif
 
         { NULL }  // Terminator of the list
