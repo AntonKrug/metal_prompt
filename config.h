@@ -54,13 +54,13 @@ extern "C" {
 #pragma mark - Supported return and argument types
 
 
-//#define M_P_CFG_RET_AND_ARG_STRING
-#define M_P_CFG_RET_AND_ARG_UINT    // its size is target specific (16-bit min)
-//#define M_P_CFG_RET_AND_ARG_UINT32
-//#define M_P_CFG_RET_AND_ARG_UINT64
+//#define M_P_CFG_TYPE_STRING
+#define M_P_CFG_TYPE_UINT    // its size is target specific (16-bit min)
+//#define M_P_CFG_TYPE_UINT32
+//#define M_P_CFG_TYPE_UINT64
 
-#ifdef M_P_CFG_RET_AND_ARG_STRING
-#define M_P_CFG_RET_AND_ARG_STRING_BUFFER_SIZE 48
+#ifdef M_P_CFG_TYPE_STRING
+#define M_P_CFG_TYPE_STRING_BUFFER_SIZE 48
 #endif
 
 

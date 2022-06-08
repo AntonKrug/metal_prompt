@@ -50,16 +50,16 @@ static bool m_p_execute_cmd(char *cmd) {
     char buf[M_P_CFG_COMMAND_NAME_SIZE];
 
     // Temporary variables to hold argument inputs and the returned values too
-#ifdef M_P_CFG_RET_AND_ARG_STRING
+#ifdef M_P_CFG_TYPE_STRING
     char* ret_arg_char_ptr;
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT
+#ifdef M_P_CFG_TYPE_UINT
     unsigned int ret_arg_uint; // Intentionally leaving it's size to change depending on the target
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT32
+#ifdef M_P_CFG_TYPE_UINT32
     uint32_t ret_arg_uint32;
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT64
+#ifdef M_P_CFG_TYPE_UINT64
     uint64_t ret_arg_uint64;
 #endif
 
@@ -88,22 +88,22 @@ static bool m_p_execute_cmd(char *cmd) {
                     selected_command.void_void.action();
                     break;
 
-#ifdef M_P_CFG_RET_AND_ARG_STRING
+#ifdef M_P_CFG_TYPE_STRING
                 case M_P_CMD_RET_VOID_ARG_CHARS:
                     selected_command.void_chars.action(ret_arg_char_ptr);
                     break;
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT
+#ifdef M_P_CFG_TYPE_UINT
                 case M_P_CMD_RET_VOID_ARG_UINT:
                     selected_command.void_uint.action(ret_arg_uint);
                     break;
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT32
+#ifdef M_P_CFG_TYPE_UINT32
                 case M_P_CMD_RET_VOID_ARG_UINT32:
                     selected_command.void_uint32.action(ret_arg_uint32);
                     break;
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT64
+#ifdef M_P_CFG_TYPE_UINT64
                 case M_P_CMD_RET_VOID_ARG_UINT64:
                     selected_command.void_uint64.action(ret_arg_uint64);
                     break;
@@ -111,7 +111,7 @@ static bool m_p_execute_cmd(char *cmd) {
 // end of the void return callbacks
 
 
-#ifdef M_P_CFG_RET_AND_ARG_STRING
+#ifdef M_P_CFG_TYPE_STRING
                 // Return type char*
                 case M_P_CMD_RET_CHARS_ARG_VOID:
                     ret_arg_char_ptr = selected_command.chars_void.action();
@@ -120,30 +120,30 @@ static bool m_p_execute_cmd(char *cmd) {
                 case M_P_CMD_RET_CHARS_ARG_CHARS:
                     ret_arg_char_ptr = selected_command.chars_chars.action(ret_arg_char_ptr);
                     break;
-#ifdef M_P_CFG_RET_AND_ARG_UINT
+#ifdef M_P_CFG_TYPE_UINT
                 case M_P_CMD_RET_CHARS_ARG_UINT:
                     ret_arg_char_ptr = selected_command.chars_uint.action(ret_arg_uint);
                     break;
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT32
+#ifdef M_P_CFG_TYPE_UINT32
                 case M_P_CMD_RET_CHARS_ARG_UINT32:
                     ret_arg_char_ptr = selected_command.chars_uint32.action(ret_arg_uint32);
                     break;
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT64
+#ifdef M_P_CFG_TYPE_UINT64
                 case M_P_CMD_RET_CHARS_ARG_UINT64:
                     ret_arg_char_ptr = selected_command.chars_uint64.action(ret_arg_uint64);
                     break;
 #endif
-#endif // M_P_CFG_RET_AND_ARG_STRING
+#endif // M_P_CFG_TYPE_STRING
 
 
-#ifdef M_P_CFG_RET_AND_ARG_UINT
+#ifdef M_P_CFG_TYPE_UINT
                 // Return type unsigned int
                 case M_P_CMD_RET_UINT_ARG_VOID:
                     ret_arg_uint = selected_command.uint_void.action();
                     break;
-#ifdef M_P_CFG_RET_AND_ARG_STRING
+#ifdef M_P_CFG_TYPE_STRING
                 case M_P_CMD_RET_UINT_ARG_CHARS:
                     ret_arg_uint = selected_command.uint_chars.action(ret_arg_char_ptr);
                     break;
@@ -151,32 +151,32 @@ static bool m_p_execute_cmd(char *cmd) {
                 case M_P_CMD_RET_UINT_ARG_UINT:
                     ret_arg_uint = selected_command.uint_uint.action(ret_arg_uint);
                     break;
-#ifdef M_P_CFG_RET_AND_ARG_UINT32
+#ifdef M_P_CFG_TYPE_UINT32
                 case M_P_CMD_RET_UINT_ARG_UINT32:
                     ret_arg_uint = selected_command.uint_uint32.action(ret_arg_uint32);
                     break;
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT64
+#ifdef M_P_CFG_TYPE_UINT64
                 case M_P_CMD_RET_UINT_ARG_UINT64:
                     ret_arg_uint = selected_command.uint_uint64.action(ret_arg_uint64);
                     break;
 #endif
-#endif // M_P_CFG_RET_AND_ARG_UINT
+#endif // M_P_CFG_TYPE_UINT
 
 
-#ifdef M_P_CFG_RET_AND_ARG_UINT32
+#ifdef M_P_CFG_TYPE_UINT32
                 // Return type uint32_t
                 case M_P_CMD_RET_UINT32_ARG_VOID:
                     ret_arg_uint32 = selected_command.uint32_void.action();
                     break;
 
-#ifdef M_P_CFG_RET_AND_ARG_STRING
+#ifdef M_P_CFG_TYPE_STRING
                 case M_P_CMD_RET_UINT32_ARG_CHARS:
                     ret_arg_uint32 = selected_command.uint32_chars.action(ret_arg_char_ptr);
                     break;
 #endif
 
-#ifdef M_P_CFG_RET_AND_ARG_UINT
+#ifdef M_P_CFG_TYPE_UINT
                 case M_P_CMD_RET_UINT32_ARG_UINT:
                     ret_arg_uint32 = selected_command.uint32_uint.action(ret_arg_uint);
                     break;
@@ -186,34 +186,34 @@ static bool m_p_execute_cmd(char *cmd) {
                     ret_arg_uint32 = selected_command.uint32_uint32.action(ret_arg_uint32);
                     break;
 
-#ifdef M_P_CFG_RET_AND_ARG_UINT64
+#ifdef M_P_CFG_TYPE_UINT64
                 case M_P_CMD_RET_UINT32_ARG_UINT64:
                     ret_arg_uint32 = selected_command.uint32_uint64.action(ret_arg_uint64);
                     break;
 #endif
-#endif // M_P_CFG_RET_AND_ARG_UINT32
+#endif // M_P_CFG_TYPE_UINT32
 
 
-#ifdef M_P_CFG_RET_AND_ARG_UINT64
+#ifdef M_P_CFG_TYPE_UINT64
                 // Return type uint64_t
                 case M_P_CMD_RET_UINT64_ARG_VOID:
                     ret_arg_uint64 = selected_command.uint64_void.action();
                     break;
 
-#ifdef M_P_CFG_RET_AND_ARG_STRING
+#ifdef M_P_CFG_TYPE_STRING
                 case M_P_CMD_RET_UINT64_ARG_CHARS:
                     ret_arg_uint64 = selected_command.uint64_chars.action(ret_arg_char_ptr);
                     break;
 #endif
 
-#ifdef M_P_CFG_RET_AND_ARG_UINT
+#ifdef M_P_CFG_TYPE_UINT
                 case M_P_CMD_RET_UINT64_ARG_UINT:
                     ret_arg_uint64 = selected_command.uint64_uint.action(ret_arg_uint);
                     break;
 #endif
 
 
-#ifdef M_P_CFG_RET_AND_ARG_UINT32
+#ifdef M_P_CFG_TYPE_UINT32
                 case M_P_CMD_RET_UINT64_ARG_UINT32:
                     ret_arg_uint64 = selected_command.uint64_uint32.action(ret_arg_uint32);
                     break;
@@ -222,7 +222,7 @@ static bool m_p_execute_cmd(char *cmd) {
                 case M_P_CMD_RET_UINT64_ARG_UINT64:
                     ret_arg_uint64 = selected_command.uint64_uint64.action(ret_arg_uint64);
                     break;
-#endif // M_P_CFG_RET_AND_ARG_UINT64
+#endif // M_P_CFG_TYPE_UINT64
 
                 default:
                     // Misconfiguration of the command structure detected.
@@ -234,43 +234,43 @@ static bool m_p_execute_cmd(char *cmd) {
             // Display the returned type
             switch (selected_command.type) {
                 case M_P_CMD_RET_VOID_ARG_VOID:
-#ifdef M_P_CFG_RET_AND_ARG_STRING
+#ifdef M_P_CFG_TYPE_STRING
                 case M_P_CMD_RET_VOID_ARG_CHARS:
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT
+#ifdef M_P_CFG_TYPE_UINT
                 case M_P_CMD_RET_VOID_ARG_UINT:
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT32
+#ifdef M_P_CFG_TYPE_UINT32
                 case M_P_CMD_RET_VOID_ARG_UINT32:
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT64
+#ifdef M_P_CFG_TYPE_UINT64
                 case M_P_CMD_RET_VOID_ARG_UINT64:
 #endif
                     // Void returned, display nothing
                     break;
 
-#ifdef M_P_CFG_RET_AND_ARG_STRING
+#ifdef M_P_CFG_TYPE_STRING
                 case M_P_CMD_RET_CHARS_ARG_VOID:
                 case M_P_CMD_RET_CHARS_ARG_CHARS:
-#ifdef M_P_CFG_RET_AND_ARG_UINT32
+#ifdef M_P_CFG_TYPE_UINT32
                 case M_P_CMD_RET_CHARS_ARG_UINT32:
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT64
+#ifdef M_P_CFG_TYPE_UINT64
                 case M_P_CMD_RET_CHARS_ARG_UINT64:
 #endif
                     m_p_transport_out(ret_arg_char_ptr);
                     break;
 #endif
 
-#ifdef M_P_CFG_RET_AND_ARG_UINT
+#ifdef M_P_CFG_TYPE_UINT
                 case M_P_CMD_RET_UINT_ARG_VOID:
-#ifdef M_P_CFG_RET_AND_ARG_STRING
+#ifdef M_P_CFG_TYPE_STRING
                 case M_P_CMD_RET_UINT_ARG_CHARS:
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT64
+#ifdef M_P_CFG_TYPE_UINT64
                 case M_P_CMD_RET_UINT_ARG_UINT32:
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT64
+#ifdef M_P_CFG_TYPE_UINT64
                 case M_P_CMD_RET_UINT_ARG_UINT64:
 #endif
                     if (m_p_print_in_dec) {
@@ -283,13 +283,13 @@ static bool m_p_execute_cmd(char *cmd) {
                     break;
 #endif
 
-#ifdef M_P_CFG_RET_AND_ARG_UINT32
+#ifdef M_P_CFG_TYPE_UINT32
                 case M_P_CMD_RET_UINT32_ARG_VOID:
-#ifdef M_P_CFG_RET_AND_ARG_STRING
+#ifdef M_P_CFG_TYPE_STRING
                 case M_P_CMD_RET_UINT32_ARG_CHARS:
 #endif
                 case M_P_CMD_RET_UINT32_ARG_UINT32:
-#ifdef M_P_CFG_RET_AND_ARG_UINT64
+#ifdef M_P_CFG_TYPE_UINT64
                 case M_P_CMD_RET_UINT32_ARG_UINT64:
 #endif
                     if (m_p_print_in_dec) {
@@ -302,12 +302,12 @@ static bool m_p_execute_cmd(char *cmd) {
                     break;
 #endif
 
-#ifdef M_P_CFG_RET_AND_ARG_UINT64
+#ifdef M_P_CFG_TYPE_UINT64
                 case M_P_CMD_RET_UINT64_ARG_VOID:
-#ifdef M_P_CFG_RET_AND_ARG_STRING
+#ifdef M_P_CFG_TYPE_STRING
                 case M_P_CMD_RET_UINT64_ARG_CHARS:
 #endif
-#ifdef M_P_CFG_RET_AND_ARG_UINT32
+#ifdef M_P_CFG_TYPE_UINT32
                 case M_P_CMD_RET_UINT64_ARG_UINT32:
 #endif
                 case M_P_CMD_RET_UINT64_ARG_UINT64:

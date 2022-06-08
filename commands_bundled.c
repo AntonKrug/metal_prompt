@@ -122,7 +122,7 @@ void m_p_bundled_set_prompt_color(uint32_t val) {
 #endif
 
 
-#ifdef M_P_CFG_RET_AND_ARG_UINT
+#ifdef M_P_CFG_TYPE_UINT
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_print_in_dec(unsigned int val) {
     if (val) {
@@ -142,18 +142,18 @@ const m_p_command m_p_bundled_list[] = {
         { "list",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_list_all_tests } },
 #endif
 
-#ifdef M_P_CFG_RET_AND_ARG_UINT
+#ifdef M_P_CFG_TYPE_UINT
         { "print_in_dec"         , M_P_CMD_RET_VOID_ARG_UINT,   .void_uint   = { &m_p_bundled_print_in_dec } },
 #endif
 
 #ifdef M_P_CFG_UPTIME
         { "set_command_benchmark", M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_set_command_benchmark } },
-#ifdef M_P_CFG_RET_AND_ARG_UINT32
+#ifdef M_P_CFG_TYPE_UINT32
         { "uptime",                M_P_CMD_RET_UINT32_ARG_VOID, .uint32_void = { &m_p_bundled_uptime } },
-#endif // M_P_CFG_RET_AND_ARG_UINT32
+#endif // M_P_CFG_TYPE_UINT32
 #endif // M_P_CFG_UPTIME
 
-#if defined(M_P_CFG_COLOR_ENABLE) && defined(M_P_CFG_RET_AND_ARG_UINT32)
+#if defined(M_P_CFG_COLOR_ENABLE) && defined(M_P_CFG_TYPE_UINT32)
         { "set_prompt_color",      M_P_CMD_RET_VOID_ARG_UINT32, .void_uint32 = { &m_p_bundled_set_prompt_color } },
 #endif
 
