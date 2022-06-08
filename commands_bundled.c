@@ -139,7 +139,7 @@ const m_p_command m_p_bundled_list[] = {
         { "help",                  M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_help } },
 
 #ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
-        { "list",                  M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_list_all_tests } },
+        { "ls",                    M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_list_all_tests } },
 #endif
 
 #ifdef M_P_CFG_TYPE_UINT
