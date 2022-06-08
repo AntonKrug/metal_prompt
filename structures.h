@@ -19,6 +19,7 @@ extern "C" {
 #include "config.h"
 
 #include <stdint.h>
+#include <stddef.h> // To the NULL terminator for files who include this structure
 
 
 #pragma mark - Callback structs with void return type
