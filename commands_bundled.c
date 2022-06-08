@@ -87,7 +87,7 @@ void m_p_bundled_help(void) {
 #ifdef M_P_CFG_UPTIME
 
 M_P_CFG_FORCE_OPTIMIZATION
-uint32_t m_p_bundled_uptime(void) {
+unsigned int m_p_bundled_uptime(void) {
 	return m_p_systick_uptime_ticks;
 }
 
@@ -148,8 +148,8 @@ const m_p_command m_p_bundled_list[] = {
 
 #ifdef M_P_CFG_UPTIME
         { "set_command_benchmark", M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_set_command_benchmark } },
-#ifdef M_P_CFG_TYPE_UINT32
-        { "uptime",                M_P_CMD_RET_UINT32_ARG_VOID, .uint32_void = { &m_p_bundled_uptime } },
+#ifdef M_P_CFG_TYPE_UINT
+        { "uptime",                M_P_CMD_TYPES(M_P_TYPE_UINT, M_P_TYPE_VOID),   .uint_void   = { &m_p_bundled_uptime } },
 #endif // M_P_CFG_TYPE_UINT32
 #endif // M_P_CFG_UPTIME
 

@@ -22,8 +22,8 @@ extern "C" {
 #include <stdint.h>
 
 #ifdef M_P_CFG_UPTIME
-extern volatile uint32_t m_p_systick_uptime_ticks;
-extern void              m_p_systick_handler(void);
+extern volatile unsigned int m_p_systick_uptime_ticks;
+extern void                  m_p_systick_handler(void);
 #endif
 
 #ifdef __cplusplus

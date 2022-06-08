@@ -17,7 +17,7 @@
 
 
 #ifdef M_P_CFG_UPTIME
-volatile uint32_t m_p_systick_uptime_ticks = 0;
+volatile unsigned int m_p_systick_uptime_ticks = 0;
 
 
 // Call this systick handler from application's systick handler,
