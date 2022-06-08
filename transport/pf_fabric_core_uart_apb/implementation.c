@@ -27,7 +27,7 @@ UART_instance_t* uart_instance;
 #pragma mark - Public functions
 
 
-M_P_FORCE_OPTIMIZATION
+M_P_CFG_FORCE_OPTIMIZATION
 void m_p_prompt(UART_instance_t* port_to_be_used) {
     uart_instance = port_to_be_used;
 
@@ -38,25 +38,25 @@ void m_p_prompt(UART_instance_t* port_to_be_used) {
 #pragma mark - Public functions implementing the transport interface
 
 
-M_P_FORCE_OPTIMIZATION
+M_P_CFG_FORCE_OPTIMIZATION
 void m_p_transport_out(const char* text) {
     UART_polled_tx_string(uart_instance, (const uint8_t*)text);
 }
 
 
-M_P_FORCE_OPTIMIZATION
+M_P_CFG_FORCE_OPTIMIZATION
 void m_p_transport_out_characters(const char* characters, unsigned int count) {
     UART_fill_tx_fifo(uart_instance, (const uint8_t*)characters, (uint32_t)count);
 }
 
 
-M_P_FORCE_OPTIMIZATION
+M_P_CFG_FORCE_OPTIMIZATION
 void m_p_transport_out_ln(void) {
     m_p_transport_out("\r\n");
 }
 
 
-M_P_FORCE_OPTIMIZATION
+M_P_CFG_FORCE_OPTIMIZATION
 bool m_p_transport_in(char* out_buffer) {
     uint32_t rx_count = UART_get_rx(uart_instance, out_buffer, 1);
 

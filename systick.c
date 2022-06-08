@@ -16,13 +16,13 @@
 #include <stdlib.h>
 
 
-#ifdef M_P_UPTIME
+#ifdef M_P_CFG_UPTIME
 volatile uint32_t m_p_systick_uptime_ticks = 0;
 
 
 // Call this systick handler from application's systick handler,
 // preferably at 1000Hz frequency (to get 1ms timestamp accuracy)
-M_P_FORCE_OPTIMIZATION
+M_P_CFG_FORCE_OPTIMIZATION
 void m_p_systick_handler() {
     m_p_systick_uptime_ticks++;
 }

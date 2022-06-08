@@ -13,16 +13,16 @@
 
 #pragma mark - Public variables
 
-bool m_p_print_in_dec       = M_P_PRINT_DEC_ON_STARTUP;
+bool m_p_print_in_dec       = M_P_CFG_PRINT_DEC_DEFAULT;
 
-#ifdef M_P_ALLOW_QUIT
+#ifdef M_P_CFG_ALLOW_QUIT
 bool m_p_keep_runnning      = true;
 #endif
 
-#ifdef M_P_UPTIME
+#ifdef M_P_CFG_UPTIME
 bool m_p_benchmark_commands = false;
 #endif
 
-#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
-char m_p_return_and_argument_buf[M_P_RETURN_AND_ARGUMENT_STRING_BUFFER_SIZE];
+#ifdef M_P_CFG_RET_AND_ARG_STRING
+char m_p_return_and_argument_buf[M_P_CFG_RET_AND_ARG_STRING_BUFFER_SIZE];
 #endif

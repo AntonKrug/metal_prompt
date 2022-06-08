@@ -24,15 +24,15 @@ extern "C" {
 
 extern bool m_p_print_in_dec;
 
-#ifdef M_P_ALLOW_QUIT
+#ifdef M_P_CFG_ALLOW_QUIT
 extern bool m_p_keep_runnning;
 #endif
 
-#ifdef M_P_UPTIME
+#ifdef M_P_CFG_UPTIME
 extern bool m_p_benchmark_commands;
 #endif
 
-#ifdef M_P_RETURN_AND_ARGUMENT_STRING_ENABLE
+#ifdef M_P_CFG_RET_AND_ARG_STRING
 extern char m_p_return_and_argument_buf[];
 #endif
 

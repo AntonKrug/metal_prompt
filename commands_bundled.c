@@ -23,8 +23,8 @@
 #pragma mark - The default set prompt commands
 
 
-#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
-M_P_FORCE_OPTIMIZATION
+#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
+M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_list_all_tests(void) {
 	char cmd[255] = "";
 	unsigned int carret = 0;
@@ -36,7 +36,7 @@ void m_p_bundled_list_all_tests(void) {
 #endif
 
 
-M_P_FORCE_OPTIMIZATION
+M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_configuration(void) {
 	char optimization[5];
 #ifdef NDEBUG
@@ -69,30 +69,30 @@ void m_p_bundled_configuration(void) {
 }
 
 
-M_P_FORCE_OPTIMIZATION
+M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_help(void) {
     m_p_transport_out("Help: \r\n\r\n");
-#ifdef M_P_ALLOW_QUIT
+#ifdef M_P_CFG_ALLOW_QUIT
     m_p_transport_out(" Ctrl+C exits the metal prompt interface\r\n\r\n");
 #endif
     m_p_transport_out(" Ctrl+S cleans the screen\r\n\r\n");
     m_p_transport_out(" Up arrow repeats the last command\r\n\r\n");
-#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
+#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
     m_p_transport_out(" TAB auto-completes the command, if there are multiple options,\r\n");
     m_p_transport_out(" then it will list all options.\r\n");
 #endif
 }
 
 
-#ifdef M_P_UPTIME
+#ifdef M_P_CFG_UPTIME
 
-M_P_FORCE_OPTIMIZATION
+M_P_CFG_FORCE_OPTIMIZATION
 uint32_t m_p_bundled_uptime(void) {
 	return m_p_systick_uptime_ticks;
 }
 
 
-M_P_FORCE_OPTIMIZATION
+M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_set_command_benchmark(void) {
     m_p_transport_out("Command benchmark mode enabled, now each command will print how long it took to execute.\r\n");
     m_p_benchmark_commands = true;
@@ -101,8 +101,8 @@ void m_p_bundled_set_command_benchmark(void) {
 #endif
 
 
-#ifdef M_P_ALLOW_QUIT
-M_P_FORCE_OPTIMIZATION
+#ifdef M_P_CFG_ALLOW_QUIT
+M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_quit(void) {
     m_p_transport_out("Exiting...\r\n");
 	m_p_keep_runnning = false;
@@ -110,20 +110,20 @@ void m_p_bundled_quit(void) {
 #endif
 
 
-#ifdef M_P_COLOR_ENABLE
-M_P_FORCE_OPTIMIZATION
+#ifdef M_P_CFG_COLOR_ENABLE
+M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_set_prompt_color(uint32_t val) {
     if (val) {
-        m_p_color_enabled = true;
+        M_P_CFG_COLOR_ENABLEd = true;
     } else {
-        m_p_color_enabled = false;
+        M_P_CFG_COLOR_ENABLEd = false;
     }
 }
 #endif
 
 
-#ifdef M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
-M_P_FORCE_OPTIMIZATION
+#ifdef M_P_CFG_RET_AND_ARG_UINT
+M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_print_in_dec(unsigned int val) {
     if (val) {
         m_p_print_in_dec = true;
@@ -138,26 +138,26 @@ const m_p_command m_p_bundled_list[] = {
         { "configuration",         M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_configuration } },
         { "help",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_help } },
 
-#ifdef M_P_LIST_AND_AUTOCOMPLETE_ENABLE
+#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
         { "list",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_list_all_tests } },
 #endif
 
-#ifdef M_P_RETURN_AND_ARGUMENT_UINT_ENABLE
+#ifdef M_P_CFG_RET_AND_ARG_UINT
         { "print_in_dec"         , M_P_CMD_RET_VOID_ARG_UINT,   .void_uint   = { &m_p_bundled_print_in_dec } },
 #endif
 
-#ifdef M_P_UPTIME
+#ifdef M_P_CFG_UPTIME
         { "set_command_benchmark", M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_set_command_benchmark } },
-#ifdef M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
+#ifdef M_P_CFG_RET_AND_ARG_UINT32
         { "uptime",                M_P_CMD_RET_UINT32_ARG_VOID, .uint32_void = { &m_p_bundled_uptime } },
-#endif // M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE
-#endif // M_P_UPTIME
+#endif // M_P_CFG_RET_AND_ARG_UINT32
+#endif // M_P_CFG_UPTIME
 
-#if defined(M_P_COLOR_ENABLE) && defined(M_P_RETURN_AND_ARGUMENT_UINT32_ENABLE)
+#if defined(M_P_CFG_COLOR_ENABLE) && defined(M_P_CFG_RET_AND_ARG_UINT32)
         { "set_prompt_color",      M_P_CMD_RET_VOID_ARG_UINT32, .void_uint32 = { &m_p_bundled_set_prompt_color } },
 #endif
 
-#ifdef M_P_ALLOW_QUIT
+#ifdef M_P_CFG_ALLOW_QUIT
         { "quit",                  M_P_CMD_RET_VOID_ARG_VOID,   .void_void   = { &m_p_bundled_quit } },
 #endif
 
