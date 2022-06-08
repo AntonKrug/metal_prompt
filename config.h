@@ -18,6 +18,10 @@ extern "C" {
 
 #include <stdbool.h>
 
+
+#pragma mark - Configuration of features
+
+
 #define M_P_CFG_COMMAND_PROMPT "metal_prompt:/$ "
 #define M_P_CFG_COMMAND_NAME_SIZE 128
 #define M_P_CFG_FORCE_OPTIMIZATION __attribute__((optimize("-Os")))
@@ -25,21 +29,14 @@ extern "C" {
 #define M_P_CFG_ALLOW_QUIT
 #define M_P_CFG_PRINT_DEC_DEFAULT true
 
-
-//#define M_P_CFG_RET_AND_ARG_STRING
-#define M_P_CFG_RET_AND_ARG_UINT    // its size is target specific (16-bit min)
-//#define M_P_CFG_RET_AND_ARG_UINT32
-//#define M_P_CFG_RET_AND_ARG_UINT64
-
-#ifdef M_P_CFG_RET_AND_ARG_STRING
-#define M_P_CFG_RET_AND_ARG_STRING_BUFFER_SIZE 48
-#endif
-
-
 // Enable/disable the uptime and benchmark commands (see systick.c)
 //#define M_P_CFG_UPTIME
 
 #define M_P_CFG_COLOR_ENABLE
+
+
+#pragma mark - Configuration of autocomplete
+
 
 #define M_P_CFG_AUTOCOMPLETE_ENABLE
 #ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
@@ -52,6 +49,19 @@ extern "C" {
 #define M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMANDS
 
 #endif // M_P_CFG_AUTOCOMPLETE_ENABLE
+
+
+#pragma mark - Supported return and argument types
+
+
+//#define M_P_CFG_RET_AND_ARG_STRING
+#define M_P_CFG_RET_AND_ARG_UINT    // its size is target specific (16-bit min)
+//#define M_P_CFG_RET_AND_ARG_UINT32
+//#define M_P_CFG_RET_AND_ARG_UINT64
+
+#ifdef M_P_CFG_RET_AND_ARG_STRING
+#define M_P_CFG_RET_AND_ARG_STRING_BUFFER_SIZE 48
+#endif
 
 
 #ifdef __cplusplus
