@@ -570,10 +570,11 @@ void m_p_auto_complete(char* cmd, unsigned int* caret) {
         m_p_transport_out_characters(cmd + cmd_len, common_location - cmd_len);
         *caret = strlen(cmd);
     } else {
-        // There is nothing to add with auto-complete
+        // There is nothing to add with auto-complete as it's full command
 
-        // If it's full unique command = do nothing
 #ifdef M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMANDS
+        // Do the autocomplete anyway as it will display the arguments of the
+        // current command
         m_p_iterate_begin();
         while (m_p_iterate_current_exists()) {
             // Search if there is full match
