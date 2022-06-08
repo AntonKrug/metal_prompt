@@ -23,6 +23,6 @@ bool m_p_keep_runnning      = true;
 bool m_p_benchmark_commands = false;
 #endif
 
-#ifdef M_P_CFG_TYPE_STRING
-char m_p_return_and_argument_buf[M_P_CFG_TYPE_STRING_BUFFER_SIZE];
+#ifdef M_P_CFG_TYPE_CHARS
+char m_p_return_and_argument_buf[M_P_CFG_TYPE_CHARS_BUFFER_SIZE];
 #endif

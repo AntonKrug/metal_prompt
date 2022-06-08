@@ -32,7 +32,7 @@ extern bool m_p_keep_runnning;
 extern bool m_p_benchmark_commands;
 #endif
 
-#ifdef M_P_CFG_TYPE_STRING
+#ifdef M_P_CFG_TYPE_CHARS
 extern char m_p_return_and_argument_buf[];
 #endif
 

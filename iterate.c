@@ -110,6 +110,8 @@ unsigned int m_p_iterate_get_current_string(char *buf, bool use_color) {
 #ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_iterate_get_current_string_arguments(char *buf) {
+    // print 'return(' text
+
     strcpy(buf, "");
 #ifdef M_P_CFG_COLOR_ENABLE
     m_p_color_buf_gray(buf);
@@ -119,81 +121,38 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
     m_p_color_buf_default_bold(buf);
 #endif
 
-    switch (m_p_commands_enabled[group_idx].commands[command_idx].type) {
-#ifdef M_P_CFG_TYPE_STRING
-        case M_P_CMD_RET_CHARS_ARG_VOID:
-        case M_P_CMD_RET_CHARS_ARG_CHARS:
-#ifdef M_P_CFG_TYPE_UINT
-        case M_P_CMD_RET_CHARS_ARG_UINT:
-#endif
-#ifdef M_P_CFG_TYPE_UINT32
-        case M_P_CMD_RET_CHARS_ARG_UINT32:
-#endif
-#ifdef M_P_CFG_TYPE_UINT64
-            case M_P_CMD_RET_CHARS_ARG_UINT64:
-#endif
+    // print return type
+    switch (M_P_CMD_MASK_RET & (m_p_commands_enabled[group_idx].commands[command_idx].type)) {
+#ifdef M_P_CFG_TYPE_CHARS
+        case M_P_CMD_GET_RET_TYPE(M_P_TYPE_CHARS):
             strcat(buf, "char*       ");
             break;
-#endif // M_P_CFG_TYPE_STRING
-
+#endif
 
 #ifdef M_P_CFG_TYPE_UINT
-        case M_P_CMD_RET_UINT_ARG_VOID:
-#ifdef M_P_CFG_TYPE_STRING
-        case M_P_CMD_RET_UINT_ARG_CHARS:
-#endif
-#ifdef M_P_CFG_TYPE_UINT
-        case M_P_CMD_RET_UINT_ARG_UINT:
-#endif
-#ifdef M_P_CFG_TYPE_UINT32
-        case M_P_CMD_RET_UINT_ARG_UINT32:
-#endif
-#ifdef M_P_CFG_TYPE_UINT64
-        case M_P_CMD_RET_UINT_ARG_UINT64:
-#endif
+        case M_P_CMD_GET_RET_TYPE(M_P_TYPE_UINT):
             strcat(buf, "unsigned int");
         break;
-#endif // M_P_CFG_TYPE_UINT
-
+#endif
 
 #ifdef M_P_CFG_TYPE_UINT32
-        case M_P_CMD_RET_UINT32_ARG_VOID:
-#ifdef M_P_CFG_TYPE_STRING
-        case M_P_CMD_RET_UINT32_ARG_CHARS:
-#endif
-#ifdef M_P_CFG_TYPE_UINT
-        case M_P_CMD_RET_UINT32_ARG_UINT:
-#endif
-        case M_P_CMD_RET_UINT32_ARG_UINT32:
-#ifdef M_P_CFG_TYPE_UINT64
-        case M_P_CMD_RET_UINT32_ARG_UINT64:
-#endif
+        case M_P_CMD_GET_RET_TYPE(M_P_TYPE_UINT32):
             strcat(buf, "uint32_t    ");
         break;
-#endif // M_P_CFG_TYPE_UINT32
-
+#endif
 
 #ifdef M_P_CFG_TYPE_UINT64
-        case M_P_CMD_RET_UINT64_ARG_VOID:
-#ifdef M_P_CFG_TYPE_STRING
-        case M_P_CMD_RET_UINT64_ARG_CHARS:
-#endif
-#ifdef M_P_CFG_TYPE_UINT
-        case M_P_CMD_RET_UINT64_ARG_UINT:
-#endif
-#ifdef M_P_CFG_TYPE_UINT32
-        case M_P_CMD_RET_UINT64_ARG_UINT32:
-#endif
-        case M_P_CMD_RET_UINT64_ARG_UINT64:
+        case M_P_CMD_GET_RET_TYPE(M_P_TYPE_UINT64):
             strcat(buf, "uint64_t    ");
             break;
-#endif // M_P_CFG_TYPE_UINT64
+#endif
 
         default:
             strcat(buf, "void        ");
             break;
     }
 
+    // print ') arg('
 #ifdef M_P_CFG_COLOR_ENABLE
     m_p_color_buf_gray(buf);
 #endif
@@ -202,75 +161,28 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
     m_p_color_buf_default_bold(buf);
 #endif
 
-    switch (m_p_commands_enabled[group_idx].commands[command_idx].type) {
-#ifdef M_P_CFG_TYPE_STRING
-
-        case M_P_CMD_RET_VOID_ARG_CHARS:
-        case M_P_CMD_RET_CHARS_ARG_CHARS:
-#ifdef M_P_CFG_TYPE_UINT
-        case M_P_CMD_RET_UINT_ARG_CHARS:
-#endif
-#ifdef M_P_CFG_TYPE_UINT32
-        case M_P_CMD_RET_UINT32_ARG_CHARS:
-#endif
-#ifdef M_P_CFG_TYPE_UINT64
-        case M_P_CMD_RET_UINT64_ARG_CHARS:
-#endif
+    // print argument's type
+    switch (M_P_CMD_MASK_ARG & m_p_commands_enabled[group_idx].commands[command_idx].type) {
+#ifdef M_P_CFG_TYPE_CHARS
+        case M_P_CMD_GET_ARG_TYPE(M_P_TYPE_CHARS):
             strcat(buf, "char*");
             break;
 #endif
 
-
 #ifdef M_P_CFG_TYPE_UINT
-        case M_P_CMD_RET_VOID_ARG_UINT:
-
-#ifdef M_P_CFG_TYPE_STRING
-        case M_P_CMD_RET_CHARS_ARG_UINT:
-#endif
-#ifdef M_P_CFG_TYPE_UINT
-        case M_P_CMD_RET_UINT_ARG_UINT:
-#endif
-#ifdef M_P_CFG_TYPE_UINT32
-        case M_P_CMD_RET_UINT32_ARG_UINT:
-#endif
-#ifdef M_P_CFG_TYPE_UINT64
-        case M_P_CMD_RET_UINT64_ARG_UINT:
-#endif
+        case M_P_CMD_GET_ARG_TYPE(M_P_TYPE_UINT):
             strcat(buf, "unsigned int");
             break;
-#endif // M_P_CFG_TYPE_UINT
-
+#endif
 
 #ifdef M_P_CFG_TYPE_UINT32
-        case M_P_CMD_RET_VOID_ARG_UINT32:
-
-#ifdef M_P_CFG_TYPE_STRING
-        case M_P_CMD_RET_CHARS_ARG_UINT32:
-#endif
-#ifdef M_P_CFG_TYPE_UINT
-        case M_P_CMD_RET_UINT_ARG_UINT32:
-#endif
-        case M_P_CMD_RET_UINT32_ARG_UINT32:
-#ifdef M_P_CFG_TYPE_UINT64
-        case M_P_CMD_RET_UINT64_ARG_UINT32:
-#endif
+        case M_P_CMD_GET_ARG_TYPE(M_P_TYPE_UINT32):
             strcat(buf, "uint32_t");
             break;
-#endif // M_P_CFG_TYPE_UINT32
-
+#endif
 
 #ifdef M_P_CFG_TYPE_UINT64
-        case M_P_CMD_RET_VOID_ARG_UINT64:
-#ifdef M_P_CFG_TYPE_STRING
-        case M_P_CMD_RET_CHARS_ARG_UINT64:
-#endif
-#ifdef M_P_CFG_TYPE_UINT
-        case M_P_CMD_RET_UINT_ARG_UINT64:
-#endif
-#ifdef M_P_CFG_TYPE_UINT32
-        case M_P_CMD_RET_UINT32_ARG_UINT32:
-#endif
-        case M_P_CMD_RET_UINT64_ARG_UINT64:
+        case M_P_CMD_GET_ARG_TYPE(M_P_TYPE_UINT64):
             strcat(buf, "uint64_t");
             break;
 #endif
@@ -280,6 +192,7 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
             break;
     }
 
+    // print close bracket
 #ifdef M_P_CFG_COLOR_ENABLE
     m_p_color_buf_gray(buf);
 #endif

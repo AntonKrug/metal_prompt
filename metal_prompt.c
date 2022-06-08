@@ -46,11 +46,9 @@ static void m_p_print_prompt(char *cmd) {
 
 
 M_P_CFG_FORCE_OPTIMIZATION
-static bool m_p_execute_cmd(char *cmd) {
-    char buf[M_P_CFG_COMMAND_NAME_SIZE];
-
+static bool m_p_execute_command(const char *cmd, char *buf, const m_p_command* selected_command) {
     // Temporary variables to hold argument inputs and the returned values too
-#ifdef M_P_CFG_TYPE_STRING
+#ifdef M_P_CFG_TYPE_CHARS
     char* ret_arg_char_ptr;
 #endif
 #ifdef M_P_CFG_TYPE_UINT
@@ -63,10 +61,239 @@ static bool m_p_execute_cmd(char *cmd) {
     uint64_t ret_arg_uint64;
 #endif
 
+    // TODO: Parse the argument first (if not using buf, then remove it from signature)
+
+    // Execute the command
+    switch (selected_command->type) {
+
+        // -------------- Return type void -------------------------
+        case M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID):
+            selected_command->void_void.action();
+            break;
+
+#if defined(M_P_CFG_TYPE_CHARS)
+        case M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_CHARS):
+            selected_command->void_chars.action(ret_arg_char_ptr);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT)
+        case M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT):
+            selected_command->void_uint.action(ret_arg_uint);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT32)
+        case M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT32):
+            selected_command->void_uint32.action(ret_arg_uint32);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT64)
+        case M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT64):
+            selected_command->void_uint64.action(ret_arg_uint64);
+            break;
+#endif
+
+
+        // -------------- Return type chars ---------------------
+#if defined(M_P_CFG_TYPE_CHARS)
+        case M_P_CMD_TYPES(M_P_TYPE_CHARS, M_P_TYPE_VOID):
+            ret_arg_char_ptr = selected_command->chars_void.action();
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_CHARS) && defined(M_P_CFG_TYPE_CHARS)
+        case M_P_CMD_TYPES(M_P_TYPE_CHARS, M_P_TYPE_CHARS):
+            ret_arg_char_ptr = selected_command->chars_chars.action(ret_arg_char_ptr);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_CHARS) && defined(M_P_CFG_TYPE_UINT)
+        case M_P_CMD_TYPES(M_P_TYPE_CHARS, M_P_TYPE_UINT):
+            ret_arg_char_ptr = selected_command->chars_uint.action(ret_arg_uint);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_CHARS) && defined(M_P_CFG_TYPE_UINT32)
+        case M_P_CMD_TYPES(M_P_TYPE_CHARS, M_P_TYPE_UINT32):
+            ret_arg_char_ptr = selected_command->chars_uint32.action(ret_arg_uint32);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_CHARS) && defined(M_P_CFG_TYPE_UINT64)
+        case M_P_CMD_TYPES(M_P_TYPE_CHARS, M_P_TYPE_UINT64):
+            ret_arg_char_ptr = selected_command->chars_uint64.action(ret_arg_uint64);
+            break;
+#endif
+
+
+        // -------------- Return type unsigned int ---------------------
+#if defined(M_P_CFG_TYPE_UINT)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT, M_P_TYPE_VOID):
+            ret_arg_uint = selected_command->uint_void.action();
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT) && defined(M_P_CFG_TYPE_CHARS)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT, M_P_TYPE_CHARS):
+            ret_arg_uint = selected_command->uint_chars.action(ret_arg_char_ptr);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT) && defined(M_P_CFG_TYPE_UINT)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT, M_P_TYPE_UINT):
+            ret_arg_uint = selected_command->uint_uint.action(ret_arg_uint);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT) && defined(M_P_CFG_TYPE_UINT32)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT, M_P_TYPE_UINT32):
+            ret_arg_uint = selected_command->uint_uint32.action(ret_arg_uint32);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT) && defined(M_P_CFG_TYPE_UINT64)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT, M_P_TYPE_UINT64):
+            ret_arg_uint = selected_command->uint_uint64.action(ret_arg_uint64);
+            break;
+#endif
+
+
+    // -------------- Return type uint32 ---------------------
+#if defined(M_P_CFG_TYPE_UINT32)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT32, M_P_TYPE_VOID):
+            ret_arg_uint32 = selected_command->uint32_void.action();
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT32) && defined(M_P_CFG_TYPE_CHARS)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT32, M_P_TYPE_CHARS):
+            ret_arg_uint32 = selected_command->uint32_chars.action(ret_arg_char_ptr);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT32) && defined(M_P_CFG_TYPE_UINT)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT32, M_P_TYPE_UINT):
+            ret_arg_uint32 = selected_command->uint32_uint.action(ret_arg_uint);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT32) && defined(M_P_CFG_TYPE_UINT32)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT32, M_P_TYPE_UINT32):
+            ret_arg_uint32 = selected_command->uint32_uint32.action(ret_arg_uint32);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT32) && defined(M_P_CFG_TYPE_UINT64)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT32, M_P_TYPE_UINT64):
+            ret_arg_uint32 = selected_command->uint32_uint64.action(ret_arg_uint64);
+            break;
+#endif
+
+
+    // -------------- Return type uint64 ---------------------
+#if defined(M_P_CFG_TYPE_UINT64)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT64, M_P_TYPE_VOID):
+            ret_arg_uint64 = selected_command->uint64_void.action();
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT64) && defined(M_P_CFG_TYPE_CHARS)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT64, M_P_TYPE_CHARS):
+            ret_arg_uint64 = selected_command->uint64_chars.action(ret_arg_char_ptr);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT64) && defined(M_P_CFG_TYPE_UINT)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT64, M_P_TYPE_UINT):
+            ret_arg_uint64 = selected_command->uint64_uint.action(ret_arg_uint);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT64) && defined(M_P_CFG_TYPE_UINT32)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT64, M_P_TYPE_UINT32):
+            ret_arg_uint64 = selected_command->uint64_uint32.action(ret_arg_uint32);
+            break;
+#endif
+
+#if defined(M_P_CFG_TYPE_UINT64) && defined(M_P_CFG_TYPE_UINT64)
+        case M_P_CMD_TYPES(M_P_TYPE_UINT64, M_P_TYPE_UINT64):
+            ret_arg_uint64 = selected_command->uint64_uint64.action(ret_arg_uint64);
+            break;
+#endif
+
+        default:
+            // Non valid command type found, aborting
+            return false;
+            break;
+    }
+
+
+    // Display the returned type
+    switch (M_P_CMD_MASK_RET & selected_command->type) {
+
+#ifdef M_P_CFG_TYPE_CHARS
+        case M_P_CMD_GET_RET_TYPE(M_P_TYPE_CHARS):
+            m_p_transport_out(ret_arg_char_ptr);
+            break;
+#endif
+
+#ifdef M_P_CFG_TYPE_UINT
+        case M_P_CMD_GET_RET_TYPE(M_P_TYPE_UINT):
+            if (m_p_print_in_dec) {
+                itoa(ret_arg_uint, buf, 10);
+            } else {
+                itoa(ret_arg_uint, buf, 16);
+                m_p_transport_out("0x");
+            }
+            m_p_transport_out(buf);
+            break;
+#endif
+
+#ifdef M_P_CFG_TYPE_UINT32
+        case M_P_CMD_GET_RET_TYPE(M_P_TYPE_UINT32):
+            if (m_p_print_in_dec) {
+                itoa(ret_arg_uint32, buf, 10);
+            } else {
+                itoa(ret_arg_uint32, buf, 16);
+                m_p_transport_out("0x");
+            }
+            m_p_transport_out(buf);
+            break;
+#endif
+
+#ifdef M_P_CFG_TYPE_UINT64
+        case M_P_CMD_GET_RET_TYPE(M_P_TYPE_UINT64):
+            if (m_p_print_in_dec) {
+                itoa(ret_arg_uint64, buf, 10);
+            } else {
+                itoa(ret_arg_uint64, buf, 16);
+                m_p_transport_out("0x");
+            }
+            m_p_transport_out(buf);
+            break;
+#endif
+
+        default:
+            // void return type, nothing to display
+            break;
+    }
+
+    return true;
+}
+
+
+M_P_CFG_FORCE_OPTIMIZATION
+static bool m_p_find_match_and_execute(char *cmd) {
+    char buf[M_P_CFG_COMMAND_NAME_SIZE];
+
     m_p_iterate_begin();
     while (m_p_iterate_current_exists()) {
         m_p_iterate_get_current_string(buf, false);
 
+        // TODO: check if the len of both is the same, overlapping commands
+        // chould make wrong match
         if (strcmp(cmd, buf)  == 0) {
 #ifdef M_P_CFG_UPTIME
             uint32_t begin = m_p_systick_uptime_ticks;
@@ -78,258 +305,10 @@ static bool m_p_execute_cmd(char *cmd) {
             // TODO: Depending on type call it differently / parse return etc.
             m_p_transport_out("\r\n");
 
-            // TODO: Parse the argument first
-
-            // Execute the command
-            switch (selected_command.type) {
-
-                // Return type void
-                case M_P_CMD_RET_VOID_ARG_VOID:
-                    selected_command.void_void.action();
-                    break;
-
-#ifdef M_P_CFG_TYPE_STRING
-                case M_P_CMD_RET_VOID_ARG_CHARS:
-                    selected_command.void_chars.action(ret_arg_char_ptr);
-                    break;
-#endif
-#ifdef M_P_CFG_TYPE_UINT
-                case M_P_CMD_RET_VOID_ARG_UINT:
-                    selected_command.void_uint.action(ret_arg_uint);
-                    break;
-#endif
-#ifdef M_P_CFG_TYPE_UINT32
-                case M_P_CMD_RET_VOID_ARG_UINT32:
-                    selected_command.void_uint32.action(ret_arg_uint32);
-                    break;
-#endif
-#ifdef M_P_CFG_TYPE_UINT64
-                case M_P_CMD_RET_VOID_ARG_UINT64:
-                    selected_command.void_uint64.action(ret_arg_uint64);
-                    break;
-#endif
-// end of the void return callbacks
-
-
-#ifdef M_P_CFG_TYPE_STRING
-                // Return type char*
-                case M_P_CMD_RET_CHARS_ARG_VOID:
-                    ret_arg_char_ptr = selected_command.chars_void.action();
-                    break;
-
-                case M_P_CMD_RET_CHARS_ARG_CHARS:
-                    ret_arg_char_ptr = selected_command.chars_chars.action(ret_arg_char_ptr);
-                    break;
-#ifdef M_P_CFG_TYPE_UINT
-                case M_P_CMD_RET_CHARS_ARG_UINT:
-                    ret_arg_char_ptr = selected_command.chars_uint.action(ret_arg_uint);
-                    break;
-#endif
-#ifdef M_P_CFG_TYPE_UINT32
-                case M_P_CMD_RET_CHARS_ARG_UINT32:
-                    ret_arg_char_ptr = selected_command.chars_uint32.action(ret_arg_uint32);
-                    break;
-#endif
-#ifdef M_P_CFG_TYPE_UINT64
-                case M_P_CMD_RET_CHARS_ARG_UINT64:
-                    ret_arg_char_ptr = selected_command.chars_uint64.action(ret_arg_uint64);
-                    break;
-#endif
-#endif // M_P_CFG_TYPE_STRING
-
-
-#ifdef M_P_CFG_TYPE_UINT
-                // Return type unsigned int
-                case M_P_CMD_RET_UINT_ARG_VOID:
-                    ret_arg_uint = selected_command.uint_void.action();
-                    break;
-#ifdef M_P_CFG_TYPE_STRING
-                case M_P_CMD_RET_UINT_ARG_CHARS:
-                    ret_arg_uint = selected_command.uint_chars.action(ret_arg_char_ptr);
-                    break;
-#endif
-                case M_P_CMD_RET_UINT_ARG_UINT:
-                    ret_arg_uint = selected_command.uint_uint.action(ret_arg_uint);
-                    break;
-#ifdef M_P_CFG_TYPE_UINT32
-                case M_P_CMD_RET_UINT_ARG_UINT32:
-                    ret_arg_uint = selected_command.uint_uint32.action(ret_arg_uint32);
-                    break;
-#endif
-#ifdef M_P_CFG_TYPE_UINT64
-                case M_P_CMD_RET_UINT_ARG_UINT64:
-                    ret_arg_uint = selected_command.uint_uint64.action(ret_arg_uint64);
-                    break;
-#endif
-#endif // M_P_CFG_TYPE_UINT
-
-
-#ifdef M_P_CFG_TYPE_UINT32
-                // Return type uint32_t
-                case M_P_CMD_RET_UINT32_ARG_VOID:
-                    ret_arg_uint32 = selected_command.uint32_void.action();
-                    break;
-
-#ifdef M_P_CFG_TYPE_STRING
-                case M_P_CMD_RET_UINT32_ARG_CHARS:
-                    ret_arg_uint32 = selected_command.uint32_chars.action(ret_arg_char_ptr);
-                    break;
-#endif
-
-#ifdef M_P_CFG_TYPE_UINT
-                case M_P_CMD_RET_UINT32_ARG_UINT:
-                    ret_arg_uint32 = selected_command.uint32_uint.action(ret_arg_uint);
-                    break;
-#endif
-
-                case M_P_CMD_RET_UINT32_ARG_UINT32:
-                    ret_arg_uint32 = selected_command.uint32_uint32.action(ret_arg_uint32);
-                    break;
-
-#ifdef M_P_CFG_TYPE_UINT64
-                case M_P_CMD_RET_UINT32_ARG_UINT64:
-                    ret_arg_uint32 = selected_command.uint32_uint64.action(ret_arg_uint64);
-                    break;
-#endif
-#endif // M_P_CFG_TYPE_UINT32
-
-
-#ifdef M_P_CFG_TYPE_UINT64
-                // Return type uint64_t
-                case M_P_CMD_RET_UINT64_ARG_VOID:
-                    ret_arg_uint64 = selected_command.uint64_void.action();
-                    break;
-
-#ifdef M_P_CFG_TYPE_STRING
-                case M_P_CMD_RET_UINT64_ARG_CHARS:
-                    ret_arg_uint64 = selected_command.uint64_chars.action(ret_arg_char_ptr);
-                    break;
-#endif
-
-#ifdef M_P_CFG_TYPE_UINT
-                case M_P_CMD_RET_UINT64_ARG_UINT:
-                    ret_arg_uint64 = selected_command.uint64_uint.action(ret_arg_uint);
-                    break;
-#endif
-
-
-#ifdef M_P_CFG_TYPE_UINT32
-                case M_P_CMD_RET_UINT64_ARG_UINT32:
-                    ret_arg_uint64 = selected_command.uint64_uint32.action(ret_arg_uint32);
-                    break;
-#endif
-
-                case M_P_CMD_RET_UINT64_ARG_UINT64:
-                    ret_arg_uint64 = selected_command.uint64_uint64.action(ret_arg_uint64);
-                    break;
-#endif // M_P_CFG_TYPE_UINT64
-
-                default:
-                    // Misconfiguration of the command structure detected.
-                    // Abort the execution with a error!
-                    return false;
-                    break;
+            if (!m_p_execute_command(cmd, buf, &selected_command)) {
+                // problem happened
+                return false;
             }
-
-            // Display the returned type
-            switch (selected_command.type) {
-                case M_P_CMD_RET_VOID_ARG_VOID:
-#ifdef M_P_CFG_TYPE_STRING
-                case M_P_CMD_RET_VOID_ARG_CHARS:
-#endif
-#ifdef M_P_CFG_TYPE_UINT
-                case M_P_CMD_RET_VOID_ARG_UINT:
-#endif
-#ifdef M_P_CFG_TYPE_UINT32
-                case M_P_CMD_RET_VOID_ARG_UINT32:
-#endif
-#ifdef M_P_CFG_TYPE_UINT64
-                case M_P_CMD_RET_VOID_ARG_UINT64:
-#endif
-                    // Void returned, display nothing
-                    break;
-
-#ifdef M_P_CFG_TYPE_STRING
-                case M_P_CMD_RET_CHARS_ARG_VOID:
-                case M_P_CMD_RET_CHARS_ARG_CHARS:
-#ifdef M_P_CFG_TYPE_UINT32
-                case M_P_CMD_RET_CHARS_ARG_UINT32:
-#endif
-#ifdef M_P_CFG_TYPE_UINT64
-                case M_P_CMD_RET_CHARS_ARG_UINT64:
-#endif
-                    m_p_transport_out(ret_arg_char_ptr);
-                    break;
-#endif
-
-#ifdef M_P_CFG_TYPE_UINT
-                case M_P_CMD_RET_UINT_ARG_VOID:
-#ifdef M_P_CFG_TYPE_STRING
-                case M_P_CMD_RET_UINT_ARG_CHARS:
-#endif
-#ifdef M_P_CFG_TYPE_UINT64
-                case M_P_CMD_RET_UINT_ARG_UINT32:
-#endif
-#ifdef M_P_CFG_TYPE_UINT64
-                case M_P_CMD_RET_UINT_ARG_UINT64:
-#endif
-                    if (m_p_print_in_dec) {
-                        itoa(ret_arg_uint, buf, 10);
-                    } else {
-                        itoa(ret_arg_uint, buf, 16);
-                        m_p_transport_out("0x");
-                    }
-                    m_p_transport_out(buf);
-                    break;
-#endif
-
-#ifdef M_P_CFG_TYPE_UINT32
-                case M_P_CMD_RET_UINT32_ARG_VOID:
-#ifdef M_P_CFG_TYPE_STRING
-                case M_P_CMD_RET_UINT32_ARG_CHARS:
-#endif
-                case M_P_CMD_RET_UINT32_ARG_UINT32:
-#ifdef M_P_CFG_TYPE_UINT64
-                case M_P_CMD_RET_UINT32_ARG_UINT64:
-#endif
-                    if (m_p_print_in_dec) {
-                        itoa(ret_arg_uint32, buf, 10);
-                    } else {
-                        itoa(ret_arg_uint32, buf, 16);
-                        m_p_transport_out("0x");
-                    }
-                    m_p_transport_out(buf);
-                    break;
-#endif
-
-#ifdef M_P_CFG_TYPE_UINT64
-                case M_P_CMD_RET_UINT64_ARG_VOID:
-#ifdef M_P_CFG_TYPE_STRING
-                case M_P_CMD_RET_UINT64_ARG_CHARS:
-#endif
-#ifdef M_P_CFG_TYPE_UINT32
-                case M_P_CMD_RET_UINT64_ARG_UINT32:
-#endif
-                case M_P_CMD_RET_UINT64_ARG_UINT64:
-                    if (m_p_print_in_dec) {
-                        itoa(ret_arg_uint64, buf, 10);
-                    } else {
-                        itoa(ret_arg_uint64, buf, 16);
-                        m_p_transport_out("0x");
-                    }
-                    m_p_transport_out(buf);
-                    break;
-#endif
-
-                default:
-                    // The misconfiguration should have been detected with the
-                    // previous case/switch statement, but just in case there
-                    // is a bug in it, we will catch it here too.
-                    // Abort the execution with a error!
-                    return false;
-                    break;
-            }
-
 
 #ifdef M_P_CFG_UPTIME
             if (m_p_benchmark_commands) {
@@ -367,7 +346,7 @@ static void m_p_evaluate_character(char character) {
             }
 
 
-            if (!m_p_execute_cmd(cmd)) {
+            if (!m_p_find_match_and_execute(cmd)) {
 #ifdef M_P_CFG_COLOR_ENABLE
                 m_p_color_out_error();
 #endif
