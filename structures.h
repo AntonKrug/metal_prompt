@@ -213,9 +213,9 @@ typedef struct {
 #pragma mark - Command enum and structs
 
 
+// Callbacks can output to the transport while returning any type
+// (including void)
 typedef enum {
-
-    // The functions still can print to UART on their own while returning void
     M_P_TYPE_VOID,
 #ifdef M_P_CFG_TYPE_CHARS
     M_P_TYPE_CHARS,
@@ -231,16 +231,15 @@ typedef enum {
 #endif
 
     M_P_TYPE_LAST
-
 } m_p_command_type;
 
 
+#define M_P_CMD_MASK_RET          ( (1u << M_P_TYPE_LAST)-1u )
+#define M_P_CMD_MASK_ARG          ( ~((1u << M_P_TYPE_LAST)-1u) & ((1u << (2*M_P_TYPE_LAST))-1u) )
+
 #define M_P_CMD_GET_RET_TYPE(ret) ( 1u << (ret))
 #define M_P_CMD_GET_ARG_TYPE(arg) ( 1u << (M_P_TYPE_LAST+(arg)) )
-#define M_P_CMD_TYPES(ret, arg) ( M_P_CMD_GET_RET_TYPE((ret)) | M_P_CMD_GET_ARG_TYPE((arg)) )
-
-#define M_P_CMD_MASK_RET   ( (1u << M_P_TYPE_LAST)-1u )
-#define M_P_CMD_MASK_ARG   ( ~((1u << M_P_TYPE_LAST)-1u) & ((1u << (2*M_P_TYPE_LAST))-1u) )
+#define M_P_CMD_TYPES(ret, arg)   ( M_P_CMD_GET_RET_TYPE(ret) | M_P_CMD_GET_ARG_TYPE(arg) )
 
 
 typedef struct {

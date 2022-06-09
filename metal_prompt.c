@@ -311,6 +311,8 @@ static bool m_p_find_match_and_execute(char *cmd) {
             }
 
 #ifdef M_P_CFG_UPTIME
+            // TODO: check if unsigned int is 16-bit, then do check for the
+            // overflow
             if (m_p_benchmark_commands) {
                 itoa(m_p_systick_uptime_ticks - begin, buf, 16);
                 m_p_transport_out("\r\nCommand took 0x");
