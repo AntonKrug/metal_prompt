@@ -33,7 +33,7 @@ extern "C" {
 #define M_P_CFG_PRINT_DEC_DEFAULT true // printing return values in HEX or DEC
 #define M_P_CFG_UPTIME                 // uptime and benchmark commands (see systick.c)
 #define M_P_CFG_COLORS                 // enable/disable vt100 colors
-#define M_P_CFG_HISTORY                // remember previous commands
+//#define M_P_CFG_HISTORY                // remember previous commands
 
 
 // -----------------------------------------------------------------------------

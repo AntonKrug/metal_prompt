@@ -332,11 +332,15 @@ static bool m_p_find_match_and_execute(char *cmd) {
 
 M_P_CFG_FORCE_OPTIMIZATION
 static void m_p_evaluate_character(char character) {
-    static char cmd[255];
-    static char cmd_old[255]="";
+    // TODO: do checks so the carret will not overflow the cmd buffer
+    static char cmd[M_P_CFG_WHOLE_PROMPT_SIZE];
     static unsigned int caret = 0;
     static unsigned int escape_sequence = 0;
     static unsigned int escape_sequence_next = 0;
+
+#ifdef M_P_CFG_HISTORY
+    static char cmd_old[M_P_CFG_WHOLE_PROMPT_SIZE]="";
+#endif
 
     switch (character) {
         case 0x0a:
@@ -361,8 +365,10 @@ static void m_p_evaluate_character(char character) {
                 // Executed correctly the command, clean the command line
             }
 
+#ifdef M_P_CFG_HISTORY
             // Store current command into history
             strcpy(cmd_old,cmd);
+#endif
 
             // Clear current command
             cmd[0] = 0;
@@ -403,20 +409,6 @@ static void m_p_evaluate_character(char character) {
             m_p_print_prompt(cmd);
             break;
 
-        case 0x0C:
-            // Ctrl + L = recall history
-            if (strlen(cmd) == 0) {
-                // When prompt empty, then print at the same prompt
-                m_p_transport_out(cmd_old);
-            } else{
-                //  Print completely new prompt
-                m_p_print_prompt(cmd_old);
-            }
-
-            strcpy(cmd, cmd_old);
-            caret = strlen(cmd);
-            break;
-
         case 0x1B:
             // start of the escape sequence \033, but do not display anything yet
             if (escape_sequence == 0){
@@ -440,6 +432,7 @@ static void m_p_evaluate_character(char character) {
                 escape_sequence_next = 0;
             }
 
+#ifdef M_P_CFG_HISTORY
             if (escape_sequence == 2 && character == 'A') {
                 // Parsing last 3rd part of the sequence
                 // Up arrow was pressed, copy previous command
@@ -455,6 +448,12 @@ static void m_p_evaluate_character(char character) {
                 caret = strlen(cmd);
                 escape_sequence_next = 0;
             }
+#else
+            if (escape_sequence == 2) {
+                escape_sequence_next = 0;
+            }
+#endif
+
 
             break;
     }
