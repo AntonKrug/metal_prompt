@@ -332,7 +332,6 @@ static bool m_p_find_match_and_execute(char *cmd) {
 
 M_P_CFG_FORCE_OPTIMIZATION
 static void m_p_evaluate_character(char character) {
-    // TODO: do checks so the carret will not overflow the cmd buffer
     static char cmd[M_P_CFG_WHOLE_PROMPT_SIZE];
     static unsigned int caret = 0;
     static unsigned int escape_sequence = 0;
@@ -361,6 +360,11 @@ static void m_p_evaluate_character(char character) {
                 m_p_color_out_default();
 #endif
                 m_p_transport_out(" Missing/misconfigured command or wrong arguments...\r\n");
+
+#ifdef M_P_CFG_BELL
+                    m_p_transport_out("\07");
+#endif
+
             } else {
                 // Executed correctly the command, clean the command line
             }
@@ -419,9 +423,21 @@ static void m_p_evaluate_character(char character) {
         default:
             if (escape_sequence == 0) {
                 // Regular character, write it down on the screen and to the buffer
-                cmd[caret++] = character;
-                cmd[caret]   = 0;
-                m_p_transport_out_characters(&character, 1);
+                if (caret < (M_P_CFG_COMMAND_NAME_SIZE-2)) {
+                    // Before adding any character, make sure you have at least
+                    // 2 characters spare in the buffer. For the character you
+                    // are going to assign right now and the 0 termination
+                    // character.
+                    cmd[caret++] = character;
+                    cmd[caret]   = 0;
+                    m_p_transport_out_characters(&character, 1);
+                } else {
+                    // You would get buffer overflow, optionally give feedback
+                    // that a issue happened
+#ifdef M_P_CFG_BELL
+                    m_p_transport_out("\07");
+#endif
+                }
             }
 
             if (escape_sequence == 1 && character == '[') {

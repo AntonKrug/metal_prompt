@@ -34,6 +34,7 @@ extern "C" {
 #define M_P_CFG_UPTIME                 // uptime and benchmark commands (see systick.c)
 #define M_P_CFG_COLORS                 // enable/disable vt100 colors
 #define M_P_CFG_HISTORY                // remember previous command (currently only 1)
+#define M_P_CFG_BELL                   // ring vt100 BELL when issues happen
 
 
 // -----------------------------------------------------------------------------
