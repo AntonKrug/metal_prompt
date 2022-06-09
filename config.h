@@ -59,6 +59,10 @@ extern "C" {
 #endif
 
 
+#if !defined(M_P_CFG_TYPE_CHARS) && !defined(M_P_CFG_TYPE_UINT) && !defined(M_P_CFG_TYPE_UINT32) && !defined(M_P_CFG_TYPE_UINT64)
+#define M_P_CFG_TYPES_NONE
+#endif
+
 #ifdef __cplusplus
 }
 #endif
