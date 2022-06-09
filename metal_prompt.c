@@ -39,7 +39,7 @@ static void m_p_print_prompt(char *cmd) {
     m_p_color_out_default();
 #endif
 
-    if (cmd != NULL) {
+    if (NULL != cmd) {
         m_p_transport_out(cmd);
     }
 }
@@ -294,7 +294,7 @@ static bool m_p_find_match_and_execute(char *cmd) {
 
         // TODO: check if the len of both is the same, overlapping commands
         // chould make wrong match
-        if (strcmp(cmd, buf)  == 0) {
+        if (0 == strcmp(cmd, buf)) {
 #ifdef M_P_CFG_UPTIME
             uint32_t begin = m_p_systick_uptime_ticks;
 #endif
@@ -345,7 +345,7 @@ static void m_p_evaluate_character(char character) {
         case 0x0a:
         case 0x0d:
             // \r line feed or carriage return \n  (enter)
-            if (strlen(cmd)==0) {
+            if (0 == strlen(cmd)) {
                 m_p_print_prompt(NULL);
                 break;
             }
@@ -415,13 +415,13 @@ static void m_p_evaluate_character(char character) {
 
         case 0x1B:
             // start of the escape sequence \033, but do not display anything yet
-            if (escape_sequence == 0){
+            if (0 == escape_sequence){
                 escape_sequence_next = 1;
             }
             break;
 
         default:
-            if (escape_sequence == 0) {
+            if (0 == escape_sequence) {
                 // Regular character, write it down on the screen and to the buffer
                 if (caret < (M_P_CFG_COMMAND_NAME_SIZE-2)) {
                     // Before adding any character, make sure you have at least
@@ -440,7 +440,7 @@ static void m_p_evaluate_character(char character) {
                 }
             }
 
-            if (escape_sequence == 1 && character == '[') {
+            if ( (1 == escape_sequence) && ('[' == character) ) {
                 // Parsing second part of the escape sequence
                 escape_sequence_next = 2;
             }
@@ -449,10 +449,10 @@ static void m_p_evaluate_character(char character) {
             }
 
 #ifdef M_P_CFG_HISTORY
-            if (escape_sequence == 2 && character == 'A') {
+            if ( (2 == escape_sequence) && ('A' == character) ) {
                 // Parsing last 3rd part of the sequence
                 // Up arrow was pressed, copy previous command
-                if (strlen(cmd) == 0) {
+                if (0 == strlen(cmd)) {
                     // When prompt empty, then print at the same prompt
                     m_p_transport_out(cmd_old);
                 } else{
@@ -465,7 +465,7 @@ static void m_p_evaluate_character(char character) {
                 escape_sequence_next = 0;
             }
 #else
-            if (escape_sequence == 2) {
+            if (2 == escape_sequence) {
                 escape_sequence_next = 0;
             }
 #endif
@@ -521,7 +521,7 @@ void m_p_auto_complete(char* cmd, unsigned int* caret) {
 
     // Allow auto-complete to work even with empty commands
 #ifndef M_P_CFG_AUTOCOMPLETE_ON_EMPTY_PROMPT
-    if (cmd_len == 0) {
+    if (0 == cmd_len) {
         // No auto complete with empty line
         return;
     }
@@ -534,7 +534,7 @@ void m_p_auto_complete(char* cmd, unsigned int* caret) {
         // Go through all commands, if the start of the command matches the
         // current cmd line, then find how many unique characters can be added
         m_p_iterate_get_current_string(buf, false);
-        if (strncmp(cmd, buf, cmd_len) == 0) {
+        if (0 == strncmp(cmd, buf, cmd_len)) {
             if (first) {
                 strcpy(first_command, buf);
                 first = false;
@@ -548,7 +548,7 @@ void m_p_auto_complete(char* cmd, unsigned int* caret) {
         m_p_iterate_next();
     }
 
-    if (common_location == M_P_CFG_COMMAND_NAME_SIZE) {
+    if (M_P_CFG_COMMAND_NAME_SIZE == common_location) {
         // No common overlap found, probably wrong command / typo
         // Do not auto complete anything.
         return;
@@ -575,7 +575,7 @@ void m_p_auto_complete(char* cmd, unsigned int* caret) {
         while (m_p_iterate_current_exists()) {
             // Search if there is full match
             m_p_iterate_get_current_string(buf, false);
-            if (strcmp(cmd, buf) == 0) {
+            if (0 == strcmp(cmd, buf)) {
                 return;
             }
             m_p_iterate_next();
@@ -589,7 +589,7 @@ void m_p_auto_complete(char* cmd, unsigned int* caret) {
         while (m_p_iterate_current_exists()) {
             // Go through all commands, if the start of the command matches the
             m_p_iterate_get_current_string(buf, false);
-            if (strncmp(cmd, buf, cmd_len) == 0) {
+            if (0 == strncmp(cmd, buf, cmd_len)) {
                 m_p_transport_out_ln();
 
                 // Print the current command

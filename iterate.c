@@ -78,7 +78,7 @@ unsigned int m_p_iterate_get_current_string(char *buf, bool use_color) {
     strcpy(buf,"");
     unsigned int ans = 0;
 
-    if ( group_len != 0 ) {
+    if (0 != group_len) {
         // Print namespace of the commands
 #if defined(M_P_CFG_COLORS) && defined(M_P_CFG_AUTOCOMPLETE)
         if (use_color) m_p_color_buf_command_namespace(buf);
