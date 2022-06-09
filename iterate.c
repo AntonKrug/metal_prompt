@@ -72,7 +72,7 @@ m_p_command m_p_iterate_get_current_structure() {
 
 
 M_P_CFG_FORCE_OPTIMIZATION
-unsigned int m_p_iterate_get_current_string(char *buf, bool use_color) {
+unsigned int m_p_iterate_get_current_string(char *buf, const bool use_color) {
     unsigned int group_len = strlen(m_p_commands_enabled[group_idx].namespace);
 
     strcpy(buf,"");
@@ -221,7 +221,7 @@ void m_p_iterate_set_size_of_longest_command(void) {
 
 // Find align the current string with the longest command
 M_P_CFG_FORCE_OPTIMIZATION
-void m_p_iterate_align_with_longest_command(unsigned int current_size) {
+void m_p_iterate_align_with_longest_command(const unsigned int current_size) {
     for (unsigned int i = 0; i <= longest_command - current_size; ++i) {
         // <= on purpose, to add space even on the longest commands
         m_p_transport_out(" ");

@@ -29,7 +29,7 @@
 
 
 M_P_CFG_FORCE_OPTIMIZATION
-static void m_p_print_prompt(char *cmd) {
+static void m_p_print_prompt(const char *cmd) {
     m_p_transport_out_ln();
 #ifdef M_P_CFG_COLORS
     m_p_color_out_prompt();
@@ -285,7 +285,7 @@ static bool m_p_execute_command(const char *cmd, char *buf, const m_p_command* s
 
 
 M_P_CFG_FORCE_OPTIMIZATION
-static bool m_p_find_match_and_execute(char *cmd) {
+static bool m_p_find_match_and_execute(const char *cmd) {
     char buf[M_P_CFG_COMMAND_NAME_SIZE];
 
     m_p_iterate_begin();
@@ -331,7 +331,7 @@ static bool m_p_find_match_and_execute(char *cmd) {
 
 
 M_P_CFG_FORCE_OPTIMIZATION
-static void m_p_evaluate_character(char character) {
+static void m_p_evaluate_character(const char character) {
     static char cmd[M_P_CFG_WHOLE_PROMPT_SIZE];
     static unsigned int caret = 0;
     static unsigned int escape_sequence = 0;
