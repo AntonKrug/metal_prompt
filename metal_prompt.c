@@ -31,11 +31,11 @@
 M_P_CFG_FORCE_OPTIMIZATION
 static void m_p_print_prompt(char *cmd) {
     m_p_transport_out_ln();
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
     m_p_color_out_prompt();
 #endif
     m_p_transport_out(M_P_CFG_COMMAND_PROMPT);
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
     m_p_color_out_default();
 #endif
 
@@ -349,11 +349,11 @@ static void m_p_evaluate_character(char character) {
 
 
             if (!m_p_find_match_and_execute(cmd)) {
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
                 m_p_color_out_error();
 #endif
                 m_p_transport_out("\r\n[ERROR]");
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
                 m_p_color_out_default();
 #endif
                 m_p_transport_out(" Missing command or wrong arguments...\r\n");
@@ -371,7 +371,7 @@ static void m_p_evaluate_character(char character) {
             m_p_print_prompt(NULL);
             break;
 
-#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
+#ifdef M_P_CFG_AUTOCOMPLETE
         case 0x09:
             // TAB
             m_p_auto_complete(cmd, &caret);
@@ -475,7 +475,7 @@ void m_p_prompt_generic() {
     m_p_keep_runnning = true;
 #endif
 
-#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
+#ifdef M_P_CFG_AUTOCOMPLETE
     // Find out what is the length of the longest command
     m_p_iterate_set_size_of_longest_command();
 #endif
@@ -494,7 +494,7 @@ void m_p_prompt_generic() {
 }
 
 
-#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
+#ifdef M_P_CFG_AUTOCOMPLETE
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_auto_complete(char* cmd, unsigned int* caret) {
     char         first_command[M_P_CFG_COMMAND_NAME_SIZE];
@@ -505,7 +505,7 @@ void m_p_auto_complete(char* cmd, unsigned int* caret) {
     bool         first           = true;
 
     // Allow auto-complete to work even with empty commands
-#ifndef M_P_CFG_AUTOCOMPLETE_ON_EMPTY_COMMANDS
+#ifndef M_P_CFG_AUTOCOMPLETE_ON_EMPTY_PROMPT
     if (cmd_len == 0) {
         // No auto complete with empty line
         return;
@@ -553,7 +553,7 @@ void m_p_auto_complete(char* cmd, unsigned int* caret) {
     } else {
         // There is nothing to add with auto-complete as it's full command
 
-#ifdef M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMANDS
+#ifdef M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMAND
         // Do the autocomplete anyway as it will display the arguments of the
         // current command
         m_p_iterate_begin();
@@ -580,7 +580,7 @@ void m_p_auto_complete(char* cmd, unsigned int* caret) {
                 // Print the current command
                 unsigned int cmd_len = m_p_iterate_get_current_string(buf, true);
                 m_p_transport_out(buf);
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
                 m_p_color_out_default();
 #endif
 

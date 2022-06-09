@@ -22,11 +22,11 @@ extern "C" {
 #include <stdbool.h>
 
 
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
 
 #pragma mark - Public variables
 
-extern bool M_P_CFG_COLOR_ENABLEd;
+extern bool M_P_CFG_COLORS_ENABLED;
 
 
 #pragma mark - Public functions outputing into the string buffer
@@ -34,12 +34,12 @@ extern bool M_P_CFG_COLOR_ENABLEd;
 
 extern void m_p_color_buf_default(char* buf);
 
-#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
+#ifdef M_P_CFG_AUTOCOMPLETE
 extern void m_p_color_buf_default_bold(char* buf);
 extern void m_p_color_buf_command_namespace(char* buf);
 extern void m_p_color_buf_command_name(char* buf);
 extern void m_p_color_buf_gray(char* buf);
-#endif // M_P_CFG_AUTOCOMPLETE_ENABLE
+#endif // M_P_CFG_AUTOCOMPLETE
 
 
 #pragma mark - Public functions outputing directly to the transport interface
@@ -50,7 +50,7 @@ extern void m_p_color_out_prompt(void);
 extern void m_p_color_out_error(void);
 
 
-#endif // M_P_CFG_COLOR_ENABLE
+#endif // M_P_CFG_COLORS
 
 
 #ifdef __cplusplus

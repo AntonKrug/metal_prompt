@@ -31,15 +31,15 @@ extern "C" {
 #define M_P_CFG_ALLOW_QUIT             // run in infinite loop or be able to exit
 #define M_P_CFG_PRINT_DEC_DEFAULT true // printing return values in HEX or DEC
 #define M_P_CFG_UPTIME                 // uptime and benchmark commands (see systick.c)
-#define M_P_CFG_COLOR_ENABLE           // enable/disable vt100 colors
+#define M_P_CFG_COLORS                 // enable/disable vt100 colors
 
 
 // -----------------------------------------------------------------------------
 #pragma mark - Configuration of autocomplete
 
-#define M_P_CFG_AUTOCOMPLETE_ENABLE            // completely enable/disable autocomplete support
-#define M_P_CFG_AUTOCOMPLETE_ON_EMPTY_COMMANDS // autocomplete on empty prompt will list all commands
-#define M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMANDS  // autocomplete on fully specified command will print 'help' for that command
+#define M_P_CFG_AUTOCOMPLETE                 // completely enable/disable autocomplete support
+#define M_P_CFG_AUTOCOMPLETE_ON_EMPTY_PROMPT // will list all possible commands
+#define M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMAND // will print 'help' for that command
 
 
 // -----------------------------------------------------------------------------

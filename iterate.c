@@ -25,7 +25,7 @@
 unsigned int group_idx       = 0;
 unsigned int command_idx     = 0;
 
-#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
+#ifdef M_P_CFG_AUTOCOMPLETE
 unsigned int longest_command = 0;
 #endif
 
@@ -80,13 +80,13 @@ unsigned int m_p_iterate_get_current_string(char *buf, bool use_color) {
 
     if ( group_len != 0 ) {
         // Print namespace of the commands
-#if defined(M_P_CFG_COLOR_ENABLE) && defined(M_P_CFG_AUTOCOMPLETE_ENABLE)
+#if defined(M_P_CFG_COLORS) && defined(M_P_CFG_AUTOCOMPLETE)
         if (use_color) m_p_color_buf_command_namespace(buf);
 #endif
         strcat(buf, m_p_commands_enabled[group_idx].namespace);
 
         // Print in default color '.'
-#if defined(M_P_CFG_COLOR_ENABLE) && defined(M_P_CFG_AUTOCOMPLETE_ENABLE)
+#if defined(M_P_CFG_COLORS) && defined(M_P_CFG_AUTOCOMPLETE)
         if (use_color) m_p_color_buf_default(buf);
 #endif
         strcat(buf, ".");
@@ -94,12 +94,12 @@ unsigned int m_p_iterate_get_current_string(char *buf, bool use_color) {
     }
 
     // Print the name of the command
-#if defined(M_P_CFG_COLOR_ENABLE) && defined(M_P_CFG_AUTOCOMPLETE_ENABLE)
+#if defined(M_P_CFG_COLORS) && defined(M_P_CFG_AUTOCOMPLETE)
     if (use_color) m_p_color_buf_command_name(buf);
 #endif
     strcat(buf, m_p_commands_enabled[group_idx].commands[command_idx].command);
     ans += strlen(m_p_commands_enabled[group_idx].commands[command_idx].command);
-#if defined(M_P_CFG_COLOR_ENABLE) && defined(M_P_CFG_AUTOCOMPLETE_ENABLE)
+#if defined(M_P_CFG_COLORS) && defined(M_P_CFG_AUTOCOMPLETE)
     if (use_color) m_p_color_buf_default(buf);
 #endif
 
@@ -107,17 +107,17 @@ unsigned int m_p_iterate_get_current_string(char *buf, bool use_color) {
 }
 
 
-#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
+#ifdef M_P_CFG_AUTOCOMPLETE
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_iterate_get_current_string_arguments(char *buf) {
     // print 'return(' text
 
     strcpy(buf, "");
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
     m_p_color_buf_gray(buf);
 #endif
     strcat(buf, "return(");
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
     m_p_color_buf_default_bold(buf);
 #endif
 
@@ -153,11 +153,11 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
     }
 
     // print ') arg('
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
     m_p_color_buf_gray(buf);
 #endif
     strcat(buf, ") arg(");
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
     m_p_color_buf_default_bold(buf);
 #endif
 
@@ -193,11 +193,11 @@ void m_p_iterate_get_current_string_arguments(char *buf) {
     }
 
     // print close bracket
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
     m_p_color_buf_gray(buf);
 #endif
     strcat(buf, ")");
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
     m_p_color_buf_default(buf);
 #endif
 }
@@ -227,4 +227,4 @@ void m_p_iterate_align_with_longest_command(unsigned int current_size) {
         m_p_transport_out(" ");
     }
 }
-#endif // M_P_CFG_AUTOCOMPLETE_ENABLE
+#endif // M_P_CFG_AUTOCOMPLETE

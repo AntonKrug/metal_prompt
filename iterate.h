@@ -35,7 +35,7 @@ extern void         m_p_iterate_next(void);
 extern m_p_command  m_p_iterate_get_current_structure(void);
 extern unsigned int m_p_iterate_get_current_string(char *buf, bool use_color);
 
-#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
+#ifdef M_P_CFG_AUTOCOMPLETE
 extern void         m_p_iterate_get_current_string_arguments(char *buf);
 extern void         m_p_iterate_set_size_of_longest_command(void);
 extern void         m_p_iterate_align_with_longest_command(unsigned int current_size);

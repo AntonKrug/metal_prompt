@@ -23,7 +23,7 @@
 #pragma mark - The default set prompt commands
 
 
-#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
+#ifdef M_P_CFG_AUTOCOMPLETE
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_list_all_tests(void) {
 	char cmd[255] = "";
@@ -77,7 +77,7 @@ void m_p_bundled_help(void) {
 #endif
     m_p_transport_out(" Ctrl+S cleans the screen\r\n\r\n");
     m_p_transport_out(" Up arrow repeats the last command\r\n\r\n");
-#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
+#ifdef M_P_CFG_AUTOCOMPLETE
     m_p_transport_out(" TAB auto-completes the command, if there are multiple options,\r\n");
     m_p_transport_out(" then it will list all options.\r\n");
 #endif
@@ -110,13 +110,13 @@ void m_p_bundled_quit(void) {
 #endif
 
 
-#ifdef M_P_CFG_COLOR_ENABLE
+#ifdef M_P_CFG_COLORS
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_set_prompt_color(unsigned int val) {
     if (val) {
-        M_P_CFG_COLOR_ENABLEd = true;
+        M_P_CFG_COLORS_ENABLED = true;
     } else {
-        M_P_CFG_COLOR_ENABLEd = false;
+        M_P_CFG_COLORS_ENABLED = false;
     }
 }
 #endif
@@ -138,7 +138,7 @@ const m_p_command m_p_bundled_list[] = {
         { "configuration",         M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_configuration } },
         { "help",                  M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_help } },
 
-#ifdef M_P_CFG_AUTOCOMPLETE_ENABLE
+#ifdef M_P_CFG_AUTOCOMPLETE
         { "ls",                    M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_list_all_tests } },
 #endif
 
@@ -153,7 +153,7 @@ const m_p_command m_p_bundled_list[] = {
 #endif // M_P_CFG_TYPE_UINT32
 #endif // M_P_CFG_UPTIME
 
-#if defined(M_P_CFG_COLOR_ENABLE) && defined(M_P_CFG_TYPE_UINT)
+#if defined(M_P_CFG_COLORS) && defined(M_P_CFG_TYPE_UINT)
         { "set_prompt_color",      M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT),   .void_uint = { &m_p_bundled_set_prompt_color } },
 #endif
 
