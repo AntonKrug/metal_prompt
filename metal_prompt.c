@@ -46,22 +46,157 @@ static void m_p_print_prompt(const char *cmd) {
 
 
 M_P_CFG_FORCE_OPTIMIZATION
-static bool m_p_execute_command(const char *cmd, char *buf, const m_p_command* selected_command) {
-    // Temporary variables to hold argument inputs and the returned values too
-#ifdef M_P_CFG_TYPE_CHARS
-    char* ret_arg_char_ptr;
-#endif
+static int m_p_find_first_space(const char *prompt) {
+    for (unsigned int i=0; i<strlen(prompt); i++) {
+        if (' ' == prompt[i]) return i;
+    }
+    return -1;
+}
+
+
 #ifdef M_P_CFG_TYPE_UINT
-    unsigned int ret_arg_uint; // Intentionally leaving it's size to change depending on the target
-#endif
-#ifdef M_P_CFG_TYPE_UINT32
-    uint32_t ret_arg_uint32;
-#endif
-#ifdef M_P_CFG_TYPE_UINT64
-    uint64_t ret_arg_uint64;
+M_P_CFG_FORCE_OPTIMIZATION
+static void m_p_parse_hex_nibble_to_uint(unsigned int *val, char *hex_string) {
+    char ch = *hex_string++;
+    *val = (*val << 4) + (ch <= '9') ? ch - '0' : (ch & 0x7) + 9;
+}
 #endif
 
-    // TODO: Parse the argument first (if not using buf, then remove it from signature)
+
+#ifdef M_P_CFG_TYPE_UINT32
+M_P_CFG_FORCE_OPTIMIZATION
+static void m_p_parse_hex_nibble_to_uint32(uint32_t *val, char *hex_string) {
+    char ch = *hex_string++;
+    *val = (*val << 4) + (ch <= '9') ? ch - '0' : (ch & 0x7) + 9;
+}
+#endif
+
+
+#ifdef M_P_CFG_TYPE_UINT64
+M_P_CFG_FORCE_OPTIMIZATION
+static void m_p_parse_hex_nibble_to_uint64(uint64_t *val, char *hex_string) {
+    char ch = *hex_string++;
+    *val = (*val << 4) + (ch <= '9') ? ch - '0' : (ch & 0x7) + 9;
+}
+#endif
+
+
+M_P_CFG_FORCE_OPTIMIZATION
+static bool m_p_execute_command(
+        char *cmd,
+        const unsigned int index_of_first_space,
+        char *buf,
+        const m_p_command* selected_command) {
+
+    // Temporary variables to hold argument inputs and the returned values too
+#ifdef M_P_CFG_TYPE_CHARS
+    char* ret_arg_char_ptr = m_p_return_and_argument_buf;
+#endif
+#ifdef M_P_CFG_TYPE_UINT
+    unsigned int ret_arg_uint = 0; // Intentionally leaving it's size to change depending on the target
+#endif
+#ifdef M_P_CFG_TYPE_UINT32
+    uint32_t ret_arg_uint32 = 0;
+#endif
+#ifdef M_P_CFG_TYPE_UINT64
+    uint64_t ret_arg_uint64 = 0;
+#endif
+
+#ifndef M_P_CFG_TYPES_NONE
+    if (-1 != index_of_first_space && M_P_TYPE_VOID != (M_P_CMD_MASK_ARG & selected_command->type)) {
+        // There was some space in the command prompt which indicates some
+        // argument[s]. And the selected command and has some non-void argument
+        // type
+
+        // Move the buffer to start the argument segment after the ' ' space
+        cmd += index_of_first_space + 1;
+
+        // Find another space indicating there are multiple arguments,
+        // clip the string to only contain the first argument and nothing else
+        const unsigned int space_after_argument = m_p_find_first_space(cmd);
+        if (-1 != space_after_argument) {
+            cmd[space_after_argument] = 0;
+        }
+
+#ifdef M_P_CFG_TYPE_CHARS
+        // If it's non-string argument then check the size of it
+        if ( M_P_TYPE_CHARS != (M_P_CMD_MASK_ARG & selected_command->type) ) {
+            if ( 3 > strlen(cmd)) {
+                // it is not long enough for even the 0x0 string, abort execution
+                return false;
+            }
+        } else {
+            // It's non-string argument then expect hex number as argument
+            cmd += 2; // Assume the argument has '0x' prefix and jump over it
+        }
+#else
+        if ( 3 > strlen(cmd) ) {
+            // it is not long enough for even the 0x0 argument, abort execution
+            return false;
+        }
+        cmd += 2; // Assume the argument has '0x' prefix and jump over it
+#endif  // M_P_CFG_TYPE_CHARS
+
+
+        switch (M_P_CMD_MASK_ARG & selected_command->type) {
+#ifdef M_P_CFG_TYPE_CHARS
+            case M_P_TYPE_CHARS:
+                if (-1 != space_after_argument) {
+                    // Strings can contain spaces, so put the removed space back
+                    cmd[space_after_argument] = ' ';
+                }
+
+                if (M_P_CFG_TYPE_CHARS_BUFFER_SIZE <= strlen(cmd)) {
+                    // The string buffer is too big for our dedicated buffer,
+                    // therefore abort the execution
+                    return false;
+                }
+
+                strcpy(m_p_return_and_argument_buf, cmd);
+                break;
+#endif // M_P_CFG_TYPE_CHARS
+
+#ifdef M_P_CFG_TYPE_UINT
+            case M_P_TYPE_UINT:
+                for (unsigned int i=0; i<(sizeof(unsigned int)*2) && (0 != cmd[i]); i++) {
+                    m_p_parse_hex_nibble_to_uint(&ret_arg_uint, cmd);
+                }
+                break;
+#endif // M_P_CFG_TYPE_UINT
+
+#ifdef M_P_CFG_TYPE_UINT32
+            case M_P_TYPE_UINT32:
+                for (unsigned int i=0; i<(sizeof(uint32_t)*2) && (0 != cmd[i]); i++) {
+                    m_p_parse_hex_nibble_to_uint32(&ret_arg_uint32, cmd);
+                }
+                break;
+#endif // M_P_CFG_TYPE_UINT32
+
+#ifdef M_P_CFG_TYPE_UINT64
+            case M_P_TYPE_UINT64:
+                for (unsigned int i=0; i<(sizeof(uint64_t)*2) && (0 != cmd[i]); i++) {
+                    m_p_parse_hex_nibble_to_uint64(&ret_arg_uint64, cmd);
+                }
+                break;
+#endif // M_P_CFG_TYPE_UINT64
+
+            default:
+                // Whole condition before this switch statement checks for
+                // non-void arguments, therefore getting here can't be because
+                // a void argument type, but because we might have some novel
+                // type which we didn't implemented the 'case' statement for.
+                // Therefore abort execution.
+                return false;
+                break; // Not really needed to break as we return anyway
+        }
+
+        // We finished parsing up-to the maximum number bytes for each type.
+        // If we are not at the end of the string, then the argument is bigger
+        // than its type and therefore abort execution
+        if (0 != *cmd) return false;
+    }
+#endif // M_P_CFG_TYPES_NONE
+
 
     // Execute the command
     switch (selected_command->type) {
@@ -285,28 +420,31 @@ static bool m_p_execute_command(const char *cmd, char *buf, const m_p_command* s
 
 
 M_P_CFG_FORCE_OPTIMIZATION
-static bool m_p_find_match_and_execute(const char *cmd) {
+static bool m_p_find_match_and_execute(char *prompt) {
     char buf[M_P_CFG_COMMAND_NAME_SIZE];
+
+    const int index_of_first_space = m_p_find_first_space(prompt);
+    if (-1 != index_of_first_space) {
+        // the command contains a space, and most likely argument
+        // let cut it short so we can consider only the command
+        // name without arguments
+        prompt[index_of_first_space] = 0;
+    }
 
     m_p_iterate_begin();
     while (m_p_iterate_current_exists()) {
         m_p_iterate_get_current_string(buf, false);
 
-        // TODO: check if the len of both is the same, overlapping commands
-        // chould make wrong match
-        if (0 == strcmp(cmd, buf)) {
+        if (0 == strcmp(prompt, buf)) {
+            // Found command exactly matching the prompt's command
 #ifdef M_P_CFG_UPTIME
             const unsigned int begin = m_p_systick_uptime_ticks;
 #endif
-
-            // TODO: parse syntax of arguments. Only if syntax is OK return 0
             m_p_command selected_command = m_p_iterate_get_current_structure();
-
-            // TODO: Depending on type call it differently / parse return etc.
             m_p_transport_out("\r\n");
 
-            if (!m_p_execute_command(cmd, buf, &selected_command)) {
-                // problem happened
+            if (!m_p_execute_command(prompt, index_of_first_space, buf, &selected_command)) {
+                // problem happened when executing, report failure
                 return false;
             }
 
