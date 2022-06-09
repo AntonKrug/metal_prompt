@@ -360,7 +360,7 @@ static void m_p_evaluate_character(char character) {
 #ifdef M_P_CFG_COLORS
                 m_p_color_out_default();
 #endif
-                m_p_transport_out(" Missing command or wrong arguments...\r\n");
+                m_p_transport_out(" Missing/misconfigured command or wrong arguments...\r\n");
             } else {
                 // Executed correctly the command, clean the command line
             }
