@@ -26,12 +26,14 @@ extern "C" {
 #define M_P_CFG_COMMAND_NAME_SIZE 48   // biggest length the command name can have (including namespace)
 //#define M_P_CFG_COMMAND_ARG_SIZE  19   // 19 characters => 64-bit hex argument (0x8000000000000000)
 #define M_P_CFG_COMMAND_ARG_SIZE  11   // 11 characters => 32-bit hex argument (0x80000000)
+#define M_P_CFG_WHOLE_PROMPT_SIZE (M_P_CFG_COMMAND_NAME_SIZE + M_P_CFG_COMMAND_ARG_SIZE + 1) // Whole prompt buffer
 #define M_P_CFG_FORCE_OPTIMIZATION __attribute__((optimize("-Os")))
 //#define M_P_CFG_FORCE_OPTIMIZATION   // uncomment this line instead for no optimizations
 #define M_P_CFG_ALLOW_QUIT             // run in infinite loop or be able to exit
 #define M_P_CFG_PRINT_DEC_DEFAULT true // printing return values in HEX or DEC
 #define M_P_CFG_UPTIME                 // uptime and benchmark commands (see systick.c)
 #define M_P_CFG_COLORS                 // enable/disable vt100 colors
+#define M_P_CFG_HISTORY                // remember previous commands
 
 
 // -----------------------------------------------------------------------------
