@@ -72,17 +72,30 @@ void m_p_bundled_configuration(void) {
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_help(void) {
     m_p_transport_out("Help: \r\n\r\n");
+
 #ifdef M_P_CFG_ALLOW_QUIT
     m_p_transport_out(" Ctrl+C exits the metal prompt interface\r\n\r\n");
 #endif
+
     m_p_transport_out(" Ctrl+S cleans the screen\r\n\r\n");
+
 #ifdef M_P_CFG_HISTORY
     m_p_transport_out(" Up arrow repeats the last command\r\n\r\n");
 #endif
+
 #ifdef M_P_CFG_AUTOCOMPLETE
     m_p_transport_out(" TAB auto-completes the command, if there are multiple options,\r\n");
-    m_p_transport_out(" then it will list all options.\r\n");
+    m_p_transport_out(" then it will list all options.\r\n\r\n");
+
+#ifdef M_P_CFG_AUTOCOMPLETE_ON_EMPTY_PROMPT
+    m_p_transport_out(" Pressing TAB on empty prompt will list all possible commands.\r\n\r\n");
 #endif
+
+#ifdef M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMAND
+    m_p_transport_out(" Pressing TAB on a complete command will print its signature.\r\n\r\n");
+#endif
+
+#endif // M_P_CFG_AUTOCOMPLETE
 }
 
 
