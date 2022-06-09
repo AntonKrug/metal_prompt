@@ -296,7 +296,7 @@ static bool m_p_find_match_and_execute(const char *cmd) {
         // chould make wrong match
         if (0 == strcmp(cmd, buf)) {
 #ifdef M_P_CFG_UPTIME
-            unsigned int begin = m_p_systick_uptime_ticks;
+            const unsigned int begin = m_p_systick_uptime_ticks;
 #endif
 
             // TODO: parse syntax of arguments. Only if syntax is OK return 0
@@ -312,8 +312,10 @@ static bool m_p_find_match_and_execute(const char *cmd) {
 
 #ifdef M_P_CFG_UPTIME
             if (m_p_benchmark_commands) {
-                unsigned int end = m_p_systick_uptime_ticks;
+                const unsigned int end = m_p_systick_uptime_ticks;
                 unsigned int diff = end - begin;
+
+#ifdef M_P_CFG_UPTIME_SMALL_OVERFLOW
                 if (2 >= sizeof(unsigned int)) {
                     // small int on this platform, check for overflow
                     if (end < begin) {
@@ -325,6 +327,8 @@ static bool m_p_find_match_and_execute(const char *cmd) {
                         // so the diff is 0->end + begin->MAX
                     }
                 }
+#endif
+
                 itoa(diff, buf, 16);
                 m_p_transport_out("\r\nCommand took 0x");
                 m_p_transport_out(buf);

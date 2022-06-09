@@ -32,6 +32,7 @@ extern "C" {
 #define M_P_CFG_ALLOW_QUIT             // run in infinite loop or be able to exit
 #define M_P_CFG_PRINT_DEC_DEFAULT true // printing return values in HEX or DEC
 #define M_P_CFG_UPTIME                 // uptime and benchmark commands (see systick.c)
+#define M_P_CFG_UPTIME_SMALL_OVERFLOW  // do check of uptime overflowing on small platforms
 #define M_P_CFG_COLORS                 // enable/disable vt100 colors
 #define M_P_CFG_HISTORY                // remember previous command (currently only 1)
 #define M_P_CFG_BELL                   // ring vt100 BELL when issues happen
