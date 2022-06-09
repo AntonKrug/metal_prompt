@@ -296,7 +296,7 @@ static bool m_p_find_match_and_execute(const char *cmd) {
         // chould make wrong match
         if (0 == strcmp(cmd, buf)) {
 #ifdef M_P_CFG_UPTIME
-            uint32_t begin = m_p_systick_uptime_ticks;
+            unsigned int begin = m_p_systick_uptime_ticks;
 #endif
 
             // TODO: parse syntax of arguments. Only if syntax is OK return 0
@@ -311,10 +311,21 @@ static bool m_p_find_match_and_execute(const char *cmd) {
             }
 
 #ifdef M_P_CFG_UPTIME
-            // TODO: check if unsigned int is 16-bit, then do check for the
-            // overflow
             if (m_p_benchmark_commands) {
-                itoa(m_p_systick_uptime_ticks - begin, buf, 16);
+                unsigned int end = m_p_systick_uptime_ticks;
+                unsigned int diff = end - begin;
+                if (2 >= sizeof(unsigned int)) {
+                    // small int on this platform, check for overflow
+                    if (end < begin) {
+                        // 0 ..... end ..... begin ..... MAX
+                        diff = 0;
+                        diff--; // turn all bits 1
+                        diff -= begin;  // calculate the begin->MAX
+                        diff += end;    // add the range 0->end
+                        // so the diff is 0->end + begin->MAX
+                    }
+                }
+                itoa(diff, buf, 16);
                 m_p_transport_out("\r\nCommand took 0x");
                 m_p_transport_out(buf);
                 m_p_transport_out(" ticks to execute");
