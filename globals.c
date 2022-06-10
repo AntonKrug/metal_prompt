@@ -13,6 +13,8 @@
 
 #pragma mark - Public variables
 
+char m_p_command_prompt[M_P_CFG_WHOLE_PROMPT_SIZE];
+
 bool m_p_print_in_dec       = M_P_CFG_PRINT_DEC_DEFAULT;
 
 #ifdef M_P_CFG_ALLOW_QUIT

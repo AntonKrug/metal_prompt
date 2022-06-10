@@ -22,6 +22,8 @@ extern "C" {
 
 #pragma mark - Public variables
 
+extern char m_p_command_prompt[M_P_CFG_WHOLE_PROMPT_SIZE];
+
 extern bool m_p_print_in_dec;
 
 #ifdef M_P_CFG_ALLOW_QUIT

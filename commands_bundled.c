@@ -18,6 +18,7 @@
 #include "color.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 
 #pragma mark - The default set prompt commands
@@ -26,12 +27,12 @@
 #ifdef M_P_CFG_AUTOCOMPLETE
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_list_all_tests(void) {
-	char cmd[255] = "";
+	strcpy(m_p_command_prompt, "");
 	unsigned int carret = 0;
 
 
 	// Auto-complete now list commands on the when empty command is given
-	m_p_auto_complete(cmd, &carret);
+	m_p_auto_complete(m_p_command_prompt, &carret);
 }
 #endif
 
