@@ -31,19 +31,20 @@ extern "C" {
 //#define M_P_CFG_FORCE_OPTIMIZATION   // uncomment this line instead for no optimizations
 #define M_P_CFG_ALLOW_QUIT             // run in infinite loop or be able to exit
 #define M_P_CFG_PRINT_DEC_DEFAULT true // printing return values in HEX or DEC
-#define M_P_CFG_UPTIME                 // uptime and benchmark commands (see systick.c)
-#define M_P_CFG_UPTIME_SMALL_OVERFLOW  // do check of uptime overflowing on small platforms
+//#define M_P_CFG_UPTIME                 // uptime and benchmark commands (see systick.c)
+//#define M_P_CFG_UPTIME_SMALL_OVERFLOW  // do check of uptime overflowing on small platforms
 #define M_P_CFG_COLORS                 // enable/disable vt100 colors
 #define M_P_CFG_HISTORY                // remember previous command (currently only 1)
-#define M_P_CFG_BELL                   // ring vt100 BELL when issues happen
+//#define M_P_CFG_BELL                   // ring vt100 BELL when issues happen
 
 
 // -----------------------------------------------------------------------------
 #pragma mark - Configuration of autocomplete
 
-#define M_P_CFG_AUTOCOMPLETE                 // completely enable/disable autocomplete support
-#define M_P_CFG_AUTOCOMPLETE_ON_EMPTY_PROMPT // will list all possible commands
-#define M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMAND // will print 'help' for that command
+#define M_P_CFG_AUTOCOMPLETE                    // completely enable/disable autocomplete support
+#define M_P_CFG_AUTOCOMPLETE_HELP_EXTRA_SIZE 40 // 40 extra characters to describe return and argument types
+#define M_P_CFG_AUTOCOMPLETE_ON_EMPTY_PROMPT    // will list all possible commands
+#define M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMAND    // will print 'help' for that command
 
 
 // -----------------------------------------------------------------------------

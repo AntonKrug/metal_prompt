@@ -660,7 +660,8 @@ void m_p_prompt_generic() {
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_auto_complete(char* command, unsigned int* caret) {
     char         first_command[M_P_CFG_COMMAND_NAME_SIZE];
-    char         buf[M_P_CFG_COMMAND_NAME_SIZE];
+    char         buf[M_P_CFG_COMMAND_NAME_SIZE + M_P_CFG_AUTOCOMPLETE_HELP_EXTRA_SIZE];
+    // TODO: do checks if the size is not too small
 
     unsigned int common_location = M_P_CFG_COMMAND_NAME_SIZE;
     unsigned int cmd_len         = strlen(command);
