@@ -77,8 +77,6 @@ void m_p_bundled_help(void) {
     m_p_transport_out(" Ctrl+C exits the metal prompt interface\r\n\r\n");
 #endif
 
-    m_p_transport_out(" Ctrl+S cleans the screen\r\n\r\n");
-
 #ifdef M_P_CFG_HISTORY
     m_p_transport_out(" Up arrow repeats the last command\r\n\r\n");
 #endif
@@ -96,6 +94,13 @@ void m_p_bundled_help(void) {
 #endif
 
 #endif // M_P_CFG_AUTOCOMPLETE
+}
+
+
+
+M_P_CFG_FORCE_OPTIMIZATION
+void m_p_bundled_clear(void) {
+    m_p_transport_out("\033[2J\033[H");
 }
 
 
@@ -156,6 +161,7 @@ const m_p_command m_p_bundled_list[] = {
 #ifdef M_P_CFG_AUTOCOMPLETE
         { "ls",                    M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_list_all_tests } },
 #endif
+        { "clear",                 M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_clear} },
 
 #ifdef M_P_CFG_TYPE_UINT
         { "print_in_dec"         , M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT),   .void_uint   = { &m_p_bundled_print_in_dec } },

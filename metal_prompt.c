@@ -560,12 +560,6 @@ static void m_p_evaluate_character(const char character) {
             break;
 #endif
 
-        case 0x13:
-            // Ctrl + S = clear screen
-            m_p_transport_out("\033[2J\033[H");
-            m_p_print_prompt(cmd);
-            break;
-
         case 0x1B:
             // start of the escape sequence \033, but do not display anything yet
             if (0 == escape_sequence){
