@@ -234,12 +234,12 @@ typedef enum {
 } m_p_command_type;
 
 
-#define M_P_CMD_MASK_RET          ( (1u << M_P_TYPE_LAST)-1u )
-#define M_P_CMD_MASK_ARG          ( ~((1u << M_P_TYPE_LAST)-1u) & ((1u << (2*M_P_TYPE_LAST))-1u) )
+#define M_P_CMD_MASK_RET                          ( (1u << M_P_TYPE_LAST)-1u )
+#define M_P_CMD_MASK_ARG                          ( ~((1u << M_P_TYPE_LAST)-1u) & ((1u << (2*M_P_TYPE_LAST))-1u) )
 
-#define M_P_CMD_GET_RET_TYPE(ret) ( 1u << (ret))
-#define M_P_CMD_GET_ARG_TYPE(arg) ( 1u << (M_P_TYPE_LAST+(arg)) )
-#define M_P_CMD_TYPES(ret, arg)   ( M_P_CMD_GET_RET_TYPE(ret) | M_P_CMD_GET_ARG_TYPE(arg) )
+#define M_P_CMD_GET_RET_TYPE(return_type)         ( 1u << (return_type))
+#define M_P_CMD_GET_ARG_TYPE(argument_type)       ( 1u << (M_P_TYPE_LAST+(argument_type)) )
+#define M_P_CMD_TYPES(return_type, argument_type) ( M_P_CMD_GET_RET_TYPE(return_type) | M_P_CMD_GET_ARG_TYPE(argument_type) )
 
 
 typedef struct {
