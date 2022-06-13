@@ -657,6 +657,23 @@ void m_p_prompt_generic() {
 
 
 #ifdef M_P_CFG_AUTOCOMPLETE
+
+
+M_P_CFG_FORCE_OPTIMIZATION
+unsigned int m_p_string_differ_at(char *a, char *b) {
+    // Own implementation of strspn as that didn't work well in some edge cases
+    unsigned int differ_at = 0;
+
+    while ((0 != *a) && (0 != *b) && (*a == *b)) {
+        // We are not at the end yet, and the characters still match
+        differ_at++;
+        a++;
+        b++;
+    }
+
+    return differ_at;
+}
+
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_auto_complete(char* command, unsigned int* caret) {
     char         first_command[M_P_CFG_COMMAND_NAME_SIZE];
@@ -688,14 +705,14 @@ void m_p_auto_complete(char* command, unsigned int* caret) {
                 first = false;
             }
 
-            unsigned int overlap = strspn(first_command, buf);
+            unsigned int overlap = m_p_string_differ_at(first_command, buf);
             if (overlap < common_location) {
                 common_location = overlap;
             }
         }
         m_p_iterate_next();
     }
-
+//test_namespace.c
     if (M_P_CFG_COMMAND_NAME_SIZE == common_location) {
         // No common overlap found, probably wrong command / typo
         // Do not auto complete anything.
