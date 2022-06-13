@@ -19,14 +19,14 @@
 
 #pragma mark - Public variables
 
-bool M_P_CFG_COLORS_ENABLED = true;
+bool m_p_colors_enabled = true;
 
 #pragma mark - Public functions outputing into the string buffer
 
 
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_color_buf_default(char* buf) {
-    if (M_P_CFG_COLORS_ENABLED) strcat(buf, "\033[0;39m");
+    if (m_p_colors_enabled) strcat(buf, "\033[0;39m");
 }
 
 
@@ -34,25 +34,25 @@ void m_p_color_buf_default(char* buf) {
 
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_color_buf_default_bold(char* buf) {
-    if (M_P_CFG_COLORS_ENABLED) strcat(buf, "\033[1;39m");
+    if (m_p_colors_enabled) strcat(buf, "\033[1;39m");
 }
 
 
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_color_buf_command_namespace(char* buf) {
-    if (M_P_CFG_COLORS_ENABLED) strcat(buf, "\033[1;35m");
+    if (m_p_colors_enabled) strcat(buf, "\033[1;35m");
 }
 
 
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_color_buf_command_name(char* buf) {
-    if (M_P_CFG_COLORS_ENABLED) strcat(buf, "\033[1;33m");
+    if (m_p_colors_enabled) strcat(buf, "\033[1;33m");
 }
 
 
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_color_buf_gray(char* buf) {
-    if (M_P_CFG_COLORS_ENABLED) strcat(buf, "\033[1;30m");
+    if (m_p_colors_enabled) strcat(buf, "\033[1;30m");
 }
 
 #endif // M_P_CFG_AUTOCOMPLETE
@@ -63,19 +63,19 @@ void m_p_color_buf_gray(char* buf) {
 
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_color_out_default(void) {
-    if (M_P_CFG_COLORS_ENABLED) m_p_transport_out("\033[0;39m");
+    if (m_p_colors_enabled) m_p_transport_out("\033[0;39m");
 }
 
 
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_color_out_prompt(void) {
-    if (M_P_CFG_COLORS_ENABLED) m_p_transport_out("\033[1;36m");
+    if (m_p_colors_enabled) m_p_transport_out("\033[1;36m");
 }
 
 
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_color_out_error(void) {
-    if (M_P_CFG_COLORS_ENABLED) m_p_transport_out("\033[1;31m");
+    if (m_p_colors_enabled) m_p_transport_out("\033[1;31m");
 }
 
 

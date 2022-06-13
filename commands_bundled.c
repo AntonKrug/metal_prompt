@@ -135,9 +135,9 @@ void m_p_bundled_quit(void) {
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_set_prompt_color(unsigned int val) {
     if (val) {
-        M_P_CFG_COLORS_ENABLED = true;
+        m_p_colors_enabled = true;
     } else {
-        M_P_CFG_COLORS_ENABLED = false;
+        m_p_colors_enabled = false;
     }
 }
 #endif

@@ -26,7 +26,7 @@ extern "C" {
 
 #pragma mark - Public variables
 
-extern bool M_P_CFG_COLORS_ENABLED;
+extern bool m_p_colors_enabled;
 
 
 #pragma mark - Public functions outputing into the string buffer
