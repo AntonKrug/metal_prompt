@@ -87,7 +87,7 @@ void m_p_bundled_help(void) {
     m_p_transport_out(" then it will list all options.\r\n\r\n");
 
 #ifdef M_P_CFG_AUTOCOMPLETE_ON_EMPTY_PROMPT
-    m_p_transport_out(" Pressing TAB on empty prompt will list all possible commands.\r\n\r\n");
+    m_p_transport_out(" Pressing TAB on empty prompt will list all possible commands (same as ls command).\r\n\r\n");
 #endif
 
 #ifdef M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMAND
