@@ -24,8 +24,8 @@ extern "C" {
 
 #define M_P_CFG_COMMAND_PROMPT "metal_prompt:/$ "
 #define M_P_CFG_COMMAND_NAME_SIZE 48   // biggest length the command name can have (including namespace)
-//#define M_P_CFG_COMMAND_ARG_SIZE  19   // 19 characters => 64-bit hex argument (0x8000000000000000)
 #define M_P_CFG_COMMAND_ARG_SIZE  11   // 11 characters => 32-bit hex argument (0x80000000)
+//#define M_P_CFG_COMMAND_ARG_SIZE  19   // 19 characters => 64-bit hex argument (0x8000000000000000)
 #define M_P_CFG_WHOLE_PROMPT_SIZE (M_P_CFG_COMMAND_NAME_SIZE + M_P_CFG_COMMAND_ARG_SIZE + 1) // Whole prompt buffer
 #define M_P_CFG_FORCE_OPTIMIZATION __attribute__((optimize("-Os"))) // comment out to disable optimizations
 #define M_P_CFG_ALLOW_QUIT             // run in infinite loop or be able to exit
@@ -41,8 +41,8 @@ extern "C" {
 #pragma mark - Configuration of autocomplete
 
 #define M_P_CFG_AUTOCOMPLETE                    // completely enable/disable autocomplete support
-#define M_P_CFG_AUTOCOMPLETE_HELP_EXTRA_SIZE 40 // 40 extra characters to describe return and argument types
 #define M_P_CFG_AUTOCOMPLETE_TYPE_MAX_STRING 13 // 'unsigned int' is the longest string of a supported type
+#define M_P_CFG_AUTOCOMPLETE_HELP_EXTRA_SIZE 40 // 40 chars extra to print command's help (based on 13 char type string)
 #define M_P_CFG_AUTOCOMPLETE_ON_EMPTY_PROMPT    // will list all possible commands
 #define M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMAND    // will print 'help' for that command
 
