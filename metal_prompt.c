@@ -556,7 +556,6 @@ static void m_p_evaluate_character(const char character) {
         case 0x03:
             // Ctrl + C = quit
             m_p_keep_runnning = false;
-            m_p_transport_out("\r\nCtrl + C, exiting ...\r\n");
             break;
 #endif
 
@@ -653,6 +652,9 @@ void m_p_prompt_generic() {
         }
     }
 
+#ifdef M_P_CFG_ALLOW_QUIT
+    m_p_transport_out("\r\nExiting ...\r\n");
+#endif
 }
 
 

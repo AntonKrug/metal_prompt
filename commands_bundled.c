@@ -125,7 +125,6 @@ void m_p_bundled_set_command_benchmark(void) {
 #ifdef M_P_CFG_ALLOW_QUIT
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_quit(void) {
-    m_p_transport_out("Exiting...\r\n");
 	m_p_keep_runnning = false;
 }
 #endif
