@@ -626,7 +626,7 @@ static void m_p_evaluate_character(const char character) {
 #ifdef M_P_CFG_AUTOCOMPLETE
 M_P_CFG_FORCE_OPTIMIZATION
 unsigned int m_p_string_differ_at(char *a, char *b) {
-    // Own implementation of strspn as that didn't work well in some edge cases
+    // go through both strings and find first position where they differ
     unsigned int differ_at = 0;
 
     while ((0 != *a) && (0 != *b) && (*a == *b)) {
