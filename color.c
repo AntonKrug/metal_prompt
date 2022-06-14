@@ -11,11 +11,12 @@
 
 #include "color.h"
 
+#ifdef M_P_CFG_COLORS
+
 #include "transport/interface.h"
 
 #include <string.h>
 
-#ifdef M_P_CFG_COLORS
 
 #pragma mark - Public variables
 

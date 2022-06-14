@@ -19,10 +19,10 @@ extern "C" {
 
 #include "config.h"
 
+#ifdef M_P_CFG_COLORS
+
 #include <stdbool.h>
 
-
-#ifdef M_P_CFG_COLORS
 
 #pragma mark - Public variables
 
