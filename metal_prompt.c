@@ -623,6 +623,24 @@ static void m_p_evaluate_character(const char character) {
 }
 
 
+#ifdef M_P_CFG_AUTOCOMPLETE
+M_P_CFG_FORCE_OPTIMIZATION
+unsigned int m_p_string_differ_at(char *a, char *b) {
+    // Own implementation of strspn as that didn't work well in some edge cases
+    unsigned int differ_at = 0;
+
+    while ((0 != *a) && (0 != *b) && (*a == *b)) {
+        // We are not at the end yet, and the characters still match
+        differ_at++;
+        a++;
+        b++;
+    }
+
+    return differ_at;
+}
+#endif
+
+
 #pragma mark - Public functions
 
 
@@ -659,23 +677,6 @@ void m_p_prompt_generic() {
 
 
 #ifdef M_P_CFG_AUTOCOMPLETE
-
-
-M_P_CFG_FORCE_OPTIMIZATION
-unsigned int m_p_string_differ_at(char *a, char *b) {
-    // Own implementation of strspn as that didn't work well in some edge cases
-    unsigned int differ_at = 0;
-
-    while ((0 != *a) && (0 != *b) && (*a == *b)) {
-        // We are not at the end yet, and the characters still match
-        differ_at++;
-        a++;
-        b++;
-    }
-
-    return differ_at;
-}
-
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_auto_complete(char* command, unsigned int* caret) {
     char         first_command[M_P_CFG_COMMAND_NAME_SIZE];
