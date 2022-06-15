@@ -154,9 +154,58 @@ void m_p_bundled_print_in_dec(unsigned int val) {
 #endif
 
 
+#if defined(M_P_CFG_MEMORY_DUMP) && defined(M_P_CFG_TYPE_UINT)
+M_P_CFG_FORCE_OPTIMIZATION
+void m_p_bundled_memory_dump_word(unsigned int addr) {
+    unsigned int *p = (void *)addr;
+    char ch[2];
+    for (unsigned int y=0; y<10; y++) {
+        for (unsigned int x=0; x<16; x += sizeof(unsigned int), p++) {
+            unsigned int val = *p;
+            for (int i=0; i< (sizeof(unsigned int)*2); i++) {
+                ch[0] = ((val & 0xf)>9) ? ((val & 0xf) - 10 + 'a') : ((val & 0xf) + '0');
+                m_p_transport_out_characters(ch, 1);
+                val = val >> 4;
+            }
+            ch[0] = ' ';
+            m_p_transport_out_characters(ch, 1);
+        }
+        ch[0]='\r';
+        ch[1]='\n';
+        m_p_transport_out_characters(ch, 2);
+    }
+}
+
+
+void m_p_bundled_memory_dump_byte(unsigned int addr) {
+    uint8_t *p = (void *)addr;
+    char ch[3];
+    ch[2] = ' '; // hard-code the 3rd character to be a space
+
+    for (unsigned int y=0; y<10; y++) {
+        for (unsigned int x=0; x<16; x ++, p++) {
+            unsigned int val = *p;
+            ch[0] = ((val & 0xf)>9) ? ((val & 0xf) - 10 + 'a') : ((val & 0xf) + '0');
+            val = val >> 4;
+            ch[1] = ((val & 0xf)>9) ? ((val & 0xf) - 10 + 'a') : ((val & 0xf) + '0');
+
+            m_p_transport_out_characters(ch, 3); // 3rd character is the space
+        }
+        ch[0]='\r';
+        ch[1]='\n';
+        m_p_transport_out_characters(ch, 2);
+    }
+}
+#endif
+
+
 const m_p_command m_p_bundled_list[] = {
         { "clear",                 M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_clear} },
         { "configuration",         M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_configuration } },
+#if defined(M_P_CFG_MEMORY_DUMP) && defined(M_P_CFG_TYPE_UINT)
+        { "dump_byte",             M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT),   .void_uint   = { &m_p_bundled_memory_dump_byte } },
+        { "dump_word",             M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT),   .void_uint   = { &m_p_bundled_memory_dump_word } },
+#endif
         { "help",                  M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_help } },
 
 #ifdef M_P_CFG_AUTOCOMPLETE
