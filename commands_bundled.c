@@ -196,7 +196,7 @@ void m_p_bundled_memory_dump_byte(unsigned int addr) {
         m_p_transport_out_characters(ch, 2);
     }
 }
-#endif
+#endif // defined(M_P_CFG_MEMORY_DUMP) && defined(M_P_CFG_TYPE_UINT)
 
 
 const m_p_command m_p_bundled_list[] = {

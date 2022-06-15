@@ -35,6 +35,7 @@ extern "C" {
 #define M_P_CFG_COLORS                 // enable/disable vt100 colors
 #define M_P_CFG_HISTORY                // remember previous command (currently only 1)
 //#define M_P_CFG_BELL                   // ring vt100 BELL when issues happen
+#define M_P_CFG_MEMORY_DUMP            // enable memory dump commands (needs M_P_CFG_TYPE_UINT)
 
 
 // -----------------------------------------------------------------------------
@@ -52,7 +53,7 @@ extern "C" {
 #pragma mark - Supported callback argument and return types
 
 //#define M_P_CFG_TYPE_CHARS // "chars" is pointer of char aka string
-#define M_P_CFG_TYPE_UINT    // unsigned int size is platform specific (16-bit min)
+#define M_P_CFG_TYPE_UINT    // unsigned int size is platform specific (16-bit minimum size)
 //#define M_P_CFG_TYPE_UINT32  // 32-bit unsigned int (uint32_t)
 //#define M_P_CFG_TYPE_UINT64  // 64-bit unsigned int (uint64_t)
 
