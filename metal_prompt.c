@@ -60,7 +60,7 @@ static int m_p_find_first_space(const char *prompt) {
 M_P_CFG_FORCE_OPTIMIZATION
 static char * m_p_parse_hex_nibble_to_uint(unsigned int *val, char *hex_string) {
     char ch = *hex_string++;
-    *val = (*val << 4) + (ch <= '9') ? ch - '0' : (ch & 0x7) + 9;
+    *val = (*val << 4) + ((ch <= '9') ? (ch-'0') : (ch <= 'F') ? (ch -'A' + 10) : (ch -'a' + 10));
     return hex_string;
 }
 #endif
@@ -70,7 +70,7 @@ static char * m_p_parse_hex_nibble_to_uint(unsigned int *val, char *hex_string) 
 M_P_CFG_FORCE_OPTIMIZATION
 static char * m_p_parse_hex_nibble_to_uint32(uint32_t *val, char *hex_string) {
     char ch = *hex_string++;
-    *val = (*val << 4) + (ch <= '9') ? ch - '0' : (ch & 0x7) + 9;
+    *val = (*val << 4) + ((ch <= '9') ? (ch-'0') : (ch <= 'F') ? (ch -'A' + 10) : (ch -'a' + 10));
     return hex_string;
 }
 #endif
@@ -80,7 +80,7 @@ static char * m_p_parse_hex_nibble_to_uint32(uint32_t *val, char *hex_string) {
 M_P_CFG_FORCE_OPTIMIZATION
 static char * m_p_parse_hex_nibble_to_uint64(uint64_t *val, char *hex_string) {
     char ch = *hex_string++;
-    *val = (*val << 4) + (ch <= '9') ? ch - '0' : (ch & 0x7) + 9;
+    *val = (*val << 4) + ((ch <= '9') ? (ch-'0') : (ch <= 'F') ? (ch -'A' + 10) : (ch -'a' + 10));
     return hex_string;
 }
 #endif
