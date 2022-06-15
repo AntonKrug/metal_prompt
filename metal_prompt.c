@@ -503,6 +503,10 @@ static void m_p_evaluate_character(const char character) {
                 break;
             }
 
+#ifdef M_P_CFG_HISTORY
+            // Store current command into history
+            strcpy(cmd_old, m_p_command_prompt);
+#endif
 
             if (!m_p_find_match_and_execute()) {
 #ifdef M_P_CFG_COLORS
@@ -521,11 +525,6 @@ static void m_p_evaluate_character(const char character) {
             } else {
                 // Executed correctly the command, clean the command line
             }
-
-#ifdef M_P_CFG_HISTORY
-            // Store current command into history
-            strcpy(cmd_old, m_p_command_prompt);
-#endif
 
             // Clear current command
             m_p_command_prompt[0] = 0;
