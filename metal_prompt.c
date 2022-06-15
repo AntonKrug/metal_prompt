@@ -698,11 +698,15 @@ void m_p_auto_complete(char* command, unsigned int* caret) {
 
     m_p_iterate_begin();
 
+    // Figure out how far the auto-complete could complete the prompt
     while (m_p_iterate_current_exists()) {
         // Go through all commands, if the start of the command matches the
         // current cmd line, then find how many unique characters can be added
         m_p_iterate_get_current_string(buf, false);
         if (0 == strncmp(command, buf, cmd_len)) {
+            // Only consider commands that match with already typed prompt,
+            // and compare them to each other to find which is the smallest
+            // index where they still are identical
             if (first) {
                 strcpy(first_command, buf);
                 first = false;
@@ -715,17 +719,18 @@ void m_p_auto_complete(char* command, unsigned int* caret) {
         }
         m_p_iterate_next();
     }
-//test_namespace.c
+
     if (M_P_CFG_COMMAND_NAME_SIZE == common_location) {
-        // No common overlap found, probably wrong command / typo
+        // The common_location didn't got updated at all, that means
+        // no common overlap found, probably wrong command / typo
         // Do not auto complete anything.
         return;
     }
 
     // Calculated where is the overlap between the commands and the cmd line
     if (cmd_len < common_location) {
+        // There are some common characters to add, so then add them
 
-        // If there are some common characters to add, then add them
         strncpy(command + cmd_len, first_command + cmd_len, common_location - cmd_len);
         command[common_location] = 0;
 
@@ -733,25 +738,28 @@ void m_p_auto_complete(char* command, unsigned int* caret) {
         // is already on the UART prompt
         m_p_transport_out_characters(command + cmd_len, common_location - cmd_len);
         *caret = strlen(command);
-    } else {
-        // There is nothing to add with auto-complete as it's full command
 
-#ifdef M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMAND
-        // Do the autocomplete anyway as it will display the arguments of the
-        // current command
+    } else {
+        // The prompt is equal/longer than we could auto-complete. It might be
+        // full command
+
+#ifndef M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMAND
+        // Detect if it's a full command and abort the auto-complete including
+        // the printing of 'help'.
         m_p_iterate_begin();
         while (m_p_iterate_current_exists()) {
             // Search if there is full match
             m_p_iterate_get_current_string(buf, false);
             if (0 == strcmp(command, buf)) {
+                // It's exactly the command we wanted to find, so the prompt
+                // is fully matching command, abort the autocomplete
                 return;
             }
             m_p_iterate_next();
         }
 #endif
 
-        // If not full command, then list all the options
-
+        // List all the options with their help (partial or full prompts)
         m_p_transport_out_ln();
         m_p_iterate_begin();
         while (m_p_iterate_current_exists()) {

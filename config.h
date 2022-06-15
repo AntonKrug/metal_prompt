@@ -43,6 +43,7 @@ extern "C" {
 #define M_P_CFG_AUTOCOMPLETE                    // completely enable/disable autocomplete support
 #define M_P_CFG_AUTOCOMPLETE_TYPE_MAX_STRING 13 // 'unsigned int' is the longest string of a supported type
 #define M_P_CFG_AUTOCOMPLETE_HELP_EXTRA_SIZE 40 // 40 chars extra to print command's help (based on 13 char type string)
+// The two features below produce smaller footprint when they are enabled
 #define M_P_CFG_AUTOCOMPLETE_ON_EMPTY_PROMPT    // will list all possible commands
 #define M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMAND    // will print 'help' for that command
 
