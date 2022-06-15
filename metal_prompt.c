@@ -45,6 +45,7 @@ static void m_p_print_prompt(const char *command) {
 }
 
 
+#ifndef M_P_CFG_TYPES_NONE
 M_P_CFG_FORCE_OPTIMIZATION
 static int m_p_find_first_space(const char *prompt) {
     for (unsigned int i=0; i<strlen(prompt); i++) {
@@ -52,31 +53,35 @@ static int m_p_find_first_space(const char *prompt) {
     }
     return -1;
 }
+#endif
 
 
 #ifdef M_P_CFG_TYPE_UINT
 M_P_CFG_FORCE_OPTIMIZATION
-static void m_p_parse_hex_nibble_to_uint(unsigned int *val, char *hex_string) {
+static char * m_p_parse_hex_nibble_to_uint(unsigned int *val, char *hex_string) {
     char ch = *hex_string++;
     *val = (*val << 4) + (ch <= '9') ? ch - '0' : (ch & 0x7) + 9;
+    return hex_string;
 }
 #endif
 
 
 #ifdef M_P_CFG_TYPE_UINT32
 M_P_CFG_FORCE_OPTIMIZATION
-static void m_p_parse_hex_nibble_to_uint32(uint32_t *val, char *hex_string) {
+static char * m_p_parse_hex_nibble_to_uint32(uint32_t *val, char *hex_string) {
     char ch = *hex_string++;
     *val = (*val << 4) + (ch <= '9') ? ch - '0' : (ch & 0x7) + 9;
+    return hex_string;
 }
 #endif
 
 
 #ifdef M_P_CFG_TYPE_UINT64
 M_P_CFG_FORCE_OPTIMIZATION
-static void m_p_parse_hex_nibble_to_uint64(uint64_t *val, char *hex_string) {
+static char * m_p_parse_hex_nibble_to_uint64(uint64_t *val, char *hex_string) {
     char ch = *hex_string++;
     *val = (*val << 4) + (ch <= '9') ? ch - '0' : (ch & 0x7) + 9;
+    return hex_string;
 }
 #endif
 
@@ -114,14 +119,14 @@ static bool m_p_execute_command(
 
         // Find another space indicating there are multiple arguments,
         // clip the string to only contain the first argument and nothing else
-        const unsigned int space_after_argument = m_p_find_first_space(cmd);
+        const int space_after_argument = m_p_find_first_space(cmd);
         if (-1 != space_after_argument) {
             cmd[space_after_argument] = 0;
         }
 
 #ifdef M_P_CFG_TYPE_CHARS
         // If it's non-string argument then check the size of it
-        if ( M_P_TYPE_CHARS != (M_P_CMD_MASK_ARG & selected_command->type) ) {
+        if ( M_P_CMD_GET_ARG_TYPE(M_P_TYPE_CHARS) != (M_P_CMD_MASK_ARG & selected_command->type) ) {
             if ( 3 > strlen(cmd)) {
                 // it is not long enough for even the 0x0 string, abort execution
                 return false;
@@ -141,7 +146,7 @@ static bool m_p_execute_command(
 
         switch (M_P_CMD_MASK_ARG & selected_command->type) {
 #ifdef M_P_CFG_TYPE_CHARS
-            case M_P_TYPE_CHARS:
+            case M_P_CMD_GET_ARG_TYPE(M_P_TYPE_CHARS):
                 if (-1 != space_after_argument) {
                     // Strings can contain spaces, so put the removed space back
                     cmd[space_after_argument] = ' ';
@@ -158,25 +163,25 @@ static bool m_p_execute_command(
 #endif // M_P_CFG_TYPE_CHARS
 
 #ifdef M_P_CFG_TYPE_UINT
-            case M_P_TYPE_UINT:
-                for (unsigned int i=0; i<(sizeof(unsigned int)*2) && (0 != cmd[i]); i++) {
-                    m_p_parse_hex_nibble_to_uint(&ret_arg_uint, cmd);
+            case M_P_CMD_GET_ARG_TYPE(M_P_TYPE_UINT):
+                for (unsigned int i=0; i<(sizeof(unsigned int)*2) && (0 != *cmd); i++) {
+                    cmd = m_p_parse_hex_nibble_to_uint(&ret_arg_uint, cmd);
                 }
                 break;
 #endif // M_P_CFG_TYPE_UINT
 
 #ifdef M_P_CFG_TYPE_UINT32
-            case M_P_TYPE_UINT32:
-                for (unsigned int i=0; i<(sizeof(uint32_t)*2) && (0 != cmd[i]); i++) {
-                    m_p_parse_hex_nibble_to_uint32(&ret_arg_uint32, cmd);
+            case M_P_CMD_GET_ARG_TYPE(M_P_TYPE_UINT32):
+                for (unsigned int i=0; i<(sizeof(uint32_t)*2) && (0 != *cmd); i++) {
+                    cmd = m_p_parse_hex_nibble_to_uint32(&ret_arg_uint32, cmd);
                 }
                 break;
 #endif // M_P_CFG_TYPE_UINT32
 
 #ifdef M_P_CFG_TYPE_UINT64
-            case M_P_TYPE_UINT64:
-                for (unsigned int i=0; i<(sizeof(uint64_t)*2) && (0 != cmd[i]); i++) {
-                    m_p_parse_hex_nibble_to_uint64(&ret_arg_uint64, cmd);
+            case M_P_CMD_GET_ARG_TYPE(M_P_TYPE_UINT64):
+                for (unsigned int i=0; i<(sizeof(uint64_t)*2) && (0 != *cmd); i++) {
+                    cmd = m_p_parse_hex_nibble_to_uint64(&ret_arg_uint64, cmd);
                 }
                 break;
 #endif // M_P_CFG_TYPE_UINT64
@@ -424,6 +429,7 @@ M_P_CFG_FORCE_OPTIMIZATION
 static bool m_p_find_match_and_execute() {
     char buf[M_P_CFG_COMMAND_NAME_SIZE];
 
+#ifndef M_P_CFG_TYPES_NONE
     const int index_of_first_space = m_p_find_first_space(m_p_command_prompt);
     if (-1 != index_of_first_space) {
         // the command contains a space, and most likely argument
@@ -431,6 +437,9 @@ static bool m_p_find_match_and_execute() {
         // name without arguments
         m_p_command_prompt[index_of_first_space] = 0;
     }
+#else
+    const int index_of_first_space = -1;
+#endif
 
     m_p_iterate_begin();
     while (m_p_iterate_current_exists()) {
