@@ -7,7 +7,7 @@
 /*
  * Selection which command groups (and under what namespace) are enabled in the
  * metal prompt. This can be done by hand, by defining the defines or with
- * a script which can detect the KEYWORDS in the comments
+ * a script which can recognize the ----- SECTION_BEGIN ----- in the comments
  */
 
 
