@@ -24,8 +24,6 @@ extern "C" {
 
 #define M_P_CFG_COMMAND_PROMPT "metal_prompt:/$ "
 #define M_P_CFG_COMMAND_NAME_SIZE 48   // biggest length the command name can have (including namespace)
-#define M_P_CFG_COMMAND_ARG_SIZE  11   // 11 characters => 32-bit hex argument (0x80000000)
-//#define M_P_CFG_COMMAND_ARG_SIZE  19   // 19 characters => 64-bit hex argument (0x8000000000000000)
 #define M_P_CFG_WHOLE_PROMPT_SIZE (M_P_CFG_COMMAND_NAME_SIZE + M_P_CFG_COMMAND_ARG_SIZE + 1) // Whole prompt buffer
 #define M_P_CFG_FORCE_OPTIMIZATION __attribute__((optimize("-Os"))) // comment out to disable optimizations
 #define M_P_CFG_ALLOW_QUIT             // run in infinite loop or be able to exit
@@ -52,7 +50,7 @@ extern "C" {
 // -----------------------------------------------------------------------------
 #pragma mark - Supported callback argument and return types
 
-//#define M_P_CFG_TYPE_CHARS // "chars" is pointer of char aka string
+#define M_P_CFG_TYPE_CHARS // "chars" is pointer of char aka string
 #define M_P_CFG_TYPE_UINT    // unsigned int size is platform specific (16-bit minimum size)
 //#define M_P_CFG_TYPE_UINT32  // 32-bit unsigned int (uint32_t)
 //#define M_P_CFG_TYPE_UINT64  // 64-bit unsigned int (uint64_t)
@@ -60,6 +58,22 @@ extern "C" {
 #ifdef M_P_CFG_TYPE_CHARS
 #define M_P_CFG_TYPE_CHARS_BUFFER_SIZE 48 // Max buffer size for argument and return strings
 #endif
+
+
+// Configure corresponding size of the argument buffer depending on the size
+// of supported types. Note this will affect the maximum size of the character
+// buffer too. So in some cases you might want to override these
+#ifdef M_P_CFG_TYPE_UINT64
+#define M_P_CFG_COMMAND_ARG_SIZE  19   // 19 characters => 64-bit hex argument (0x8000000000000000)
+#else
+
+#ifdef M_P_CFG_TYPE_UINT32
+#define M_P_CFG_COMMAND_ARG_SIZE  11   // 11 characters => 32-bit hex argument (0x80000000)
+#else
+#define M_P_CFG_COMMAND_ARG_SIZE  (3+(2*sizeof(unsigned int)))  // '0x' + termination + 2chars per byte
+#endif // M_P_CFG_TYPE_UINT32
+
+#endif // M_P_CFG_TYPE_UINT64
 
 
 #if !defined(M_P_CFG_TYPE_CHARS) && !defined(M_P_CFG_TYPE_UINT) && !defined(M_P_CFG_TYPE_UINT32) && !defined(M_P_CFG_TYPE_UINT64)
