@@ -216,7 +216,8 @@ typedef struct {
 // Callbacks can output to the transport while returning any type
 // (including void). When updating this enum, make sure the interate.c
 //  m_p_command_type_string is updated accordingly and verify that the
-// config.h  M_P_CFG_AUTOCOMPLETE_TYPE_MAX_STRING is big enough.
+// config.h  M_P_CFG_AUTOCOMPLETE_TYPE_MAX_STRING is big enough and update
+// it as necessary.
 typedef enum {
     M_P_TYPE_VOID,
 #ifdef M_P_CFG_TYPE_CHARS
