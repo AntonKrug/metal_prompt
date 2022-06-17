@@ -654,20 +654,23 @@ unsigned int m_p_string_differ_at(char *a, char *b) {
 
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_prompt_generic() {
+#ifdef M_P_CFG_WELCOME_BANNER
     m_p_transport_out("\r\nTest Interface ");
     m_p_transport_out(M_P_VERSION);
     m_p_transport_out("\r\n");
-    m_p_print_prompt(NULL);
-#ifdef M_P_CFG_ALLOW_QUIT
-    m_p_keep_runnning = true;
 #endif
 
+    m_p_print_prompt(NULL);
+
 #ifdef M_P_CFG_AUTOCOMPLETE
-    // Find out what is the length of the longest command
+    // Find out what is the length of the longest command, it will be used
+    // later to vertically align the commands so their help printout will
+    // look consistent
     m_p_iterate_set_size_of_longest_command();
 #endif
 
 #ifdef M_P_CFG_ALLOW_QUIT
+    m_p_keep_runnning = true;
     while (m_p_keep_runnning) {
 #else
     while (1) {
