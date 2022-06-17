@@ -484,8 +484,13 @@ static bool m_p_find_match_and_execute() {
                 }
 #endif
 
-                itoa(diff, buf, 16);
-                m_p_transport_out("\r\nCommand took 0x");
+                m_p_transport_out("\r\nCommand took ");
+                if (m_p_print_in_dec) {
+                    itoa(diff, buf, 10);
+                } else {
+                    m_p_transport_out("0x");
+                    itoa(diff, buf, 16);
+                }
                 m_p_transport_out(buf);
                 m_p_transport_out(" ticks to execute");
             }
