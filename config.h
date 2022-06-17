@@ -64,7 +64,7 @@ extern "C" {
 #define M_P_CFG_COMMAND_PROMPT "m_p:/$ "
 #define M_P_CFG_VERSION "v0.1"
 #define M_P_CFG_COMMAND_NAME_SIZE 48   // Biggest length the command name can have (including namespace)
-#define M_P_CFG_WHOLE_PROMPT_SIZE (M_P_CFG_COMMAND_NAME_SIZE + M_P_CFG_COMMAND_ARG_SIZE + 1) // Whole prompt buffer
+#define M_P_CFG_WHOLE_PROMPT_SIZE ((M_P_CFG_COMMAND_NAME_SIZE) + (M_P_CFG_COMMAND_ARG_SIZE) + 1) // Whole prompt buffer
 #define M_P_CFG_FORCE_OPTIMIZATION __attribute__((optimize("-Os"))) // Comment this out to disable optimizations
 #define M_P_CFG_WELCOME_BANNER         // Print Welcome banner on startup
 #define M_P_CFG_HELP                   // Enable the "help" command
@@ -86,20 +86,43 @@ extern "C" {
 
 #define M_P_CFG_AUTOCOMPLETE                    // completely enable/disable autocomplete support
 #define M_P_CFG_AUTOCOMPLETE_TYPE_MAX_STRING 13 // 'unsigned int' is the longest string of a supported type
-#define M_P_CFG_AUTOCOMPLETE_HELP_EXTRA_SIZE 40 // 40 chars extra to print command's help (based on 13 char type string)
 // The two features below produce smaller footprint when they are enabled
 #define M_P_CFG_AUTOCOMPLETE_ON_EMPTY_PROMPT    // will list all possible commands
 #define M_P_CFG_AUTOCOMPLETE_ON_FULL_COMMAND    // will print 'help' for that command
 
 
+// -----------------------------------------------------------------------------
+#pragma mark - Datadriven defines
+// Only edit these defines if you know what you doing
+
+// Based on 13 char type string it will allocate 42 characters extra to print
+// command's help (the return and argument types without the color codes).
+// + 1 character for string termination
+// + 15 characters for text such as return/argument/brackets
+// + 2*TYPE_MAX_STRING (once as return and once as argument)
+// + overhead form the color switching (if enabled that is 8*6 chars
+
+// Calculate color overhead first
+#ifdef M_P_CFG_COLORS
+#define M_P_CFG_AUTOCOMPLETE_HELP_COLOR_OVERHEAD (8 * 6)  // 8 chars to change color * 6 changes
+#else
+#define M_P_CFG_AUTOCOMPLETE_HELP_COLOR_OVERHEAD 0
+#endif
+
+
+// Calculate extra buffer size needed to print the command's help
+#define M_P_CFG_AUTOCOMPLETE_HELP_EXTRA_SIZE (1 + 15 + 2*(M_P_CFG_AUTOCOMPLETE_TYPE_MAX_STRING) + M_P_CFG_AUTOCOMPLETE_HELP_COLOR_OVERHEAD)
+
+
+// Enable M_P_CFG_TYPES_NONE define if noe other type was selected
 #if !defined(M_P_CFG_TYPE_CHARS) && !defined(M_P_CFG_TYPE_UINT) && !defined(M_P_CFG_TYPE_UINT32) && !defined(M_P_CFG_TYPE_UINT64)
 #define M_P_CFG_TYPES_NONE
 #endif
 
 
-#ifndef M_P_CFG_FORCE_OPTIMIZATION
-// if no M_P_CFG_FORCE_OPTIMIZATION defined (optimizations are disabled), then
+// If no M_P_CFG_FORCE_OPTIMIZATION defined (optimizations are disabled), then
 // at least define empty one so the project will compile without errors
+#ifndef M_P_CFG_FORCE_OPTIMIZATION
 #define M_P_CFG_FORCE_OPTIMIZATION
 #endif
 
