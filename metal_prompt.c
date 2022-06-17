@@ -131,9 +131,14 @@ static bool m_p_execute_command(
                 // it is not long enough for even the 0x0 string, abort execution
                 return false;
             }
-        } else {
-            // It's non-string argument then expect hex number as argument
             cmd += 2; // Assume the argument has '0x' prefix and jump over it
+        } else {
+            // It's a chars (string) argument take it as it is (just put back
+            // a space if i removed it earlier)
+            if (-1 != space_after_argument) {
+                // Strings can contain spaces, so put the removed space back
+                cmd[space_after_argument] = ' ';
+            }
         }
 #else
         if ( 3 > strlen(cmd) ) {
@@ -147,13 +152,8 @@ static bool m_p_execute_command(
         switch (M_P_CMD_MASK_ARG & selected_command->type) {
 #ifdef M_P_CFG_TYPE_CHARS
             case M_P_CMD_GET_ARG_TYPE(M_P_TYPE_CHARS):
-                if (-1 != space_after_argument) {
-                    // Strings can contain spaces, so put the removed space back
-                    cmd[space_after_argument] = ' ';
-                }
-
                 if (M_P_CFG_TYPE_CHARS_BUFFER_SIZE <= strlen(cmd)) {
-                    // The string buffer is too big for our dedicated buffer,
+                    // The argument string is too big for our dedicated buffer,
                     // therefore abort the execution
                     return false;
                 }
