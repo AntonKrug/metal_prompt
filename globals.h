@@ -35,6 +35,7 @@ extern bool m_p_benchmark_commands;
 #endif
 
 #ifdef M_P_CFG_TYPE_CHARS
+// be careful this buffer is used for both input arguments and output buffer
 extern char m_p_return_and_argument_buf[];
 #endif
 
