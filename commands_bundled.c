@@ -116,12 +116,11 @@ unsigned int m_p_bundled_uptime(void) {
 
 
 M_P_CFG_FORCE_OPTIMIZATION
-void m_p_bundled_set_command_benchmark(void) {
-    m_p_transport_out("Command benchmark mode enabled, now each command will print how long it took to execute.\r\n");
-    m_p_benchmark_commands = true;
+void m_p_bundled_set_command_benchmark(unsigned int value) {
+    m_p_benchmark_commands = value;
 }
 
-#endif
+#endif //M_P_CFG_UPTIME
 
 
 #ifdef M_P_CFG_ALLOW_QUIT
@@ -233,7 +232,7 @@ const m_p_command m_p_bundled_list[] = {
 
 
 #ifdef M_P_CFG_UPTIME
-        { "set_command_benchmark", M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_set_command_benchmark } },
+        { "set_command_benchmark", M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT),   .void_uint   = { &m_p_bundled_set_command_benchmark } },
 #ifdef M_P_CFG_TYPE_UINT
         { "uptime",                M_P_CMD_TYPES(M_P_TYPE_UINT, M_P_TYPE_VOID),   .uint_void   = { &m_p_bundled_uptime } },
 #endif // M_P_CFG_TYPE_UINT32
