@@ -22,28 +22,35 @@ extern "C" {
 // -----------------------------------------------------------------------------
 #pragma mark - Supported callback argument and return types
 
-#define M_P_CFG_TYPE_CHARS // "chars" is pointer of char aka string
+#define M_P_CFG_TYPE_CHARS   // "CHARS" is a pointer to char (aka string)
 #define M_P_CFG_TYPE_UINT    // unsigned int size is platform specific (16-bit minimum size)
 //#define M_P_CFG_TYPE_UINT32  // 32-bit unsigned int (uint32_t)
 //#define M_P_CFG_TYPE_UINT64  // 64-bit unsigned int (uint64_t)
 
-#ifdef M_P_CFG_TYPE_CHARS
-#define M_P_CFG_TYPE_CHARS_BUFFER_SIZE 48 // Max buffer size for argument and return strings
+// Configured how much the command prompt buffer needs to enlarged to fit
+// the biggest command name and required arguments at the same time.
+// Note this will affect the maximum size of the argumnet CHARS too.
+// In some cases you might want to override these defaults
+#if defined(M_P_CFG_TYPE_UINT64) && !defined(M_P_CFG_TYPE_UINT32)
+#define M_P_CFG_COMMAND_ARG_SIZE  19   // 19 characters => 64-bit hex argument (0x8000000000000000)
 #endif
 
-
-// Configure corresponding size of the argument buffer depending on the size
-// of supported types. Note this will affect the maximum size of the character
-// buffer too. So in some cases you might want to override these
-#ifdef M_P_CFG_TYPE_UINT64
-#define M_P_CFG_COMMAND_ARG_SIZE  19   // 19 characters => 64-bit hex argument (0x8000000000000000)
-#else
-
-#ifdef M_P_CFG_TYPE_UINT32
+#if defined(M_P_CFG_TYPE_UINT32) && !defined(M_P_CFG_TYPE_UINT64)
 #define M_P_CFG_COMMAND_ARG_SIZE  11   // 11 characters => 32-bit hex argument (0x80000000)
-#else
+#endif
+
+#if !defined(M_P_CFG_TYPE_UINT32) && !defined(M_P_CFG_TYPE_UINT64)
 #define M_P_CFG_COMMAND_ARG_SIZE  (3+(2*sizeof(unsigned int)))  // '0x' + termination + 2chars per byte
-#endif // M_P_CFG_TYPE_UINT32
+#endif
+
+#ifdef M_P_CFG_TYPE_CHARS
+// Even the buffer for arguments might be limited by the maximum of the prompt
+// buffer it can still have own return buffer (and a bigger size than possible
+// arguments).
+// Max buffer size for return CHARS (and argument CHARS too):
+#define M_P_CFG_TYPE_CHARS_BUFFER_SIZE 48
+#endif
+
 
 
 // -----------------------------------------------------------------------------
