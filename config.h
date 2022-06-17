@@ -24,7 +24,7 @@ extern "C" {
 
 #define M_P_CFG_TYPE_CHARS   // "CHARS" is a pointer to char (aka string)
 #define M_P_CFG_TYPE_UINT    // unsigned int size is platform specific (16-bit minimum size)
-//#define M_P_CFG_TYPE_UINT32  // 32-bit unsigned int (uint32_t)
+#define M_P_CFG_TYPE_UINT32  // 32-bit unsigned int (uint32_t)
 //#define M_P_CFG_TYPE_UINT64  // 64-bit unsigned int (uint64_t)
 
 // Configured how much the command prompt buffer needs to enlarged to fit
@@ -65,15 +65,15 @@ extern "C" {
 #define M_P_CFG_VERSION "v0.1"
 #define M_P_CFG_COMMAND_NAME_SIZE 48   // Biggest length the command name can have (including namespace)
 #define M_P_CFG_WHOLE_PROMPT_SIZE (M_P_CFG_COMMAND_NAME_SIZE + M_P_CFG_COMMAND_ARG_SIZE + 1) // Whole prompt buffer
-#define M_P_CFG_FORCE_OPTIMIZATION __attribute__((optimize("-Os"))) // Comment this out to disable optimizations
+//#define M_P_CFG_FORCE_OPTIMIZATION __attribute__((optimize("-Os"))) // Comment this out to disable optimizations
 #define M_P_CFG_WELCOME_BANNER         // Print Welcome banner on startup
 #define M_P_CFG_HELP                   // Enable the "help" command
 #define M_P_CFG_PRINT_DEC_DEFAULT true // Printing return values in HEX or DEC
-//#define M_P_CFG_UPTIME                 // Uptime and benchmark commands (see systick.c)
+#define M_P_CFG_UPTIME                 // Uptime and benchmark commands (see systick.c)
 //#define M_P_CFG_UPTIME_SMALL_OVERFLOW  // Do check of uptime overflowing on small platforms
 #define M_P_CFG_COLORS                 // Enable/disable vt100 colors
 #define M_P_CFG_HISTORY                // Remember previous command (currently only 1)
-//#define M_P_CFG_BELL                   // Ring vt100 BELL when issues happen
+#define M_P_CFG_BELL                   // Ring vt100 BELL when issues happen
 #define M_P_CFG_MEMORY_DUMP            // Enable memory dump commands (needs M_P_CFG_TYPE_UINT)
 #define M_P_CFG_ALLOW_QUIT             // Run in infinite loop or be able to exit
 
