@@ -100,11 +100,12 @@ void m_p_bundled_help(void) {
 #endif
 
 
-
+#ifdef M_P_CFG_CLEAR_SCREEN
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_clear(void) {
     m_p_transport_out("\033[2J\033[H");
 }
+#endif
 
 
 #ifdef M_P_CFG_UPTIME
@@ -201,7 +202,9 @@ void m_p_bundled_memory_dump_byte(unsigned int addr) {
 
 
 const m_p_command m_p_bundled_list[] = {
+#ifdef M_P_CFG_CLEAR_SCREEN
         { "clear",                 M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_clear} },
+#endif
         { "configuration",         M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_configuration } },
 
 
