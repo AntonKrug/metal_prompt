@@ -66,8 +66,6 @@ void m_p_bundled_configuration(void) {
 	m_p_transport_out("__NO_INLINE__\r\n");
 #endif
 
-	// TODO: Display Hard/Soft float depending on the project defines (don't
-	// know how to detect these from the auto-generated defined
 }
 #endif // M_P_CFG_CONFIGURATION
 
