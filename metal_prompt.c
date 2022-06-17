@@ -159,6 +159,7 @@ static bool m_p_execute_command(
                 }
 
                 strcpy(m_p_return_and_argument_buf, cmd);
+                cmd += strlen(cmd); // move it to the end of a string as ACK that we parsed it
                 break;
 #endif // M_P_CFG_TYPE_CHARS
 
