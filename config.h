@@ -95,6 +95,14 @@ extern "C" {
 #pragma mark - Datadriven defines
 // Only edit these defines if you know what you doing
 
+// How many characters overhead is caused by a single color change
+#ifdef M_P_CFG_COLORS
+#define M_P_CFG_COLOR_OVERHEAD 8 // 8 characters overhead for changing color once
+#else
+#define M_P_CFG_COLOR_OVERHEAD 0 // No overhead because colors are disabled
+#endif
+
+
 // Based on 13 char type string it will allocate 42 characters extra to print
 // command's help (the return and argument types without the color codes).
 // + 1 character for string termination
@@ -102,13 +110,8 @@ extern "C" {
 // + 2*TYPE_MAX_STRING (once as return and once as argument)
 // + overhead form the color switching (if enabled that is 8*6 chars
 
-// Calculate color overhead first
-#ifdef M_P_CFG_COLORS
-#define M_P_CFG_AUTOCOMPLETE_HELP_COLOR_OVERHEAD (8 * 6)  // 8 chars to change color * 6 changes
-#else
-#define M_P_CFG_AUTOCOMPLETE_HELP_COLOR_OVERHEAD 0
-#endif
-
+// Calculate color overhead for the 'help' syntax first
+#define M_P_CFG_AUTOCOMPLETE_HELP_COLOR_OVERHEAD ((M_P_CFG_COLOR_OVERHEAD) * 6)  // 8 chars to change color * 6 changes
 
 // Calculate extra buffer size needed to print the command's help
 #define M_P_CFG_AUTOCOMPLETE_HELP_EXTRA_SIZE (1 + 15 + 2*(M_P_CFG_AUTOCOMPLETE_TYPE_MAX_STRING) + M_P_CFG_AUTOCOMPLETE_HELP_COLOR_OVERHEAD)
