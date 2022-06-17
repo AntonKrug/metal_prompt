@@ -236,12 +236,12 @@ const m_p_command m_p_bundled_list[] = {
 
 
 #if defined(M_P_CFG_COLORS) && defined(M_P_CFG_TYPE_UINT)
-        { "set_prompt_color",      M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT),   .void_uint = { &m_p_bundled_set_prompt_color } },
+        { "set_color",             M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT),   .void_uint = { &m_p_bundled_set_prompt_color } },
 #endif
 
 
 #ifdef M_P_CFG_UPTIME
-        { "set_command_benchmark", M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT),   .void_uint   = { &m_p_bundled_set_command_benchmark } },
+        { "set_benchmark",         M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT),   .void_uint   = { &m_p_bundled_set_command_benchmark } },
 #ifdef M_P_CFG_TYPE_UINT
         { "uptime",                M_P_CMD_TYPES(M_P_TYPE_UINT, M_P_TYPE_VOID),   .uint_void   = { &m_p_bundled_uptime } },
 #endif // M_P_CFG_TYPE_UINT32
