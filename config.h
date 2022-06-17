@@ -69,6 +69,7 @@ extern "C" {
 #define M_P_CFG_WELCOME_BANNER         // Print Welcome banner on startup
 #define M_P_CFG_HELP                   // Enable the "help" command
 #define M_P_CFG_CLEAR_SCREEN           // Enable the "clear" command
+#define M_P_CFG_CONFIGURATION          // Enable the "configuration" self-reporting command
 #define M_P_CFG_PRINT_DEC_DEFAULT true // Printing return values in HEX or DEC
 #define M_P_CFG_UPTIME                 // Uptime and benchmark commands (see systick.c)
 //#define M_P_CFG_UPTIME_SMALL_OVERFLOW  // Do check of uptime overflowing on small platforms

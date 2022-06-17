@@ -37,6 +37,7 @@ void m_p_bundled_list_all_tests(void) {
 #endif
 
 
+#ifdef M_P_CFG_CONFIGURATION
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_configuration(void) {
 	char optimization[5];
@@ -68,6 +69,7 @@ void m_p_bundled_configuration(void) {
 	// TODO: Display Hard/Soft float depending on the project defines (don't
 	// know how to detect these from the auto-generated defined
 }
+#endif // M_P_CFG_CONFIGURATION
 
 
 #ifdef M_P_CFG_HELP
@@ -97,7 +99,7 @@ void m_p_bundled_help(void) {
 
 #endif // M_P_CFG_AUTOCOMPLETE
 }
-#endif
+#endif // M_P_CFG_HELP
 
 
 #ifdef M_P_CFG_CLEAR_SCREEN
@@ -202,10 +204,16 @@ void m_p_bundled_memory_dump_byte(unsigned int addr) {
 
 
 const m_p_command m_p_bundled_list[] = {
+
+
 #ifdef M_P_CFG_CLEAR_SCREEN
         { "clear",                 M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_clear} },
 #endif
+
+
+#ifdef M_P_CFG_CONFIGURATION
         { "configuration",         M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_VOID),   .void_void   = { &m_p_bundled_configuration } },
+#endif
 
 
 #if defined(M_P_CFG_MEMORY_DUMP) && defined(M_P_CFG_TYPE_UINT)
