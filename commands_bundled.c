@@ -144,7 +144,7 @@ void m_p_bundled_set_prompt_color(unsigned int val) {
 #endif
 
 
-#ifdef M_P_CFG_TYPE_UINT
+#if defined(M_P_CFG_TYPE_UINT) && !defined(M_P_CFG_PRINT_ONLY_HEX)
 M_P_CFG_FORCE_OPTIMIZATION
 void m_p_bundled_print_in_dec(unsigned int val) {
     if (val) {
@@ -230,7 +230,7 @@ const m_p_command m_p_bundled_list[] = {
 #endif
 
 
-#ifdef M_P_CFG_TYPE_UINT
+#if defined(M_P_CFG_TYPE_UINT) && !defined(M_P_CFG_PRINT_ONLY_HEX)
         { "print_in_dec"         , M_P_CMD_TYPES(M_P_TYPE_VOID, M_P_TYPE_UINT),   .void_uint   = { &m_p_bundled_print_in_dec } },
 #endif
 

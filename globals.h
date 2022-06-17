@@ -24,7 +24,9 @@ extern "C" {
 
 extern char m_p_command_prompt[M_P_CFG_WHOLE_PROMPT_SIZE];
 
+#if defined(M_P_CFG_TYPE_UINT) && !defined(M_P_CFG_PRINT_ONLY_HEX)
 extern bool m_p_print_in_dec;
+#endif
 
 #ifdef M_P_CFG_ALLOW_QUIT
 extern bool m_p_keep_runnning;

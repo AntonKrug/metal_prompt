@@ -389,39 +389,60 @@ static bool m_p_execute_command(
 
 #ifdef M_P_CFG_TYPE_UINT
         case M_P_CMD_GET_RET_TYPE(M_P_TYPE_UINT):
+
+#ifdef M_P_CFG_PRINT_ONLY_HEX
+            itoa(ret_arg_uint, buf, 16);
+            m_p_transport_out("0x");
+#else
             if (m_p_print_in_dec) {
                 itoa(ret_arg_uint, buf, 10);
             } else {
                 itoa(ret_arg_uint, buf, 16);
                 m_p_transport_out("0x");
             }
+#endif // M_P_CFG_PRINT_ONLY_HEX
+
             m_p_transport_out(buf);
             break;
-#endif
+#endif // M_P_CFG_TYPE_UINT
 
 #ifdef M_P_CFG_TYPE_UINT32
         case M_P_CMD_GET_RET_TYPE(M_P_TYPE_UINT32):
+
+#ifdef M_P_CFG_PRINT_ONLY_HEX
+            itoa(ret_arg_uint32, buf, 16);
+            m_p_transport_out("0x");
+#else
             if (m_p_print_in_dec) {
                 itoa(ret_arg_uint32, buf, 10);
             } else {
                 itoa(ret_arg_uint32, buf, 16);
                 m_p_transport_out("0x");
             }
+#endif //M_P_CFG_PRINT_ONLY_HEX
+
             m_p_transport_out(buf);
             break;
-#endif
+#endif // M_P_CFG_TYPE_UINT32
 
 #ifdef M_P_CFG_TYPE_UINT64
         case M_P_CMD_GET_RET_TYPE(M_P_TYPE_UINT64):
+
+#ifdef M_P_CFG_PRINT_ONLY_HEX
+            itoa(ret_arg_uint64, buf, 16);
+            m_p_transport_out("0x");
+#else
             if (m_p_print_in_dec) {
                 itoa(ret_arg_uint64, buf, 10);
             } else {
                 itoa(ret_arg_uint64, buf, 16);
                 m_p_transport_out("0x");
             }
+#endif // M_P_CFG_PRINT_ONLY_HEX
+
             m_p_transport_out(buf);
             break;
-#endif
+#endif // M_P_CFG_TYPE_UINT64
 
         default:
             // void return type, nothing to display
@@ -485,12 +506,17 @@ static bool m_p_find_match_and_execute() {
 #endif
 
                 m_p_transport_out("\r\nCommand took ");
+#ifdef M_P_CFG_PRINT_ONLY_HEX
+                m_p_transport_out("0x");
+                itoa(diff, buf, 16);
+#else
                 if (m_p_print_in_dec) {
                     itoa(diff, buf, 10);
                 } else {
                     m_p_transport_out("0x");
                     itoa(diff, buf, 16);
                 }
+#endif // M_P_CFG_PRINT_ONLY_HEX
                 m_p_transport_out(buf);
                 m_p_transport_out(" ticks to execute");
             }

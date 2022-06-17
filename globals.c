@@ -15,7 +15,9 @@
 
 char m_p_command_prompt[M_P_CFG_WHOLE_PROMPT_SIZE];
 
+#if defined(M_P_CFG_TYPE_UINT) && !defined(M_P_CFG_PRINT_ONLY_HEX)
 bool m_p_print_in_dec       = M_P_CFG_PRINT_DEC_DEFAULT;
+#endif
 
 #ifdef M_P_CFG_ALLOW_QUIT
 bool m_p_keep_runnning      = true;
