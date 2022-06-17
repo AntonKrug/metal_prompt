@@ -22,9 +22,6 @@ extern "C" {
 
 #include <stdbool.h>
 
-#define M_P_VERSION "v0.1"
-
-
 #pragma mark - Public functions
 
 

@@ -62,6 +62,7 @@ extern "C" {
 #pragma mark - Configuration of features
 
 #define M_P_CFG_COMMAND_PROMPT "m_p:/$ "
+#define M_P_CFG_VERSION "v0.1"
 #define M_P_CFG_COMMAND_NAME_SIZE 48   // Biggest length the command name can have (including namespace)
 #define M_P_CFG_WHOLE_PROMPT_SIZE (M_P_CFG_COMMAND_NAME_SIZE + M_P_CFG_COMMAND_ARG_SIZE + 1) // Whole prompt buffer
 #define M_P_CFG_FORCE_OPTIMIZATION __attribute__((optimize("-Os"))) // Comment this out to disable optimizations

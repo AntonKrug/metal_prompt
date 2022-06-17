@@ -656,7 +656,7 @@ M_P_CFG_FORCE_OPTIMIZATION
 void m_p_prompt_generic() {
 #ifdef M_P_CFG_WELCOME_BANNER
     m_p_transport_out("\r\nTest Interface ");
-    m_p_transport_out(M_P_VERSION);
+    m_p_transport_out(M_P_CFG_VERSION);
     m_p_transport_out("\r\n");
 #endif
 
