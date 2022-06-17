@@ -77,7 +77,7 @@ extern "C" {
 #define M_P_CFG_HISTORY                // Remember previous command (currently only 1)
 #define M_P_CFG_BELL                   // Ring vt100 BELL when issues happen
 #define M_P_CFG_MEMORY_DUMP            // Enable memory dump commands (needs M_P_CFG_TYPE_UINT)
-#define M_P_CFG_ALLOW_QUIT             // Run in infinite loop or be able to exit
+#define M_P_CFG_ALLOW_QUIT             // Run in infinite loop (less overhead) or be able to exit
 
 
 // -----------------------------------------------------------------------------

@@ -59,6 +59,8 @@ static int m_p_find_first_space(const char *prompt) {
 #ifdef M_P_CFG_TYPE_UINT
 M_P_CFG_FORCE_OPTIMIZATION
 static char * m_p_parse_hex_nibble_to_uint(unsigned int *val, char *hex_string) {
+    // Note: if given invalid input, it might end up parsing it, this is meant
+    // to be small/simple, not bullet proof
     char ch = *hex_string++;
     *val = (*val << 4) + ((ch <= '9') ? (ch-'0') : (ch <= 'F') ? (ch -'A' + 10) : (ch -'a' + 10));
     return hex_string;
@@ -69,6 +71,8 @@ static char * m_p_parse_hex_nibble_to_uint(unsigned int *val, char *hex_string) 
 #ifdef M_P_CFG_TYPE_UINT32
 M_P_CFG_FORCE_OPTIMIZATION
 static char * m_p_parse_hex_nibble_to_uint32(uint32_t *val, char *hex_string) {
+    // Note: if given invalid input, it might end up parsing it, this is meant
+    // to be small/simple, not bullet proof
     char ch = *hex_string++;
     *val = (*val << 4) + ((ch <= '9') ? (ch-'0') : (ch <= 'F') ? (ch -'A' + 10) : (ch -'a' + 10));
     return hex_string;
@@ -79,6 +83,8 @@ static char * m_p_parse_hex_nibble_to_uint32(uint32_t *val, char *hex_string) {
 #ifdef M_P_CFG_TYPE_UINT64
 M_P_CFG_FORCE_OPTIMIZATION
 static char * m_p_parse_hex_nibble_to_uint64(uint64_t *val, char *hex_string) {
+    // Note: if given invalid input, it might end up parsing it, this is meant
+    // to be small/simple, not bullet proof
     char ch = *hex_string++;
     *val = (*val << 4) + ((ch <= '9') ? (ch-'0') : (ch <= 'F') ? (ch -'A' + 10) : (ch -'a' + 10));
     return hex_string;
