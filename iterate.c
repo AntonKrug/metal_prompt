@@ -95,28 +95,37 @@ unsigned int m_p_iterate_get_current_string(char *buf, const bool use_color) {
     strcpy(buf,"");
     unsigned int ans = 0;
 
+    // Namespace too big for the buffer, do not process this command
+    if (group_len + 1 + (2 * (M_P_CFG_COLOR_OVERHEAD)) >= M_P_CFG_COMMAND_NAME_SIZE) return 0;
+
     if (0 != group_len) {
         // Print namespace of the commands
-#if defined(M_P_CFG_COLORS) && defined(M_P_CFG_AUTOCOMPLETE)
+#ifdef M_P_CFG_COLORS
         if (use_color) m_p_color_buf_command_namespace(buf);
 #endif
         strcat(buf, m_p_commands_enabled[group_idx].namespace);
 
         // Print in default color '.'
-#if defined(M_P_CFG_COLORS) && defined(M_P_CFG_AUTOCOMPLETE)
+#ifdef M_P_CFG_COLORS
         if (use_color) m_p_color_buf_default(buf);
 #endif
         strcat(buf, ".");
         ans += strlen(m_p_commands_enabled[group_idx].namespace) + 1;
     }
 
+    // Calculate the length of the command in advance, as we might abort early
+    unsigned int command_name_length = strlen(m_p_commands_enabled[group_idx].commands[command_idx].command);
+
+    // Namespace + '.' + command name is big for the buffer, do not process this command
+    if (group_len + 1 + command_name_length + (4 * (M_P_CFG_COLOR_OVERHEAD)) >= M_P_CFG_COMMAND_NAME_SIZE) return ans;
+
     // Print the name of the command
-#if defined(M_P_CFG_COLORS) && defined(M_P_CFG_AUTOCOMPLETE)
+#ifdef M_P_CFG_COLORS
     if (use_color) m_p_color_buf_command_name(buf);
 #endif
     strcat(buf, m_p_commands_enabled[group_idx].commands[command_idx].command);
-    ans += strlen(m_p_commands_enabled[group_idx].commands[command_idx].command);
-#if defined(M_P_CFG_COLORS) && defined(M_P_CFG_AUTOCOMPLETE)
+    ans += command_name_length;
+#ifdef M_P_CFG_COLORS
     if (use_color) m_p_color_buf_default(buf);
 #endif
 
