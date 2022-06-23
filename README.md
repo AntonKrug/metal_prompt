@@ -185,31 +185,12 @@ In some places maybe malloc and free would be more suiting instead of hardcoded 
 ## Mixing types
 
 Using the fixed-width types, such as `uint32_t` together with the native types 
-`unsigned int` (which can have different size depending on the platform) is 
+`unsigned int` (which can have a different size depending on the platform) is 
 usually discouraged, but here it’s intentional. When the 32-bit numbers are 
 needed then `uint32_t` is used and when a native type is needed, then 
 `unsigned int` is used. In case of `unsigned int` it can be small as 16-bit 
-(depending on the target), but that is ok, usually it’s used for small values 
-in for loops anyway and the intention is to use native width of the platform. 
-On X86 this might be different but on CISC platforms, but this is bare-metal 
-project so it’s intedend to be used on small embedded devices, which are usually 
-RISC based.
+(depending on the target), but that is ok if it's used to pass boolean or small values.
 
-The RISC devices rarely have many extra instructions and might not handle 
-non-native sizes of the types with single instructions. Using a 32-bit variable 
-on a 64-bit RISC target might cause overhead when the target is unecesary 
-emulating a 32-bit register within a 64-bit register. With RISC targets, 
-these variables often will not save memory as they often fit into the large 
-set of RISC’s registers and are scoped in such way that they never leave the 
-registers. In some cases, there is no memory footprint improvement for using 
-a smaller type, yet it might cause runtime overhead. Fixing the width of 
-variables to uint64_t is not a solution because then it is causing overhead 
-on 32-bit targets where two 32-bit registers will be utilized just to hold 
-a value which can fit into a 16-bit variable.
-
-Therefore, some variables are intentionally typed into the native built-in 
-types and their width left to change depending on the targets. Usually this 
-is undesired and the cause of portability bugs, but here it’s deliberate.
-
+If the code would just use the `uint32_t` everywhere instead of `unsigned int` then it would cause a lot of overhead on smaller 8-bit targets. And if a `uint16_t` would be used everywhere instead, then on bigger platforms it could cause a waste of resources. This is because of the project's focus on RISC embedded targets, which might not have dedicated instructions to deal with smaller registers and could waste resources emulating the behaviour of a smaller type. Therefore this project uses in some places intentionally `unsigned int` to allow its size to change depending on the target, which usually by coding standards is not recomended.
 
 
