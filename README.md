@@ -125,7 +125,7 @@ uint32_t args(char *input_string) {
   return 10u;
 }
 
-const m_p_command my_commands[] = {
+const m_p_command my_commands_list[] = {
   { "something", M_P_CMD_TYPES(M_P_TYPE_VOID,   M_P_TYPE_VOID),  .void_void    = { &something} },
   { "args",      M_P_CMD_TYPES(M_P_TYPE_UINT32, M_P_TYPE_CHARS), .uint32_chars = { &args } },
   { NULL }  // Terminator of the list
@@ -143,7 +143,7 @@ extern "C" {
 #endif
 
 #include "metal_prompt/structures.h"
-extern const m_p_command my_commands[];
+extern const m_p_command my_commands_list[];
 
 #ifdef __cplusplus
 }
@@ -158,7 +158,7 @@ More examples can be seen in `commands_bundled.c` and  `commands_bundled.h`.
 The previous section described the commands, but they are not attached to the prompt yet, they need to be attached with their own names. Then the commands can be used `my_namespace.something`, when empty "" namespace is given then the commands can be invoked directly `something`. This is done inside the `commands_enabled.c` which can be edited directly there or left untouched but controlled with defines. For example to attach the above `example.c` we would need to compile the project with the following three defines:
 - `M_P_ADD_CUSTOM_COMMAND_INCLUDE="\"example.h\""`
 - `M_P_ADD_CUSTOM_COMMAND_LIST_FOR_ALL_CONFIGURATIONS_NAME="namespace"`
-- `M_P_ADD_CUSTOM_COMMAND_LIST_FOR_ALL_CONFIGURATIONS_LIST=my_commands`
+- `M_P_ADD_CUSTOM_COMMAND_LIST_FOR_ALL_CONFIGURATIONS_LIST=my_commands_list`
 
 Then the prompt will be able to run commands with `namespace.something`.
 If the defines are not suitable for the user, then the `commands_enabled.c` can be edited with a script as well (see the code, there are dedicated and fixed comments acting as anchors for the script to find).
