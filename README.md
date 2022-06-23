@@ -37,7 +37,7 @@ user-friendliness, which might make look like a more feature-rich prompt.
 To make automated testing easier with this prompt:
 - It was meant to be used with the Robot framework, which allows developers to 
   write human-friendly tests.
-- Colours can be disabled either on runtime or compile-time, to make it easier 
+- Colors can be disabled either on runtime or compile-time, to make it easier 
   to be parsed by scripts.
 - New sets of commands can be either 
   - Added manually into the `commands_enabled.c` (not very automation-friendly).
@@ -136,9 +136,9 @@ on the `config.h` many of them might not be present):
   have their return values printed back on the prompt. This value can be either 
   formatted in decimal or hexadecimal. Argument `0x1` will use the decimal 
   format and `0x0` will use the hexadecimal format. 
-- `set_color` If the colours are not desired, then they can be disabled with 
+- `set_color` If the colors are not desired, then they can be disabled with 
   `set_color 0x0` and later enabled `set_color 0x1`. However more effective is 
-   to disable the colour support from `config.h` which will disable them on 
+   to disable the color support from `config.h` which will disable them on 
    compile-time and will make runtime leaner.
 - `set_benchmark` When systick feature is enabled then benchmarking mode can 
   be enabled with `set_benchmark 0x1` and then each invoked command will report 
