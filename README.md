@@ -56,7 +56,7 @@ prompt. Other names, such as the `MiniPrompt` and `bare-prompt` names are alread
 # How to use it
 
 To start using the prompt
-- Include a transport implementation `#include "metal_prompt/transport/implementation.h”` which will contain all transport inmplementations (but all disabled with `ifdefs`)
+- Include a transport implementation `#include "metal_prompt/transport/implementation.h"` which will contain all transport inmplementations (but all disabled with `ifdefs`)
 - A specific transport needs to be considered and it's define defined (preferably in your managed project settings, or makefile). Currently, one from only these two implementations can be enabled:
   - `M_P_TRANSPORT_IMPLEMENTATION_PF_FABRIC_CORE_UART_APB`
   - `M_P_TRANSPORT_IMPLEMENTATION_PFSOC_MSS_UART`
@@ -68,7 +68,7 @@ Example:
 ```c
 
 // Use the global all-in-one implementation 
-#include "metal_prompt/transport/implementation.h”
+#include "metal_prompt/transport/implementation.h"
 
 int main() {
     // configure UART instance, baud rate, parity, stop bits...
