@@ -53,7 +53,23 @@ To make automated testing easier with this prompt:
 `Metal Prompt` is a play with words that this is a minimalistic bare-metal 
 prompt. Other names, such as the `MiniPrompt` and `bare-prompt` names are already taken by different projects, so this is the best name I could think of while being unique (do not like overlapping names of tools which then are confusing the google searches). 
 
-# How to use it
+# How to use it - user perspective
+
+Using it as a user means just typing the commands, (depending on if enabled in `config.h`) the autocomplete `TAB` can be used on an empty line to list all possible commands. Commands which have no namespace can be used directly `my_command`, while commands within a namespace can be used like this: `my_namespace.my_command`. Here is the list of all bundled commands (depending on the `config.h` many of them might not be present):
+
+- `clear` Sends the VT100 escape character to clear the screen.
+- `configuration` Self-reports if the target is running debug/release configuration and what optimizations are used.
+- `dump_byte` Argument needs to be a memory address, following from this address another 160 bytes are read (aligned to byte) and displayed.
+- `dump_word` Argument needs to be a memory address, following from this address another 160 bytes are read (aligned to unsigned int) and displayed. On 8-bit targets this means 16-bit alignment while on other targets this might 16-bit alignment.
+- `help` It will display short help what can be done from within the prompt (depending what is enabled in the `config.h`).
+- `ls` List all possible commands, same as pressing `TAB` on empty prompt.
+- `print_in_dec` Commands which return `unsigned int`, `uint32_t` or `uint64_t` have their return values printed back on the prompt. This value can be either formatted in decimal or hexadecimal. Argument `0x1` will use the decimal format and `0x0` will use the hexadecimal format. 
+- `set_color` If the colours are not desired, then they can be disabled with `set_color 0x0` and later enabled `set_color 0x1`. However more effective is to disable the colour support from `config.h` which will disable them on compile-time and will make runtime leaner.
+- `set_benchmark` When systick feature is enabled then benchmarking mode can be enabled with `set_benchmark 0x1` and then each invoked command will report how many ticks it took to execute
+- `uptime` When systick feature is enabled then it will report how many ticks of the systick happened since the powerup.
+- `quit` Will quit the prompt's loop and return to the original application.
+
+# How to use it - developer perspective
 
 To start using the prompt
 - Include a transport implementation `#include "metal_prompt/transport/implementation.h"` which will contain all transport inmplementations (but all disabled with `ifdefs`)
